@@ -351,7 +351,7 @@
     </div>
 
     <div style="margin-top:14px;">
-      <button type="button" class="chip" id="ideasToggle" aria-pressed="false">Include new ideas</button>
+      <button type="button" class="chip on" id="ideasToggle" aria-pressed="true">Include new ideas</button>
     </div>
 
     <button class="btn btn-primary" id="findBtn" type="button">Find my meal</button>
@@ -440,6 +440,7 @@ const INGREDIENTS = [
   {key:"carrots", name:"Carrots", group:"produce"},
   {key:"bellpepper", name:"Bell peppers", group:"produce"},
   {key:"tomatoes", name:"Tomatoes", group:"produce"},
+  {key:"persian_cucumber", name:"Persian cucumbers", group:"produce", aliases:["cucumber","cucumbers","persian cucumber"]},
   {key:"mushrooms", name:"Mushrooms", group:"produce"},
   {key:"sweetpotato", name:"Sweet potatoes", group:"produce"},
   {key:"asparagus", name:"Asparagus", group:"produce"},
@@ -448,10 +449,13 @@ const INGREDIENTS = [
   {key:"pear", name:"Pears", group:"produce"},
   {key:"orange", name:"Oranges", group:"produce"},
   {key:"kiwi", name:"Kiwi", group:"produce"},
+  {key:"banana", name:"Bananas", group:"produce", aliases:["banana"]},
   {key:"lemon", name:"Lemons or limes", group:"produce", aliases:["lime","lemon"]},
   {key:"garlic", name:"Garlic", group:"produce"},
+  {key:"onion", name:"Onions", group:"produce", aliases:["onion","red onion","yellow onion"]},
   {key:"ginger", name:"Fresh ginger", group:"produce"},
   {key:"rosemary", name:"Rosemary", group:"produce"},
+  {key:"mint", name:"Fresh mint", group:"produce", aliases:["mint","mint leaves"]},
 
   {key:"lentils", name:"Lentils", group:"protein"},
   {key:"chickpeas", name:"Chickpeas", group:"protein"},
@@ -464,10 +468,14 @@ const INGREDIENTS = [
   {key:"brownrice", name:"Brown rice", group:"protein"},
   {key:"pasta", name:"Whole-grain pasta", group:"protein"},
   {key:"buckwheat", name:"Buckwheat", group:"protein"},
+  {key:"couscous", name:"Couscous", group:"protein", aliases:["couscous"]},
   {key:"oats", name:"Rolled oats", group:"protein"},
   {key:"soymilk", name:"Soy milk", group:"protein"},
   {key:"soyyogurt", name:"Soy yogurt", group:"protein"},
   {key:"soyprotein", name:"Soy protein powder", group:"protein"},
+  {key:"choc_protein", name:"Chocolate protein powder", group:"protein", aliases:["chocolate protein","protein powder"]},
+  {key:"vanilla_protein", name:"Vanilla protein powder", group:"protein", aliases:["vanilla protein"]},
+  {key:"strawberry_protein", name:"Strawberry protein powder", group:"protein", aliases:["strawberry protein"]},
   {key:"toast", name:"Whole-grain bread", group:"protein"},
 
   {key:"pumpkinseeds", name:"Pumpkin seeds", group:"pantry"},
@@ -478,12 +486,14 @@ const INGREDIENTS = [
   {key:"walnuts", name:"Walnuts", group:"pantry"},
   {key:"tahini", name:"Tahini", group:"pantry"},
   {key:"oliveoil", name:"Olive oil", group:"pantry"},
+  {key:"olives", name:"Olives", group:"pantry", aliases:["olive","green olives","kalamata olives"]},
   {key:"turmeric", name:"Turmeric", group:"pantry"},
   {key:"cumin", name:"Cumin", group:"pantry"},
   {key:"cinnamon", name:"Cinnamon", group:"pantry"},
   {key:"dill", name:"Dill", group:"pantry"},
   {key:"vinegar", name:"Apple cider vinegar", group:"pantry"},
   {key:"broth", name:"Vegetable broth", group:"pantry"},
+  {key:"rice_cakes", name:"Rice cakes", group:"pantry", aliases:["rice cake","rice cakes"]},
   {key:"tea", name:"Green or oolong tea", group:"pantry"}
 ];
 const ING_BY_KEY = {};
@@ -1097,7 +1107,277 @@ const RECIPES = [
    ],
    steps:["Slice the pear and eat with the walnuts."],
    benefits:"Pears give soluble fiber, and walnuts supply ALA, a plant omega-3 fat.",
-   crossesOff:["fruit"]}
+   crossesOff:["fruit"]},
+
+  {id:"B6", img:"img-berry-oats.jpg", name:"Berry Buckwheat Porridge", slots:["first"], time:"15 min",
+   tags:["sweet","hearty"],
+   ingredients:[
+     {key:"buckwheat", amount:"1/2 cup buckwheat groats"},
+     {key:"soymilk", amount:"1 cup fortified unsweetened soy milk"},
+     {key:"berries", amount:"3/4 cup berries"},
+     {key:"walnuts", amount:"2 Tbsp chopped walnuts"},
+     {key:"cinnamon", amount:"1/2 tsp cinnamon"},
+     {key:"sunflowerseeds", amount:"1 Tbsp sunflower seeds"}
+   ],
+   steps:["Simmer the buckwheat in the soy milk for 10 to 12 minutes, stirring, until tender.",
+          "Stir in the cinnamon.",
+          "Top with berries, walnuts and sunflower seeds. Serve warm."],
+   benefits:"Buckwheat gives rutin and complete protein, and the berries add anthocyanins.",
+   crossesOff:["fruit","protein"]},
+
+  /* Lunches and dinners with cucumber, onion and olives */
+  {id:"L8", img:"img-salad-bowl.jpg", name:"Mediterranean Chopped Salad", slots:["lunch","dinner"], time:"15 min",
+   tags:["savory","fresh"],
+   ingredients:[
+     {key:"persian_cucumber", amount:"2 Persian cucumbers, chopped"},
+     {key:"onion", amount:"1/4 small red onion, finely sliced"},
+     {key:"olives", amount:"1/4 cup olives, halved"},
+     {key:"tomatoes", amount:"1 cup cherry tomatoes, halved"},
+     {key:"chickpeas", amount:"3/4 cup chickpeas (canned, rinsed)"},
+     {key:"spinach", amount:"1 cup leafy greens (spinach or chopped kale)"},
+     {key:"lemon", amount:"1/2 lemon, juiced"},
+     {key:"oliveoil", amount:"1 Tbsp extra-virgin olive oil"},
+     {key:"rosemary", amount:"1/4 tsp rosemary"},
+     {key:"turmeric", amount:"1/4 tsp turmeric plus a pinch of black pepper"},
+     {key:"pumpkinseeds", amount:"Seed topper: 1 1/2 Tbsp pumpkin seeds"},
+     {key:"sunflowerseeds", amount:"Seed topper: 1 1/2 Tbsp sunflower seeds"}
+   ],
+   steps:["Chop the cucumbers, tomatoes and greens; slice the onion thin.",
+          "Rinse the chickpeas and add them with the olives.",
+          "Whisk the lemon, olive oil, rosemary and turmeric; toss through the salad.",
+          "Top with the seeds and serve."],
+   benefits:"Cucumber and tomato add water and vitamin C, and the chickpeas give folate and fiber.",
+   crossesOff:["leafy","colorful","pumpkinSeeds","sunflowerSeeds","herbs","protein"]},
+
+  {id:"L9", img:"img-salad-bowl.jpg", name:"Cucumber Olive Quinoa Bowl", slots:["lunch"], time:"15 min (quinoa prepped)",
+   tags:["savory","fresh"],
+   ingredients:[
+     {key:"quinoa", amount:"1/2 cup cooked quinoa"},
+     {key:"persian_cucumber", amount:"2 Persian cucumbers, sliced into half-moons"},
+     {key:"olives", amount:"1/4 cup olives"},
+     {key:"onion", amount:"1/4 small onion, finely diced"},
+     {key:"spinach", amount:"1 cup spinach"},
+     {key:"tahini", amount:"1 Tbsp tahini"},
+     {key:"lemon", amount:"1/2 lemon, juiced"},
+     {key:"pumpkinseeds", amount:"Seed topper: 1 1/2 Tbsp pumpkin seeds"},
+     {key:"sunflowerseeds", amount:"Seed topper: 1 1/2 Tbsp sunflower seeds"}
+   ],
+   steps:["Fluff the warm quinoa into a bowl.",
+          "Add the cucumber, onion, olives and spinach.",
+          "Whisk the tahini, lemon and 1 Tbsp water into a sauce; drizzle over.",
+          "Top with the seeds and serve."],
+   benefits:"Quinoa is a complete protein, and the lemon's vitamin C helps iron from the greens absorb.",
+   crossesOff:["leafy","colorful","pumpkinSeeds","sunflowerSeeds","protein"]},
+
+  {id:"L10", img:"img-salad-bowl.jpg", name:"Edamame and Asparagus Rice Bowl", slots:["lunch"], time:"20 min",
+   tags:["savory","fresh"],
+   ingredients:[
+     {key:"edamame", amount:"3/4 cup shelled edamame"},
+     {key:"brownrice", amount:"1/2 cup cooked brown rice"},
+     {key:"asparagus", amount:"1 cup asparagus, cut into short pieces"},
+     {key:"carrots", amount:"1/2 cup grated carrots"},
+     {key:"kale", amount:"1 cup chopped kale"},
+     {key:"tahini", amount:"1 Tbsp tahini"},
+     {key:"lemon", amount:"1/2 lemon, juiced"},
+     {key:"ginger", amount:"1 tsp grated fresh ginger"},
+     {key:"pumpkinseeds", amount:"Seed topper: 1 1/2 Tbsp pumpkin seeds"},
+     {key:"sunflowerseeds", amount:"Seed topper: 1 1/2 Tbsp sunflower seeds"}
+   ],
+   steps:["Steam the asparagus for 3 to 4 minutes, until bright green.",
+          "Warm the edamame; build the bowl on the rice with the kale and carrots.",
+          "Whisk the tahini, lemon and ginger into a sauce; drizzle over.",
+          "Top with the seeds and serve."],
+   benefits:"Edamame gives complete soy protein, and asparagus adds folate and prebiotic fiber.",
+   crossesOff:["leafy","colorful","pumpkinSeeds","sunflowerSeeds","protein"]},
+
+  {id:"D10", img:"img-stir-fry.jpg", name:"Olive and Onion Pasta Skillet", slots:["dinner"], time:"20 min",
+   tags:["savory","hearty"],
+   ingredients:[
+     {key:"pasta", amount:"2 oz (about 3/4 cup dry) whole-grain pasta"},
+     {key:"olives", amount:"1/3 cup olives, halved"},
+     {key:"onion", amount:"1 small onion, sliced"},
+     {key:"garlic", amount:"2 garlic cloves, sliced"},
+     {key:"spinach", amount:"2 cups spinach"},
+     {key:"oliveoil", amount:"1 Tbsp olive oil"},
+     {key:"turmeric", amount:"1/4 tsp turmeric plus a pinch of black pepper"},
+     {key:"pumpkinseeds", amount:"Seed topper: 1 1/2 Tbsp pumpkin seeds"},
+     {key:"sunflowerseeds", amount:"Seed topper: 1 1/2 Tbsp sunflower seeds"}
+   ],
+   steps:["Boil the pasta in a pot until just tender; save a mug of the pasta water.",
+          "Soften the onion and garlic in the olive oil in a wide skillet for 5 minutes; add the olives and turmeric.",
+          "Toss the pasta through the skillet with a splash of pasta water.",
+          "Wilt the spinach in for 1 minute; top with the seeds and serve."],
+   benefits:"Olives and olive oil give monounsaturated fats, and the spinach adds folate for one-carbon metabolism.",
+   crossesOff:["leafy","colorful","pumpkinSeeds","sunflowerSeeds","herbs","protein"]},
+
+  {id:"D11", img:"img-tofu-plate.jpg", name:"Sweet Potato and White Bean Skillet", slots:["dinner"], time:"25 min",
+   tags:["savory","hearty"],
+   ingredients:[
+     {key:"sweetpotato", amount:"1 medium sweet potato, cubed"},
+     {key:"whitebeans", amount:"3/4 cup white beans (canned, rinsed)"},
+     {key:"bokchoy", amount:"1 cup chopped bok choy"},
+     {key:"onion", amount:"1/2 small onion, diced"},
+     {key:"garlic", amount:"1 garlic clove"},
+     {key:"oliveoil", amount:"1 tsp olive oil"},
+     {key:"rosemary", amount:"1/4 tsp rosemary"},
+     {key:"turmeric", amount:"1/4 tsp turmeric plus a pinch of black pepper"},
+     {key:"pumpkinseeds", amount:"Seed topper: 1 1/2 Tbsp pumpkin seeds"},
+     {key:"sunflowerseeds", amount:"Seed topper: 1 1/2 Tbsp sunflower seeds"}
+   ],
+   steps:["Roast the sweet potato cubes at 425 F for 20 minutes, or pan-cook until tender.",
+          "Saute the onion and garlic in the oil for 3 minutes; add the beans, rosemary and turmeric.",
+          "Add the bok choy for the last 3 minutes, until just wilted.",
+          "Serve the beans over the sweet potato; top with the seeds."],
+   benefits:"Sweet potato gives beta-carotene, and the white beans add folate, iron and soluble fiber.",
+   crossesOff:["leafy","cruciferous","colorful","pumpkinSeeds","sunflowerSeeds","herbs","protein"]},
+
+  {id:"S9", img:"img-snack.jpg", name:"Persian Cucumber Snack", slots:["snack"], time:"3 min",
+   tags:["savory","fresh"],
+   ingredients:[
+     {key:"persian_cucumber", amount:"2 Persian cucumbers, sliced into sticks"},
+     {key:"olives", amount:"1/4 cup olives"},
+     {key:"pumpkinseeds", amount:"1 1/2 Tbsp pumpkin seeds"}
+   ],
+   steps:["Slice the cucumbers into sticks.",
+          "Serve with the olives and pumpkin seeds on the side."],
+   benefits:"Cucumbers add water and crunch, and the pumpkin seeds count toward your daily seed total.",
+   crossesOff:["colorful","pumpkinSeeds"]},
+
+  {id:"S10", img:"img-snack.jpg", name:"Tomato and Olive Snack Plate", slots:["snack"], time:"3 min",
+   tags:["savory","fresh"],
+   ingredients:[
+     {key:"tomatoes", amount:"1 cup cherry tomatoes"},
+     {key:"olives", amount:"1/4 cup olives"},
+     {key:"sunflowerseeds", amount:"1 1/2 Tbsp sunflower seeds"}
+   ],
+   steps:["Halve the tomatoes.",
+          "Serve with the olives and sunflower seeds."],
+   benefits:"Tomatoes give lycopene, and the olives add monounsaturated fats.",
+   crossesOff:["colorful","sunflowerSeeds"]},
+
+  {id:"L11", img:"img-salad-bowl.jpg", name:"Mediterranean Couscous Bowl", slots:["lunch","dinner"], time:"20 min",
+   tags:["savory","fresh"],
+   ingredients:[
+     {key:"couscous", amount:"3/4 cup dry couscous"},
+     {key:"persian_cucumber", amount:"2 Persian cucumbers, chopped"},
+     {key:"olives", amount:"1/4 cup olives, halved"},
+     {key:"onion", amount:"1/4 small red onion, finely sliced"},
+     {key:"tomatoes", amount:"1 cup cherry tomatoes, halved"},
+     {key:"chickpeas", amount:"3/4 cup chickpeas (canned, rinsed)"},
+     {key:"spinach", amount:"1 cup leafy greens (spinach or chopped kale)"},
+     {key:"lemon", amount:"1/2 lemon, juiced"},
+     {key:"oliveoil", amount:"1 Tbsp extra-virgin olive oil"},
+     {key:"rosemary", amount:"1/4 tsp rosemary"},
+     {key:"turmeric", amount:"1/4 tsp turmeric plus a pinch of black pepper"},
+     {key:"pumpkinseeds", amount:"Seed topper: 1 1/2 Tbsp pumpkin seeds"},
+     {key:"sunflowerseeds", amount:"Seed topper: 1 1/2 Tbsp sunflower seeds"}
+   ],
+   steps:["Pour 3/4 cup boiling water over the couscous, cover and rest 5 minutes; fluff with a fork.",
+          "Chop the cucumber, tomatoes and greens; slice the onion thin.",
+          "Add the chickpeas and olives; whisk the lemon, olive oil, rosemary and turmeric and toss through.",
+          "Top with the seeds and serve."],
+   benefits:"Couscous makes a fast grain base, and the cucumber, tomato and chickpeas add water, vitamin C and folate.",
+   crossesOff:["leafy","colorful","pumpkinSeeds","sunflowerSeeds","herbs","protein"]},
+
+  {id:"S11", img:"img-snack.jpg", name:"Rice Cakes with Tahini and Cucumber", slots:["snack"], time:"3 min",
+   tags:["savory","fresh"],
+   ingredients:[
+     {key:"rice_cakes", amount:"2 rice cakes"},
+     {key:"tahini", amount:"1 Tbsp tahini"},
+     {key:"persian_cucumber", amount:"1 Persian cucumber, sliced"},
+     {key:"pumpkinseeds", amount:"1 Tbsp pumpkin seeds"}
+   ],
+   steps:["Spread the tahini over the rice cakes.",
+          "Layer the cucumber slices on top.",
+          "Sprinkle with pumpkin seeds and eat right away."],
+   benefits:"Tahini adds calcium and healthy fats, and the cucumber keeps this snack light and crunchy.",
+   crossesOff:["colorful","pumpkinSeeds"]},
+
+  /* Protein smoothies, first meal or snack */
+  {id:"SM1", img:"img-smoothie.jpg", name:"Chocolate Mint Banana Smoothie", slots:["first","snack"], time:"5 min",
+   tags:["sweet","fresh"],
+   ingredients:[
+     {key:"choc_protein", amount:"1 scoop (about 25 g) chocolate protein powder"},
+     {key:"banana", amount:"1 ripe banana"},
+     {key:"mint", amount:"4 to 5 fresh mint leaves"},
+     {key:"soymilk", amount:"1 cup fortified unsweetened soy milk"}
+   ],
+   steps:["Add everything to a blender with a handful of ice.",
+          "Blend on high for about 1 minute, until smooth.",
+          "Pour and drink right away."],
+   benefits:"Banana and mint add potassium and vitamin C, and the protein powder makes this a full protein serving.",
+   crossesOff:["fruit","protein"]},
+
+  {id:"SM2", img:"img-smoothie.jpg", name:"Vanilla Berry Smoothie", slots:["first","snack"], time:"5 min",
+   tags:["sweet","fresh"],
+   ingredients:[
+     {key:"vanilla_protein", amount:"1 scoop (about 25 g) vanilla protein powder"},
+     {key:"berries", amount:"1 cup mixed berries"},
+     {key:"soyyogurt", amount:"1/2 cup unsweetened soy yogurt"},
+     {key:"soymilk", amount:"3/4 cup fortified unsweetened soy milk"}
+   ],
+   steps:["Add everything to a blender with a handful of ice.",
+          "Blend on high for about 1 minute, until smooth.",
+          "Pour and drink right away."],
+   benefits:"Berries add anthocyanins and vitamin C, and the yogurt adds protein and a creamy tang.",
+   crossesOff:["fruit","protein"]},
+
+  {id:"SM3", img:"img-smoothie.jpg", name:"Strawberry Yogurt Smoothie", slots:["first","snack"], time:"5 min",
+   tags:["sweet","fresh"],
+   ingredients:[
+     {key:"strawberry_protein", amount:"1 scoop (about 25 g) strawberry protein powder"},
+     {key:"berries", amount:"1 cup strawberries, hulled"},
+     {key:"soyyogurt", amount:"3/4 cup unsweetened soy yogurt"},
+     {key:"soymilk", amount:"1/2 cup fortified unsweetened soy milk"}
+   ],
+   steps:["Add everything to a blender with a handful of ice.",
+          "Blend on high for about 1 minute, until smooth.",
+          "Pour and drink right away."],
+   benefits:"Strawberries give vitamin C and folate, and the yogurt and powder together make it high in protein.",
+   crossesOff:["fruit","protein"]},
+
+  {id:"SM4", img:"img-smoothie.jpg", name:"Chocolate Banana Smoothie", slots:["first","snack"], time:"5 min",
+   tags:["sweet","fresh"],
+   ingredients:[
+     {key:"choc_protein", amount:"1 scoop (about 25 g) chocolate protein powder"},
+     {key:"banana", amount:"1 ripe banana"},
+     {key:"soymilk", amount:"1 cup fortified unsweetened soy milk"},
+     {key:"chia", amount:"1 Tbsp chia seeds"}
+   ],
+   steps:["Add everything to a blender with a handful of ice.",
+          "Blend on high for about 1 minute, until smooth.",
+          "Pour and drink right away."],
+   benefits:"Banana adds potassium and natural sweetness, and chia gives gel fiber and ALA, a plant omega-3.",
+   crossesOff:["fruit","protein"]},
+
+  {id:"SM5", img:"img-smoothie.jpg", name:"Vanilla Banana Oat Smoothie", slots:["first","snack"], time:"5 min",
+   tags:["sweet","hearty"],
+   ingredients:[
+     {key:"vanilla_protein", amount:"1 scoop (about 25 g) vanilla protein powder"},
+     {key:"banana", amount:"1 ripe banana"},
+     {key:"oats", amount:"1/4 cup rolled oats"},
+     {key:"soymilk", amount:"1 cup fortified unsweetened soy milk"},
+     {key:"cinnamon", amount:"1/2 tsp cinnamon"}
+   ],
+   steps:["Add everything to a blender with a handful of ice.",
+          "Blend on high for 1 to 2 minutes, until the oats are fully smooth.",
+          "Pour and drink right away."],
+   benefits:"Oats add beta-glucan fiber for gut bacteria, and banana gives potassium for steady energy.",
+   crossesOff:["fruit","protein"]},
+
+  {id:"SM6", img:"img-smoothie.jpg", name:"Strawberry Banana Smoothie", slots:["first","snack"], time:"5 min",
+   tags:["sweet","fresh"],
+   ingredients:[
+     {key:"strawberry_protein", amount:"1 scoop (about 25 g) strawberry protein powder"},
+     {key:"banana", amount:"1 ripe banana"},
+     {key:"berries", amount:"3/4 cup strawberries"},
+     {key:"soymilk", amount:"1 cup fortified unsweetened soy milk"}
+   ],
+   steps:["Add everything to a blender with a handful of ice.",
+          "Blend on high for about 1 minute, until smooth.",
+          "Pour and drink right away."],
+   benefits:"Strawberry and banana add vitamin C and potassium, and the powder rounds it out with complete protein.",
+   crossesOff:["fruit","protein"]}
 ];
 const RECIPE_BY_ID = {};
 RECIPES.forEach(function(r){ RECIPE_BY_ID[r.id] = r; });
@@ -1111,7 +1391,7 @@ const state = {
   pos: 0,
   slotUsed: null,
   currentRecipe: null,
-  ideas: false,
+  ideas: true,
   composeSeed: 0
 };
 const CUSTOM_NAMES = {};
@@ -1258,16 +1538,15 @@ function findMeals(){
   state.slotUsed = state.slot;
   state.composeSeed += 1 + Math.floor(Math.random() * 3);
   if (state.ideas){
+    /* Pre-compose a deep batch of new ideas, so the deck is big (50 plus)
+       and Another one keeps dealing fresh cards for a long time. */
+    const target = 56;
+    const n = Math.max(16, target - grouped.length);
     const ideas = [];
-    const n = Math.min(grouped.length, 8);
     for (let k = 0; k < n; k++) ideas.push(composeEntry());
-    const deck = [];
-    let bi = 0, ii = 0;
-    while (bi < grouped.length || ii < ideas.length){
-      if (bi < grouped.length) deck.push(grouped[bi++]);
-      if (ii < ideas.length) deck.push(ideas[ii++]);
-    }
-    state.deck = deck;
+    const head = grouped.slice(0, 3);
+    const rest = shuffleArr(grouped.slice(3).concat(ideas));
+    state.deck = head.concat(rest);
   } else {
     state.deck = grouped;
   }
@@ -1286,13 +1565,13 @@ document.getElementById("ideasToggle").addEventListener("click", function(){
 const ING_CAT = {
   spinach:"leafy", kale:"leafy",
   broccoli:"cruciferous", cauliflower:"cruciferous", brussels:"cruciferous", cabbage:"cruciferous", bokchoy:"cruciferous",
-  beets:"colorful", carrots:"colorful", bellpepper:"colorful", tomatoes:"colorful", mushrooms:"colorful", sweetpotato:"colorful", asparagus:"colorful",
-  lentils:"protein", chickpeas:"protein", blackbeans:"protein", whitebeans:"protein", tofu:"protein", tempeh:"protein", edamame:"protein", soyprotein:"protein",
-  quinoa:"grain", brownrice:"grain", pasta:"grain", buckwheat:"grain", oats:"grain", toast:"grain",
+  beets:"colorful", carrots:"colorful", bellpepper:"colorful", tomatoes:"colorful", mushrooms:"colorful", sweetpotato:"colorful", asparagus:"colorful", persian_cucumber:"colorful", onion:"colorful",
+  lentils:"protein", chickpeas:"protein", blackbeans:"protein", whitebeans:"protein", tofu:"protein", tempeh:"protein", edamame:"protein", soyprotein:"protein", choc_protein:"protein", vanilla_protein:"protein", strawberry_protein:"protein",
+  quinoa:"grain", brownrice:"grain", pasta:"grain", buckwheat:"grain", oats:"grain", toast:"grain", couscous:"grain", rice_cakes:"grain",
   pumpkinseeds:"seeds", sunflowerseeds:"seeds", flax:"seeds", chia:"seeds", hemp:"seeds", walnuts:"seeds",
-  rosemary:"herbs", turmeric:"herbs", garlic:"herbs", ginger:"herbs", cumin:"herbs", cinnamon:"herbs", dill:"herbs",
-  tahini:"dressing", lemon:"dressing", vinegar:"dressing", oliveoil:"dressing",
-  berries:"fruit", apple:"fruit", pear:"fruit", orange:"fruit", kiwi:"fruit",
+  rosemary:"herbs", turmeric:"herbs", garlic:"herbs", ginger:"herbs", cumin:"herbs", cinnamon:"herbs", dill:"herbs", mint:"herbs",
+  tahini:"dressing", lemon:"dressing", vinegar:"dressing", oliveoil:"dressing", olives:"dressing",
+  berries:"fruit", apple:"fruit", pear:"fruit", orange:"fruit", kiwi:"fruit", banana:"fruit",
   soymilk:"base", soyyogurt:"base", broth:"base", tea:"base"
 };
 const CAT_CROSSES = {
@@ -1309,13 +1588,15 @@ const CAT_BENEFIT = {
   seeds:"the seeds add magnesium, zinc and plant fats",
   herbs:"the rosemary, turmeric and garlic add polyphenols and cover your daily herb target",
   fruit:"the fruit adds vitamin C and anthocyanins",
-  dressing:"the tahini and lemon add calcium, healthy fats and vitamin C",
+  dressing:"the dressing adds healthy fats, and its lemon helps the iron in the greens absorb",
   base:"the soy base adds protein and, when fortified, calcium and vitamin D"
 };
 const COMP_AMOUNT = {
   tofu:"150 g", tempeh:"150 g", soyprotein:"1 scoop (about 25 g)",
   oats:"1/2 cup", soymilk:"1 cup", soyyogurt:"1 cup", broth:"1 1/2 cups", tea:"1 cup brewed",
-  berries:"1 cup"
+  berries:"1 cup", persian_cucumber:"2", onion:"1/2", olives:"1/4 cup",
+  choc_protein:"1 scoop (about 25 g)", vanilla_protein:"1 scoop (about 25 g)", strawberry_protein:"1 scoop (about 25 g)",
+  banana:"1 cup sliced", mint:"4 to 5 leaves", rice_cakes:"2"
 };
 const CAT_AMOUNT = {
   leafy:"2 cups", cruciferous:"2 cups", colorful:"1 1/2 cups", protein:"1 cup cooked",
@@ -1325,7 +1606,9 @@ const SHORT_OVERRIDES = {
   apple:"Apple", pear:"Pear", orange:"Orange", kale:"Kale", bokchoy:"Bok Choy",
   bellpepper:"Bell Pepper", sweetpotato:"Sweet Potato", blackbeans:"Black Bean",
   whitebeans:"White Bean", pumpkinseeds:"Pumpkin Seeds", sunflowerseeds:"Sunflower Seeds",
-  pasta:"Pasta"
+  pasta:"Pasta", persian_cucumber:"Persian Cucumber", onion:"Onion", olives:"Olive",
+  banana:"Banana", mint:"Mint", choc_protein:"Chocolate", vanilla_protein:"Vanilla",
+  strawberry_protein:"Strawberry", couscous:"Couscous", rice_cakes:"Rice Cake"
 };
 const FORM_IMG = {
   Bowl:"img-super-veggie.jpg", Skillet:"img-stir-fry.jpg", Salad:"img-salad-bowl.jpg",
@@ -1515,7 +1798,86 @@ function composeSweet(seed){
   };
 }
 
+const POWDER_KEYS = ["choc_protein","vanilla_protein","strawberry_protein","soyprotein"];
+function smoothieReady(){
+  const hasPowder = POWDER_KEYS.some(function(k){ return state.have.has(k); });
+  if (!hasPowder) return false;
+  return tappedInCat("fruit").length > 0 || state.have.has("soyyogurt") || state.have.has("soymilk");
+}
+function composeSmoothie(seed, slot){
+  const tappedPowders = POWDER_KEYS.filter(function(k){ return state.have.has(k); });
+  const powderKey = tappedPowders.length ? tappedPowders[seed % tappedPowders.length] : "vanilla_protein";
+  const fruits = tappedInCat("fruit");
+  const fruitKey = fruits.length ? fruits[(seed + 1) % fruits.length] : "berries";
+  const need = [];
+  if (!state.have.has(powderKey)) need.push(powderKey);
+  if (!state.have.has(fruitKey)) need.push(fruitKey);
+  let baseKey;
+  if (state.have.has("soymilk")) baseKey = "soymilk";
+  else if (state.have.has("soyyogurt")) baseKey = "soyyogurt";
+  else { baseKey = "soymilk"; need.push("soymilk"); }
+  const keys = [powderKey, fruitKey, baseKey];
+  if (state.have.has("soyyogurt") && baseKey !== "soyyogurt" && seed % 3 === 0) keys.push("soyyogurt");
+  if (state.have.has("mint")) keys.push("mint");
+  const seedTops = tappedInCat("seeds");
+  if (seedTops.length && seed % 3 === 1) keys.push(seedTops[seed % seedTops.length]);
+  if (state.have.has("oats") && seed % 4 === 2) keys.push("oats");
+  const catsUsed = [];
+  keys.forEach(function(k){
+    const c = ING_CAT[k];
+    if (c && catsUsed.indexOf(c) === -1) catsUsed.push(c);
+  });
+  const missingNeed = need.filter(function(k){ return !state.have.has(k); });
+  return {
+    id:"idea" + seed + "m", composed:true, img:"img-smoothie.jpg",
+    name: shortName(powderKey) + " " + shortName(fruitKey) + " Smoothie",
+    slots:[slot], time:"5 min", tags:["sweet","fresh"],
+    ingredients: keys.map(function(k){ return {key:k, amount:amountFor(k)}; }),
+    steps:["Add everything to a blender with a handful of ice.",
+           "Blend on high for about 1 minute, until smooth.",
+           "Pour and drink right away."],
+    benefits:benefitFor(catsUsed), crossesOff:crossesFor(keys),
+    buyLine: missingNeed.length ? ("To make it: buy " + missingNeed.map(ingName).join(", ") + ".") : null
+  };
+}
+
+function composeRiceCake(seed){
+  const keys = ["rice_cakes"];
+  const need = [];
+  let spreadKey = null;
+  if (state.have.has("tahini")) spreadKey = "tahini";
+  else if (state.have.has("soyyogurt")) spreadKey = "soyyogurt";
+  if (spreadKey) keys.push(spreadKey);
+  else { keys.push("tahini"); need.push("tahini"); }
+  const veg = tappedInCat("colorful");
+  const fruits = tappedInCat("fruit");
+  const seeds = tappedInCat("seeds");
+  let topKey = null;
+  if (veg.length && seed % 3 !== 2) topKey = veg[seed % veg.length];
+  else if (fruits.length) topKey = fruits[seed % fruits.length];
+  if (topKey) keys.push(topKey);
+  if (seeds.length) keys.push(seeds[(seed + 1) % seeds.length]);
+  const catsUsed = [];
+  keys.forEach(function(k){
+    const c = ING_CAT[k];
+    if (c && catsUsed.indexOf(c) === -1) catsUsed.push(c);
+  });
+  const missingNeed = need.filter(function(k){ return !state.have.has(k); });
+  return {
+    id:"idea" + seed + "r", composed:true, img:"img-snack.jpg",
+    name: (topKey ? shortName(topKey) + " " : "") + "Rice Cakes",
+    slots:["snack"], time:"3 min", tags:["savory","fresh"],
+    ingredients: keys.map(function(k){ return {key:k, amount:amountFor(k)}; }),
+    steps:["Spread the " + ingName(spreadKey || "tahini").toLowerCase() + " over the rice cakes.",
+           "Add the toppings.",
+           "Eat right away, while the cakes are crisp."],
+    benefits:benefitFor(catsUsed), crossesOff:crossesFor(keys),
+    buyLine: missingNeed.length ? ("To make it: buy " + missingNeed.map(ingName).join(", ") + ".") : null
+  };
+}
+
 function composeSnack(seed){
+  if (state.have.has("rice_cakes") && seed % 2 === 1) return composeRiceCake(seed);
   const fruits = tappedInCat("fruit");
   const seeds = tappedInCat("seeds");
   let fruitKey = fruits.length ? fruits[seed % fruits.length] : null;
@@ -1552,6 +1914,7 @@ function composeSnack(seed){
 function composeRecipe(){
   const slot = state.slotUsed || state.slot || "dinner";
   const seed = state.composeSeed++;
+  if ((slot === "first" || slot === "snack") && seed % 2 === 0 && smoothieReady()) return composeSmoothie(seed, slot);
   if (slot === "snack") return composeSnack(seed);
   if (state.crave === "sweet" && slot === "first") return composeSweet(seed);
   return composePlate(seed, slot);
@@ -1599,6 +1962,7 @@ function renderCard(){
   if (r.img) html += "<img class='recipe-img' src='" + esc(r.img) + "' alt='' onerror=\"this.style.display='none'\">";
   html += "<h3>" + esc(r.name) + "</h3>";
   if (r.composed) html += "<span class='idea-label'>New idea, built from your ingredients</span>";
+  html += "<div class='card-actions' style='margin:0 0 10px;'><button type='button' class='btn btn-secondary btn-inline' id='anotherTopBtn'>Try another recipe</button></div>";
   html += "<p class='recipe-meta'><span class='pos-label'>" + (state.pos + 1) + " of " + state.deck.length + "</span> &middot; " + esc(SLOT_LABELS[slotForNote]) + " &middot; " + esc(r.time) + " &middot; you have " + entry.haveCount + " of " + entry.total + " ingredients</p>";
   html += "<h4>Ingredients</h4><ul>";
   r.ingredients.forEach(function(i){
@@ -1621,14 +1985,16 @@ function renderCard(){
   html += "</div>";
   host.innerHTML = html;
 
-  document.getElementById("anotherBtn").addEventListener("click", function(){
+  function advance(){
     state.pos++;
     if (state.pos >= state.deck.length){
       /* Bank results are used up: compose a fresh idea and keep rotating. */
       state.deck.push(composeEntry());
     }
     renderCard();
-  });
+  }
+  document.getElementById("anotherBtn").addEventListener("click", advance);
+  document.getElementById("anotherTopBtn").addEventListener("click", advance);
   document.getElementById("addTodayBtn").addEventListener("click", function(){
     r.crossesOff.forEach(function(k){
       const box = document.getElementById("chk_" + k);
