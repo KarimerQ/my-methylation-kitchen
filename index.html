@@ -190,6 +190,48 @@
   .checklist input[type="checkbox"]{width:20px;height:20px;margin-top:1px;accent-color:var(--green);flex:0 0 auto;}
   .checklist label.done{background:var(--green-soft);border-color:var(--green-mid);}
   .progress{color:var(--muted);font-size:.92rem;margin-top:8px;}
+  .tabbar{
+    position:sticky;
+    top:0;
+    z-index:20;
+    display:flex;
+    gap:8px;
+    background:var(--bg);
+    padding:10px 0 12px;
+  }
+  .tabbtn{
+    flex:1 1 0;
+    border:1.5px solid var(--green-mid);
+    background:#fff;
+    color:var(--green-dark);
+    border-radius:12px;
+    padding:13px 6px;
+    font-size:1.05rem;
+    font-weight:600;
+    cursor:pointer;
+    min-height:52px;
+  }
+  .tabbtn.on{background:var(--green);border-color:var(--green);color:#fff;}
+  .view{display:none;}
+  .view.active{display:block;}
+  .recipe-img{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+    border-radius:12px;
+    display:block;
+    background:var(--green-soft);
+    margin-bottom:12px;
+  }
+  .tagrow{display:flex;flex-wrap:wrap;gap:6px;}
+  .tag{
+    background:var(--green-soft);
+    border:1px solid var(--green-mid);
+    border-radius:999px;
+    padding:4px 10px;
+    font-size:.82rem;
+    color:var(--green-dark);
+  }
   footer{
     color:var(--muted);
     font-size:.86rem;
@@ -204,22 +246,28 @@
 
   <header class="hero">
     <h1>My Methylation Kitchen</h1>
-    <p><strong>A vegan meal planner built on the methylation-supporting diet studied by Kara Fitzgerald, as adapted in a four-week menu.</strong> Tell it what is in your kitchen, what time it is, and what you feel like, and it picks a meal from the menu, shows what that meal does for you, and crosses off the daily targets it covers.</p>
+    <p><strong>Vegan meals from the Fitzgerald methylation plan, built from your four-week menu.</strong></p>
   </header>
 
+  <nav class="tabbar" id="tabBar">
+    <button type="button" class="tabbtn on" data-view="viewMake">Make</button>
+    <button type="button" class="tabbtn" data-view="viewBuy">Buy</button>
+    <button type="button" class="tabbtn" data-view="viewDay">My Day</button>
+    <button type="button" class="tabbtn" data-view="viewSupps">Supplements</button>
+  </nav>
+
+  <div class="view active" id="viewMake">
   <section class="card" id="tool1">
     <h2>What should I make?</h2>
-    <p class="lead"><strong>Three quick steps and the planner finds your meal.</strong></p>
 
-    <h3>Step A: What do you have at home?</h3>
-    <p class="hint">Tap everything you have on hand. The same selection is reused in the shopping list tool below.</p>
+    <h3>What do you have?</h3>
     <div id="chipGroups"></div>
     <div class="addrow">
-      <input type="text" id="customIngredient" placeholder="Add something else, e.g. zucchini" aria-label="Add another ingredient">
+      <input type="text" id="customIngredient" placeholder="Add an ingredient" aria-label="Add another ingredient">
       <button class="btn btn-secondary btn-inline" id="addCustomBtn" type="button">Add</button>
     </div>
 
-    <h3>Step B: What time is it?</h3>
+    <h3>What time?</h3>
     <div class="slotrow" id="slotRow">
       <button type="button" class="slotbtn" data-slot="first">First meal, 11 AM</button>
       <button type="button" class="slotbtn" data-slot="lunch">Lunch, 2 PM</button>
@@ -227,7 +275,7 @@
       <button type="button" class="slotbtn" data-slot="dinner">Dinner, 6 PM</button>
     </div>
 
-    <h3>Step C: What do you feel like?</h3>
+    <h3>Feel like?</h3>
     <div class="craverow" id="craveRow">
       <button type="button" class="cravebtn" data-crave="savory">Savory</button>
       <button type="button" class="cravebtn" data-crave="sweet">Sweet</button>
@@ -239,30 +287,34 @@
     <button class="btn btn-primary" id="findBtn" type="button">Find my meal</button>
     <div class="result" id="result"></div>
   </section>
+  </div>
 
+  <div class="view" id="viewBuy">
   <section class="card" id="tool2">
     <h2>What do I need to buy?</h2>
-    <p class="lead"><strong>Pick the meals you plan to make, and the planner lists only the ingredients you are missing.</strong> It compares the meals against the ingredients you tapped in Step A above, so you never buy a second bag of something already in the kitchen.</p>
+    <p class="hint">Uses what you tapped in Make.</p>
     <div id="mealPicker"></div>
     <button class="btn btn-primary" id="shopBtn" type="button">Build my shopping list</button>
     <div class="result" id="shopResult"></div>
   </section>
+  </div>
 
+  <div class="view" id="viewDay">
   <section class="card" id="checklistSection">
     <h2>Today's checklist</h2>
-    <p class="lead"><strong>These are the eleven daily targets from the menu.</strong> Choosing a meal above and tapping "Add to today" on its card ticks the targets that meal covers. You can also tick any box yourself as the day goes on.</p>
     <div class="checklist" id="checklist"></div>
     <p class="progress" id="checkProgress"></p>
   </section>
+  </div>
 
+  <div class="view" id="viewSupps">
   <section class="card" id="suppSection">
     <h2>Supplements</h2>
-    <p class="lead"><strong>Your stack, grouped by the meal it travels with.</strong> Tick a supplement when you take it and the planner remembers, on this device, so it will not ask you again about anything already logged today.</p>
     <div id="suppAsk"></div>
     <div id="suppCatchup"></div>
     <div id="suppGroups"></div>
     <h3>Add your own</h3>
-    <p class="hint">Add anything else you take, and remove items with the Remove button on each row. Your list and your taken log are saved on this device.</p>
+    <p class="hint">Saved on this device.</p>
     <div class="addrow">
       <input type="text" id="suppName" placeholder="Supplement name" aria-label="Supplement name">
       <select id="suppSlot" aria-label="Supplement time slot" style="padding:11px;border:1.5px solid var(--border);border-radius:10px;font-size:1rem;background:#fff;color:var(--ink);">
@@ -275,10 +327,10 @@
     </div>
     <button class="btn btn-secondary" id="suppResetBtn" type="button" style="margin-top:12px;">Restore the standard list</button>
   </section>
+  </div>
 
   <footer>
-    <p><strong>This planner is food-first.</strong> It adapts the methylation-supporting diet and lifestyle intervention studied by Fitzgerald et al. (2021) in the journal Aging, in which a diet rich in leafy greens, cruciferous and colorful vegetables, seeds and other methylation-supporting foods was paired with lifestyle changes. The menu also draws on Bryan Johnson's Blueprint dishes, such as Super Veggie and Nutty Pudding, and on Rhonda Patrick's guidance, as set out in the four-week menu this planner is built from.</p>
-    <p>Amounts and steps are adapted from that menu. Nothing here is medical advice, and no supplement listed is required; check doses and interactions with a clinician or pharmacist.</p>
+    <p><strong>Built on the methylation diet studied by Fitzgerald et al. (2021, Aging).</strong> Menu also draws on Blueprint dishes and Rhonda Patrick's guidance. Not medical advice.</p>
   </footer>
 
 </div>
@@ -372,10 +424,10 @@ CHECKLIST.forEach(function(c){ CHECK_BY_KEY[c.key] = c; });
 
 /* Supplement notes per meal slot, from the menu. */
 const SUPP_NOTES = {
-  first:"With this meal, only if you use them: vitamin B12 per your regimen, vitamin D3 if needed (this meal has fat from seeds and nuts), and algae EPA/DHA with food.",
-  lunch:"With this meal: creatine 3 to 5 g, optional. Keep tea about an hour away from this iron-rich meal; oolong comes after.",
-  snack:"Seeds in the snack count toward your daily 1/4 cup of each seed, so trim the dinner share.",
-  dinner:"With this meal: magnesium only if needed. Calcium or iron only if an intake review shows a need, and not at the same time. Finish eating by 7 PM."
+  first:"If you use them: B12 per your regimen, vitamin D3 if needed, algae EPA/DHA with food.",
+  lunch:"Creatine 3 to 5 g, optional. No tea with this meal.",
+  snack:"Snack seeds count toward your daily seed totals.",
+  dinner:"Magnesium only if needed. Calcium or iron only if indicated, never together. Done by 7 PM."
 };
 const SLOT_LABELS = {
   first:"First meal, 11 AM",
@@ -388,7 +440,7 @@ const SLOT_LABELS = {
    ingredients: normalized keys with display amounts. crossesOff: checklist keys. */
 const RECIPES = [
   /* First meals, 11 AM */
-  {id:"B1", name:"Berry Oats Bowl", slots:["first"], time:"10 min",
+  {id:"B1", img:"img-berry-oats.jpg", name:"Berry Oats Bowl", slots:["first"], time:"10 min",
    tags:["sweet","fresh"],
    ingredients:[
      {key:"oats", amount:"1/2 cup rolled oats"},
@@ -401,10 +453,10 @@ const RECIPES = [
    steps:["Simmer the oats and soy milk in a small pot over medium heat for 5 minutes, stirring, until creamy (or microwave 2 to 3 minutes).",
           "Stir in the flax, hemp or chia.",
           "Top with berries, seeds and cinnamon. Serve warm."],
-   benefits:"Oats provide beta-glucan, a soluble fiber that gut bacteria ferment into short-chain fatty acids. Berries add anthocyanins, and ground flax provides ALA, a plant omega-3 fat.",
+   benefits:"Oats give beta-glucan fiber for gut bacteria, berries add anthocyanins, and flax provides ALA, a plant omega-3.",
    crossesOff:["fruit","protein"]},
 
-  {id:"B2", name:"Soy Yogurt Berry Bowl", slots:["first"], time:"3 min",
+  {id:"B2", img:"img-yogurt-bowl.jpg", name:"Soy Yogurt Berry Bowl", slots:["first"], time:"3 min",
    tags:["sweet","fresh"],
    ingredients:[
      {key:"soyyogurt", amount:"1 cup unsweetened soy yogurt"},
@@ -417,10 +469,10 @@ const RECIPES = [
    steps:["Spoon the yogurt into a bowl.",
           "Add berries, chia and oats.",
           "Top with walnuts and seeds."],
-   benefits:"Soy yogurt provides protein in a no-cook first meal. Berries add anthocyanins and vitamin C, and chia forms a gel in liquid, which slows how fast the meal's carbohydrates are digested.",
+   benefits:"Soy yogurt and chia give protein and slow-digesting gel fiber, and berries add anthocyanins and vitamin C.",
    crossesOff:["fruit","protein"]},
 
-  {id:"B3", name:"Overnight Oats", slots:["first"], time:"5 min the night before",
+  {id:"B3", img:"img-berry-oats.jpg", name:"Overnight Oats", slots:["first"], time:"5 min the night before",
    tags:["sweet","fresh"],
    ingredients:[
      {key:"oats", amount:"1/2 cup rolled oats"},
@@ -433,10 +485,10 @@ const RECIPES = [
    steps:["The night before: stir oats, soy milk, chia and cinnamon in a jar. Cover and chill at least 6 hours.",
           "In the morning, stir and loosen with a splash of soy milk if needed.",
           "Top with berries and hemp seeds. Eat cold, or warm for 1 minute."],
-   benefits:"Soaking softens the oats and chia ahead of time, so the morning meal takes a minute to finish. Hemp seeds add protein plus a mix of omega-3 and omega-6 fats.",
+   benefits:"Overnight soaking softens the oats and chia, and hemp seeds add protein plus omega-3 and omega-6 fats.",
    crossesOff:["fruit","protein"]},
 
-  {id:"B4", name:"Tofu Scramble", slots:["first"], time:"12 min",
+  {id:"B4", img:"img-scramble.jpg", name:"Tofu Scramble", slots:["first"], time:"12 min",
    tags:["savory","hearty"],
    ingredients:[
      {key:"tofu", amount:"150 g (about 5 oz) firm tofu"},
@@ -451,10 +503,10 @@ const RECIPES = [
           "Saute the tomatoes or mushrooms in the oil for 3 to 4 minutes.",
           "Add tofu, turmeric, pepper and a pinch of iodized salt. Cook 5 minutes, stirring.",
           "Wilt the spinach or kale in for 1 minute. Serve with toast and seeds."],
-   benefits:"Turmeric provides curcumin, and the pinch of black pepper served with it raises how much curcumin the body absorbs. The greens wilted into the scramble add folate, a nutrient that feeds one-carbon metabolism, the pathway methylation runs on.",
+   benefits:"Turmeric's curcumin absorbs better with black pepper, and the greens add folate for one-carbon metabolism, the pathway methylation runs on.",
    crossesOff:["leafy","colorful","herbs","protein"]},
 
-  {id:"B5", name:"Nutty Pudding (Blueprint-inspired)", slots:["first"], time:"8 min",
+  {id:"B5", img:"img-pudding.jpg", name:"Nutty Pudding (Blueprint-inspired)", slots:["first"], time:"8 min",
    tags:["sweet","hearty"],
    ingredients:[
      {key:"walnuts", amount:"1/4 cup walnuts"},
@@ -469,11 +521,11 @@ const RECIPES = [
    steps:["Blend walnuts, chia, flax, soy protein, soy milk and cinnamon on high for 1 to 2 minutes until thick.",
           "Rest 5 minutes so it thickens into a pudding. Warm gently if you like it hot.",
           "Top with berries and seeds."],
-   benefits:"Walnuts, chia and flax supply ALA and fiber in a small volume. Soy protein keeps the first meal's protein up, which matters because this meal replaces a cooked breakfast.",
+   benefits:"Walnuts, chia and flax supply ALA and fiber, and soy protein keeps this no-cook meal's protein up.",
    crossesOff:["fruit","protein"]},
 
   /* Lunches, 2 PM */
-  {id:"L1", name:"Blueprint Super Veggie", slots:["lunch"], time:"35 min (10 if lentils are prepped)",
+  {id:"L1", img:"img-super-veggie.jpg", name:"Blueprint Super Veggie", slots:["lunch"], time:"35 min (10 if lentils are prepped)",
    tags:["savory","hearty"],
    ingredients:[
      {key:"lentils", amount:"45 g (about 1/4 cup) dry black lentils"},
@@ -497,10 +549,10 @@ const RECIPES = [
           "Roast the crucifers: toss broccoli and cauliflower with 1/2 Tbsp oil; roast at 425 F for 15 to 18 minutes (or steam 6 minutes).",
           "Saute mushrooms with garlic and ginger in 1/2 Tbsp oil for 4 to 5 minutes. Add the greens, cumin, turmeric and rosemary until wilted.",
           "Toss everything with the lentils, lime juice and vinegar. Top with hemp and the seed topper."],
-   benefits:"Broccoli and cauliflower are cruciferous vegetables; chopping and cooking them forms sulforaphane, which switches on Nrf2, a protein that raises production of phase II enzymes. Black lentils add iron and folate, and the lime's vitamin C helps the body absorb iron from plant foods. This lunch alone covers about 4 cups of cruciferous vegetables.",
+   benefits:"Broccoli and cauliflower form sulforaphane, which switches on Nrf2 and raises phase II enzyme production.",
    crossesOff:["leafy","cruciferous","colorful","pumpkinSeeds","sunflowerSeeds","herbs","protein"]},
 
-  {id:"L2", name:"Lentil-Spinach Salad with Lemon-Tahini", slots:["lunch"], time:"15 min (lentils prepped)",
+  {id:"L2", img:"img-lentil-bowl.jpg", name:"Lentil-Spinach Salad with Lemon-Tahini", slots:["lunch"], time:"15 min (lentils prepped)",
    tags:["savory","fresh"],
    ingredients:[
      {key:"lentils", amount:"3/4 cup cooked lentils"},
@@ -520,10 +572,10 @@ const RECIPES = [
           "Whisk the tahini, lemon, water, garlic and salt until smooth.",
           "Toss spinach, lentils, broccoli, carrot and tomatoes with the dressing and spices.",
           "Top with seeds."],
-   benefits:"Lentils provide iron and folate, and the lemon juice adds vitamin C, which increases how much iron the body absorbs from the lentils and greens. Tahini adds calcium and fats that help absorb fat-soluble compounds from the vegetables.",
+   benefits:"Lentils give iron and folate, and the lemon's vitamin C helps your body absorb that iron.",
    crossesOff:["leafy","cruciferous","colorful","pumpkinSeeds","sunflowerSeeds","herbs","protein"]},
 
-  {id:"L3", name:"Chickpea, Kale and Beet Quinoa Bowl", slots:["lunch"], time:"20 min (beet and quinoa prepped)",
+  {id:"L3", img:"img-salad-bowl.jpg", name:"Chickpea, Kale and Beet Quinoa Bowl", slots:["lunch"], time:"20 min (beet and quinoa prepped)",
    tags:["savory","fresh"],
    ingredients:[
      {key:"chickpeas", amount:"3/4 cup chickpeas (canned, rinsed)"},
@@ -544,10 +596,10 @@ const RECIPES = [
           "Massage the kale with the lemon and oil for 1 minute to soften.",
           "Build the bowl: quinoa, kale, chickpeas, beet, carrot and cauliflower.",
           "Season with the spices and top with seeds."],
-   benefits:"Beets provide betalains and dietary nitrate, which the body converts toward nitric oxide, a molecule that helps blood vessels relax. Chickpeas add fiber that feeds gut bacteria, and quinoa rounds out the bowl's amino acids.",
+   benefits:"Beets provide nitrate, which the body converts toward nitric oxide to help blood vessels relax.",
    crossesOff:["leafy","cruciferous","colorful","beets","pumpkinSeeds","sunflowerSeeds","herbs","protein"]},
 
-  {id:"L4", name:"White-Bean and Kale Bowl with Roasted Sweet Potato", slots:["lunch"], time:"25 min",
+  {id:"L4", img:"img-salad-bowl.jpg", name:"White-Bean and Kale Bowl with Roasted Sweet Potato", slots:["lunch"], time:"25 min",
    tags:["savory","hearty"],
    ingredients:[
      {key:"whitebeans", amount:"3/4 cup white beans (canned, rinsed)"},
@@ -567,10 +619,10 @@ const RECIPES = [
           "Warm the beans with garlic for 3 minutes.",
           "Massage the kale with lemon and the remaining oil.",
           "Assemble, add carrot and seeds."],
-   benefits:"Sweet potato provides beta-carotene, which the body converts to vitamin A as needed. White beans add slowly digested starch that reaches the colon and feeds gut bacteria there.",
+   benefits:"Sweet potato provides beta-carotene for vitamin A, and white beans add slow starch that feeds gut bacteria.",
    crossesOff:["leafy","cruciferous","colorful","pumpkinSeeds","sunflowerSeeds","herbs","protein"]},
 
-  {id:"L5", name:"Hearty Bean or Lentil Soup with Side Salad", slots:["lunch"], time:"30 min (makes 2 portions)",
+  {id:"L5", img:"img-stew.jpg", name:"Hearty Bean or Lentil Soup with Side Salad", slots:["lunch"], time:"30 min (makes 2 portions)",
    tags:["savory","hearty"],
    ingredients:[
      {key:"chickpeas", amount:"3/4 cup chickpeas, white beans or cooked lentils (as named in your week table)"},
@@ -591,10 +643,10 @@ const RECIPES = [
           "Add the beans or lentils, rosemary and turmeric; simmer 8 minutes.",
           "Stir in the greens for 2 minutes.",
           "Serve with the dressed side salad and the seed topper. Double the recipe and chill the second portion for another day."],
-   benefits:"Cooked tomatoes release more lycopene than raw ones, and the olive oil helps the body absorb it. Beans and lentils add soluble fiber, which gut bacteria ferment into short-chain fatty acids.",
+   benefits:"Cooked tomatoes release more lycopene, and beans and lentils add fiber that gut bacteria ferment.",
    crossesOff:["leafy","cruciferous","colorful","pumpkinSeeds","sunflowerSeeds","herbs","protein"]},
 
-  {id:"L6", name:"Lentil and Roasted Vegetable Bowl", slots:["lunch"], time:"25 min (lentils prepped)",
+  {id:"L6", img:"img-lentil-bowl.jpg", name:"Lentil and Roasted Vegetable Bowl", slots:["lunch"], time:"25 min (lentils prepped)",
    tags:["savory","hearty"],
    ingredients:[
      {key:"lentils", amount:"3/4 cup cooked black or green lentils"},
@@ -615,10 +667,10 @@ const RECIPES = [
           "Warm the lentils with garlic and spices.",
           "Toss the greens with lemon and the remaining oil.",
           "Assemble in a bowl; add seeds. On salad days, serve everything chilled."],
-   benefits:"Lentils provide folate, one of the main nutrients feeding one-carbon metabolism, the pathway methylation runs on. Beets add betalains and dietary nitrate, which the body converts toward nitric oxide.",
+   benefits:"Lentils provide folate, a main nutrient for one-carbon metabolism, the pathway methylation runs on.",
    crossesOff:["leafy","cruciferous","colorful","beets","pumpkinSeeds","sunflowerSeeds","herbs","protein"]},
 
-  {id:"L7", name:"White Beans, Asparagus and Carrots with Lemon-Dill", slots:["lunch"], time:"20 min",
+  {id:"L7", img:"img-salad-bowl.jpg", name:"White Beans, Asparagus and Carrots with Lemon-Dill", slots:["lunch"], time:"20 min",
    tags:["savory","fresh"],
    ingredients:[
      {key:"whitebeans", amount:"3/4 cup white beans"},
@@ -639,10 +691,10 @@ const RECIPES = [
           "Whisk the dressing.",
           "Toss beans, asparagus, carrot, spinach and cabbage with the dressing.",
           "Season and add seeds."],
-   benefits:"Asparagus provides folate and prebiotic fibers such as inulin, which feed gut bacteria. Cabbage is a cruciferous vegetable, so this bowl still covers the cruciferous target even though the original lunch lists none.",
+   benefits:"Asparagus provides folate and inulin, a prebiotic fiber that feeds gut bacteria.",
    crossesOff:["leafy","cruciferous","colorful","pumpkinSeeds","sunflowerSeeds","herbs","protein"]},
 
-  {id:"LB", name:"Blueprint-Inspired Longevity Bowl", slots:["lunch","dinner"], time:"30 min",
+  {id:"LB", img:"img-super-veggie.jpg", name:"Blueprint-Inspired Longevity Bowl", slots:["lunch","dinner"], time:"30 min",
    tags:["savory","hearty"],
    ingredients:[
      {key:"sweetpotato", amount:"1 cup Japanese (or regular) sweet potato, cubed"},
@@ -664,12 +716,12 @@ const RECIPES = [
           "Warm the white beans with garlic.",
           "Massage the kale with lemon and oil.",
           "Assemble and top with walnuts, herbs and seeds."],
-   benefits:"This bowl follows Blueprint's published combination of Japanese sweet potato, asparagus, kale, white beans, walnuts, carrots, herbs and lemon. The sweet potato provides beta-carotene, the beans add slowly digested starch for gut bacteria, and the walnuts supply ALA, a plant omega-3 fat.",
+   benefits:"Sweet potato gives beta-carotene, beans add slow starch for gut bacteria, and walnuts supply ALA omega-3.",
    crossesOff:["leafy","cruciferous","colorful","pumpkinSeeds","sunflowerSeeds","herbs","protein"]},
 
 
   /* Dinners, 6 PM */
-  {id:"D1", name:"Sheet-Pan Tofu and Quinoa Bowl", slots:["dinner"], time:"30 min",
+  {id:"D1", img:"img-tofu-plate.jpg", name:"Sheet-Pan Tofu and Quinoa Bowl", slots:["dinner"], time:"30 min",
    tags:["savory","hearty"],
    ingredients:[
      {key:"tofu", amount:"150 g (about 5 oz) firm tofu, cubed"},
@@ -689,10 +741,10 @@ const RECIPES = [
           "Toss tofu and chopped vegetables (not the kale) with oil, garlic and spices on a sheet pan.",
           "Roast 22 to 25 minutes, turning once; add kale for the last 4.",
           "Serve over quinoa with lemon and seeds. On beet days, roast the beet cubes with the pan or use prepped beets."],
-   benefits:"One pan covers the leafy and cruciferous targets together, and quinoa adds all essential amino acids in modest amounts. Roasting at high heat browns the vegetables and builds flavor without frying.",
+   benefits:"Quinoa adds all essential amino acids, and one pan covers the leafy and cruciferous targets together.",
    crossesOff:["leafy","cruciferous","colorful","beets","pumpkinSeeds","sunflowerSeeds","herbs","protein"]},
 
-  {id:"D2", name:"Tempeh and Roasted Vegetable Plate", slots:["dinner"], time:"30 min",
+  {id:"D2", img:"img-tofu-plate.jpg", name:"Tempeh and Roasted Vegetable Plate", slots:["dinner"], time:"30 min",
    tags:["savory","hearty"],
    ingredients:[
      {key:"tempeh", amount:"100 g (about 3 1/2 oz) tempeh"},
@@ -712,10 +764,10 @@ const RECIPES = [
           "Roast tempeh and vegetables with oil, garlic and spices at 425 F for 20 to 25 minutes.",
           "Wilt the greens on the hot pan for 1 minute.",
           "Serve over the grain with lemon and seeds. Tempeh keeps well: cook two portions and chill one."],
-   benefits:"Tempeh is fermented, so its protein is partly broken down before eating, which makes it easier to digest. The roasted cruciferous vegetables form sulforaphane as they are chopped and cooked.",
+   benefits:"Fermented tempeh is easier to digest, and the roasted crucifers form sulforaphane as they cook.",
    crossesOff:["leafy","cruciferous","colorful","pumpkinSeeds","sunflowerSeeds","herbs","protein"]},
 
-  {id:"D3", name:"Mushroom-Tempeh Stir-Fry with Bok Choy", slots:["dinner"], time:"20 min",
+  {id:"D3", img:"img-stir-fry.jpg", name:"Mushroom-Tempeh Stir-Fry with Bok Choy", slots:["dinner"], time:"20 min",
    tags:["savory","fresh"],
    ingredients:[
      {key:"tempeh", amount:"100 g tempeh, cubed"},
@@ -736,10 +788,10 @@ const RECIPES = [
           "Add cauliflower and mushrooms; cook 5 minutes.",
           "Stir in garlic, ginger, bok choy and greens; cook 2 to 3 minutes.",
           "Season; serve over rice with seeds. A splash of lime or vinegar brightens it."],
-   benefits:"Bok choy and cauliflower are both cruciferous vegetables, so this stir-fry covers that target in one pan. Ginger adds compounds called gingerols, and mushrooms supply B vitamins.",
+   benefits:"Bok choy and cauliflower cover the cruciferous target in one pan, and ginger adds gingerols.",
    crossesOff:["leafy","cruciferous","colorful","pumpkinSeeds","sunflowerSeeds","herbs","protein"]},
 
-  {id:"D4", name:"Black Bean Bowl", slots:["dinner"], time:"20 min",
+  {id:"D4", img:"img-salad-bowl.jpg", name:"Black Bean Bowl", slots:["dinner"], time:"20 min",
    tags:["savory","hearty"],
    ingredients:[
      {key:"blackbeans", amount:"3/4 cup black beans (canned, rinsed)"},
@@ -760,10 +812,10 @@ const RECIPES = [
           "Warm the beans with garlic, cumin and spices.",
           "Stir in the spinach to wilt.",
           "Build the bowl on rice; add tomatoes, lime and seeds."],
-   benefits:"The bell pepper's vitamin C raises iron absorption from the black beans, which is why this card pairs them. The beans also provide folate and soluble fiber.",
+   benefits:"The pepper's vitamin C raises iron absorption from the black beans, which also give folate and fiber.",
    crossesOff:["leafy","cruciferous","colorful","pumpkinSeeds","sunflowerSeeds","herbs","protein"]},
 
-  {id:"D5", name:"Lentil Stew with Collards", slots:["dinner"], time:"30 min",
+  {id:"D5", img:"img-stew.jpg", name:"Lentil Stew with Collards", slots:["dinner"], time:"30 min",
    tags:["savory","hearty"],
    ingredients:[
      {key:"lentils", amount:"3/4 cup cooked lentils (or 1/3 cup dry)"},
@@ -782,10 +834,10 @@ const RECIPES = [
           "Simmer 12 minutes (add dry lentils at the start; they need 25 minutes).",
           "Add lentils and collards; simmer 8 more minutes.",
           "Season and top with seeds."],
-   benefits:"Collards are leafy greens rich in folate and vitamin K. The lentils thicken the stew with soluble fiber as they simmer, and cooked tomatoes release more lycopene than raw ones.",
+   benefits:"Collards are rich in folate and vitamin K, and lentils thicken the stew with soluble fiber.",
    crossesOff:["leafy","cruciferous","colorful","pumpkinSeeds","sunflowerSeeds","herbs","protein"]},
 
-  {id:"D6", name:"Chickpea Curry with Cauliflower and Spinach", slots:["dinner"], time:"25 min",
+  {id:"D6", img:"img-stew.jpg", name:"Chickpea Curry with Cauliflower and Spinach", slots:["dinner"], time:"25 min",
    tags:["savory","hearty"],
    ingredients:[
      {key:"chickpeas", amount:"3/4 cup chickpeas"},
@@ -806,10 +858,10 @@ const RECIPES = [
           "Add tomatoes, water and cauliflower; simmer 10 minutes.",
           "Add chickpeas; simmer 5 minutes. Fold in the spinach.",
           "Serve over rice with seeds. This curry carries the turmeric on its own, so you can skip turmeric at lunch that day."],
-   benefits:"Curcumin from turmeric is fat-soluble, so cooking it in olive oil helps the body absorb it. Cauliflower covers the cruciferous target, and chickpeas add fiber and protein.",
+   benefits:"Turmeric's curcumin is fat-soluble, so cooking it in olive oil helps your body absorb it.",
    crossesOff:["leafy","cruciferous","colorful","pumpkinSeeds","sunflowerSeeds","herbs","protein"]},
 
-  {id:"D7", name:"Edamame-Quinoa Bowl with Red Cabbage and Sweet Potato", slots:["dinner"], time:"30 min",
+  {id:"D7", img:"img-salad-bowl.jpg", name:"Edamame-Quinoa Bowl with Red Cabbage and Sweet Potato", slots:["dinner"], time:"30 min",
    tags:["savory","fresh"],
    ingredients:[
      {key:"edamame", amount:"3/4 cup shelled edamame (frozen)"},
@@ -829,10 +881,10 @@ const RECIPES = [
           "Heat the edamame 3 minutes in boiling water; drain.",
           "Massage cabbage and kale with lemon and oil.",
           "Assemble over quinoa; top with seeds."],
-   benefits:"Edamame is a complete protein, which is unusual for a single plant food, and this is one of the lighter dinners. Red cabbage gets its color from anthocyanins, the same pigment family as in berries.",
+   benefits:"Edamame is a complete protein, and red cabbage gets its color from anthocyanins.",
    crossesOff:["leafy","cruciferous","colorful","pumpkinSeeds","sunflowerSeeds","herbs","protein"]},
 
-  {id:"D8", name:"Tofu with Brussels Sprouts, Mushrooms and Buckwheat", slots:["dinner"], time:"30 min",
+  {id:"D8", img:"img-tofu-plate.jpg", name:"Tofu with Brussels Sprouts, Mushrooms and Buckwheat", slots:["dinner"], time:"30 min",
    tags:["savory","hearty"],
    ingredients:[
      {key:"tofu", amount:"150 g firm tofu, cubed"},
@@ -851,10 +903,10 @@ const RECIPES = [
    steps:["Roast tofu, sprouts and mushrooms with oil and spices at 425 F for 25 minutes.",
           "Wilt the greens on the hot pan for 1 minute.",
           "Serve over buckwheat with lemon and seeds."],
-   benefits:"Brussels sprouts are cruciferous and roast into a dense serving. Buckwheat, despite its name, is a seed unrelated to wheat, and it provides rutin, a flavonoid.",
+   benefits:"Brussels sprouts are a dense cruciferous serving, and buckwheat provides rutin, a flavonoid.",
    crossesOff:["leafy","cruciferous","colorful","pumpkinSeeds","sunflowerSeeds","herbs","protein"]},
 
-  {id:"D9", name:"Lentil Bolognese with Whole-Grain Pasta and Broccoli", slots:["dinner"], time:"30 min",
+  {id:"D9", img:"img-lentil-bowl.jpg", name:"Lentil Bolognese with Whole-Grain Pasta and Broccoli", slots:["dinner"], time:"30 min",
    tags:["savory","hearty"],
    ingredients:[
      {key:"lentils", amount:"3/4 cup cooked lentils"},
@@ -874,88 +926,88 @@ const RECIPES = [
           "Saute mushrooms and garlic 4 minutes; add tomatoes and lentils; simmer 10 minutes.",
           "Stir in spinach and spices.",
           "Serve over pasta and broccoli with seeds. The sauce freezes well."],
-   benefits:"Lentils simmered in tomato pair iron with the tomatoes' vitamin C, which improves iron uptake. Whole-grain pasta keeps the fiber that refined pasta loses.",
+   benefits:"Tomato's vitamin C improves iron uptake from the lentils, and whole-grain pasta keeps its fiber.",
    crossesOff:["leafy","cruciferous","colorful","pumpkinSeeds","sunflowerSeeds","herbs","protein"]},
 
   /* Snacks, 4 PM. Pairs from the menu's week tables. */
-  {id:"S1", name:"Apple and Pumpkin Seeds", slots:["snack"], time:"2 min",
+  {id:"S1", img:"img-snack.jpg", name:"Apple and Pumpkin Seeds", slots:["snack"], time:"2 min",
    tags:["sweet","fresh"],
    ingredients:[
      {key:"apple", amount:"1 apple"},
      {key:"pumpkinseeds", amount:"Pumpkin seeds (a share of your daily 1/4 cup)"}
    ],
    steps:["Slice the apple and eat with the seeds."],
-   benefits:"Apples provide pectin, a soluble fiber that feeds gut bacteria. Pumpkin seeds add zinc and magnesium.",
+   benefits:"Apples give pectin fiber for gut bacteria, and pumpkin seeds add zinc and magnesium.",
    crossesOff:["fruit","pumpkinSeeds"]},
 
-  {id:"S2", name:"Kiwi and Sunflower Seeds", slots:["snack"], time:"2 min",
+  {id:"S2", img:"img-snack.jpg", name:"Kiwi and Sunflower Seeds", slots:["snack"], time:"2 min",
    tags:["sweet","fresh"],
    ingredients:[
      {key:"kiwi", amount:"1 kiwi"},
      {key:"sunflowerseeds", amount:"Sunflower seeds (a share of your daily 1/4 cup)"}
    ],
    steps:["Halve the kiwi and scoop, or peel and slice. Eat with the seeds."],
-   benefits:"Kiwi is one of the richest common sources of vitamin C. Sunflower seeds add vitamin E, a fat-soluble antioxidant.",
+   benefits:"Kiwi is rich in vitamin C, and sunflower seeds add vitamin E.",
    crossesOff:["fruit","sunflowerSeeds"]},
 
-  {id:"S3", name:"Pear and Berries", slots:["snack"], time:"2 min",
+  {id:"S3", img:"img-snack.jpg", name:"Pear and Berries", slots:["snack"], time:"2 min",
    tags:["sweet","fresh"],
    ingredients:[
      {key:"pear", amount:"1 pear"},
      {key:"berries", amount:"A handful of berries"}
    ],
    steps:["Slice the pear and serve with the berries."],
-   benefits:"Pears provide soluble fiber, and berries add anthocyanins in a small serving.",
+   benefits:"Pears give soluble fiber, and berries add anthocyanins.",
    crossesOff:["fruit"]},
 
-  {id:"S4", name:"Orange and Pumpkin Seeds", slots:["snack"], time:"2 min",
+  {id:"S4", img:"img-snack.jpg", name:"Orange and Pumpkin Seeds", slots:["snack"], time:"2 min",
    tags:["sweet","fresh"],
    ingredients:[
      {key:"orange", amount:"1 orange"},
      {key:"pumpkinseeds", amount:"Pumpkin seeds (a share of your daily 1/4 cup)"}
    ],
    steps:["Peel the orange into segments and eat with the seeds."],
-   benefits:"Oranges provide vitamin C and folate. Pumpkin seeds add zinc and magnesium.",
+   benefits:"Oranges give vitamin C and folate, and pumpkin seeds add zinc and magnesium.",
    crossesOff:["fruit","pumpkinSeeds"]},
 
-  {id:"S5", name:"Apple and Walnuts", slots:["snack"], time:"2 min",
+  {id:"S5", img:"img-snack.jpg", name:"Apple and Walnuts", slots:["snack"], time:"2 min",
    tags:["sweet","fresh"],
    ingredients:[
      {key:"apple", amount:"1 apple"},
      {key:"walnuts", amount:"A small handful of walnuts"}
    ],
    steps:["Slice the apple and eat with the walnuts."],
-   benefits:"Walnuts supply ALA, a plant omega-3 fat. The apple adds pectin, a fermentable fiber.",
+   benefits:"Walnuts supply ALA, a plant omega-3 fat, and the apple adds pectin fiber.",
    crossesOff:["fruit"]},
 
-  {id:"S6", name:"Kiwi and Berries", slots:["snack"], time:"2 min",
+  {id:"S6", img:"img-snack.jpg", name:"Kiwi and Berries", slots:["snack"], time:"2 min",
    tags:["sweet","fresh"],
    ingredients:[
      {key:"kiwi", amount:"1 kiwi"},
      {key:"berries", amount:"A handful of berries"}
    ],
    steps:["Slice the kiwi and serve with the berries."],
-   benefits:"Kiwi and berries together cover vitamin C and anthocyanins in one snack.",
+   benefits:"Kiwi and berries cover vitamin C and anthocyanins in one snack.",
    crossesOff:["fruit"]},
 
-  {id:"S7", name:"Orange and Sunflower Seeds", slots:["snack"], time:"2 min",
+  {id:"S7", img:"img-snack.jpg", name:"Orange and Sunflower Seeds", slots:["snack"], time:"2 min",
    tags:["sweet","fresh"],
    ingredients:[
      {key:"orange", amount:"1 orange"},
      {key:"sunflowerseeds", amount:"Sunflower seeds (a share of your daily 1/4 cup)"}
    ],
    steps:["Peel the orange into segments and eat with the seeds."],
-   benefits:"The orange's vitamin C also helps iron absorption at the next meal. Sunflower seeds add vitamin E.",
+   benefits:"Sunflower seeds add vitamin E, and the orange's vitamin C helps iron absorption at the next meal.",
    crossesOff:["fruit","sunflowerSeeds"]},
 
-  {id:"S8", name:"Pear and Walnuts", slots:["snack"], time:"2 min",
+  {id:"S8", img:"img-snack.jpg", name:"Pear and Walnuts", slots:["snack"], time:"2 min",
    tags:["sweet","fresh"],
    ingredients:[
      {key:"pear", amount:"1 pear"},
      {key:"walnuts", amount:"A small handful of walnuts"}
    ],
    steps:["Slice the pear and eat with the walnuts."],
-   benefits:"Pears provide soluble fiber, and walnuts supply ALA, a plant omega-3 fat.",
+   benefits:"Pears give soluble fiber, and walnuts supply ALA, a plant omega-3 fat.",
    crossesOff:["fruit"]}
 ];
 const RECIPE_BY_ID = {};
@@ -1108,10 +1160,10 @@ function suppNoteForSlot(slot){
   if (!items.length) return base;
   const taken = items.filter(function(s){ return takenToday(s.id); });
   if (taken.length === items.length){
-    return "Supplements for this meal: you have already logged them as taken today (" + taken.map(function(s){ return s.name; }).join(", ") + "). Nothing more to take with this meal.";
+    return "All logged for this meal today: " + taken.map(function(s){ return s.name; }).join(", ") + ".";
   }
   if (taken.length){
-    return base + " Already logged as taken today: " + taken.map(function(s){ return s.name; }).join(", ") + ".";
+    return base + " Logged today: " + taken.map(function(s){ return s.name; }).join(", ") + ".";
   }
   return base;
 }
@@ -1119,7 +1171,7 @@ function suppNoteForSlot(slot){
 function renderCard(){
   const host = document.getElementById("result");
   if (!state.ranked.length){
-    host.innerHTML = "<p class='empty-msg'>No recipes to show yet. Tap Find my meal.</p>";
+    host.innerHTML = "<p class='empty-msg'>Tap Find my meal.</p>";
     return;
   }
   const entry = state.ranked[state.idx % state.ranked.length];
@@ -1129,26 +1181,27 @@ function renderCard(){
   const missing = r.ingredients.filter(function(i){ return !state.have.has(i.key); });
   let html = "";
   if (entry.cov < 0.5){
-    html += "<div class='note-box'><strong>No recipe in this slot matches well with what you tapped.</strong> Here is the closest option. You would still need: " +
+    html += "<div class='note-box'><strong>Closest match.</strong> Still need: " +
       (missing.length ? missing.map(function(i){ return esc(ingName(i.key)); }).join(", ") : "nothing") + ".</div>";
   }
   html += "<div class='recipe-card'>";
+  if (r.img) html += "<img class='recipe-img' src='" + esc(r.img) + "' alt='' onerror=\"this.style.display='none'\">";
   html += "<h3>" + esc(r.name) + "</h3>";
-  html += "<p class='recipe-meta'>" + esc(SLOT_LABELS[slotForNote]) + " &middot; " + esc(r.time) + " &middot; serves 1 &middot; you have " + entry.haveCount + " of " + entry.total + " ingredients</p>";
+  html += "<p class='recipe-meta'>" + esc(SLOT_LABELS[slotForNote]) + " &middot; " + esc(r.time) + " &middot; you have " + entry.haveCount + " of " + entry.total + " ingredients</p>";
   html += "<h4>Ingredients</h4><ul>";
   r.ingredients.forEach(function(i){
-    html += "<li>" + esc(i.amount) + (state.have.has(i.key) ? "" : " <span style='color:var(--muted)'>(not tapped as on hand)</span>") + "</li>";
+    html += "<li>" + esc(i.amount) + (state.have.has(i.key) ? "" : " <span style='color:var(--muted)'>(missing)</span>") + "</li>";
   });
   html += "</ul>";
-  html += "<h4>How to make it</h4><ol>";
+  html += "<h4>Make it</h4><ol>";
   r.steps.forEach(function(s){ html += "<li>" + esc(s) + "</li>"; });
   html += "</ol>";
   html += "<h4>Benefits</h4><p style='margin:0;'>" + esc(r.benefits) + "</p>";
-  html += "<h4>Crosses off today's checklist</h4><ul>";
-  r.crossesOff.forEach(function(k){ html += "<li>" + esc(CHECK_BY_KEY[k].label) + "</li>"; });
-  html += "</ul>";
-  html += "<h4>Supplements with this meal</h4><p style='margin:0;' id='cardSuppNote'>" + esc(suppNoteForSlot(slotForNote)) + "</p>";
-  html += "<div class='ok-box' id='addedMsg'>Added. Today's checklist below now shows what this meal covers.</div>";
+  html += "<h4>Crosses off</h4><div class='tagrow'>";
+  r.crossesOff.forEach(function(k){ html += "<span class='tag'>" + esc(CHECK_BY_KEY[k].label) + "</span>"; });
+  html += "</div>";
+  html += "<h4>Supplements</h4><p style='margin:0;' id='cardSuppNote'>" + esc(suppNoteForSlot(slotForNote)) + "</p>";
+  html += "<div class='ok-box' id='addedMsg'>Added to My Day.</div>";
   html += "<div class='card-actions'>" +
     "<button type='button' class='btn btn-primary btn-inline' id='addTodayBtn'>Add to today</button>" +
     "<button type='button' class='btn btn-secondary btn-inline' id='anotherBtn'>Another one</button>" +
@@ -1210,17 +1263,17 @@ document.getElementById("shopBtn").addEventListener("click", function(){
   const host = document.getElementById("shopResult");
   const picked = Array.prototype.slice.call(document.querySelectorAll(".meal-pick:checked")).map(function(cb){ return RECIPE_BY_ID[cb.value]; });
   if (!picked.length){
-    host.innerHTML = "<p class='empty-msg'>Tick at least one meal above first, then build the list.</p>";
+    host.innerHTML = "<p class='empty-msg'>Tick a meal first.</p>";
     return;
   }
   const needed = new Set();
   picked.forEach(function(r){ r.ingredients.forEach(function(i){ needed.add(i.key); }); });
   const missing = Array.prototype.slice.call(needed).filter(function(k){ return !state.have.has(k); });
   if (!missing.length){
-    host.innerHTML = "<p class='empty-msg'>You already have everything those meals need. Nothing to buy.</p>";
+    host.innerHTML = "<p class='empty-msg'>You have everything. Nothing to buy.</p>";
     return;
   }
-  let html = "<h3 style='margin-top:4px;'>Shopping list</h3><p class='hint'>Only what is missing for: " + picked.map(function(r){ return esc(r.name); }).join(", ") + ".</p>";
+  let html = "<h3 style='margin-top:4px;'>Shopping list</h3><p class='hint'>For: " + picked.map(function(r){ return esc(r.name); }).join(", ") + ".</p>";
   ["produce","protein","pantry"].forEach(function(g){
     const inGroup = missing.filter(function(k){ return ING_BY_KEY[k] && ING_BY_KEY[k].group === g; });
     if (!inGroup.length) return;
@@ -1256,26 +1309,26 @@ function updateProgress(){
     const b = document.getElementById("chk_" + c.key);
     return b && b.checked;
   }).length;
-  document.getElementById("checkProgress").textContent = n + " of " + CHECKLIST.length + " daily targets covered.";
+  document.getElementById("checkProgress").textContent = n + " of " + CHECKLIST.length + " done.";
 }
 
 /* ---------------- Supplements, with memory ---------------- */
-const POWDER_TIP = "Take it as a shot: mix it into a small glass of orange juice, plug your nose and drink it down, because the green powders taste nasty on their own.";
+const POWDER_TIP = "Take it as a shot: mix into a small glass of orange juice, plug your nose and drink it down.";
 const DEFAULT_SUPPS = [
   {id:"b12", name:"Vitamin B12", slot:"first", conditional:false, catchName:"your B12", goesWith:"It goes with your first meal.",
-   note:"Reliable B12 is the one vegan non-negotiable in the plan. Dose per your regimen."},
+   note:"Per your regimen."},
   {id:"d3", name:"Vitamin D3", slot:"first", conditional:true,
-   note:"Only if needed. It is fat-soluble, so it travels with the first meal, which has fat from seeds and nuts."},
+   note:"If needed. Fat-soluble, take with this meal."},
   {id:"epdha", name:"Algae EPA/DHA omega", slot:"first", conditional:true,
-   note:"Optional. Take with food, at the first meal."},
+   note:"Optional, with food."},
   {id:"creatine", name:"Creatine", slot:"lunch", conditional:true,
-   note:"3 to 5 g, optional. For exercise or muscle maintenance; keep the timing consistent."},
+   note:"3 to 5 g, optional."},
   {id:"magnesium", name:"Magnesium", slot:"dinner", conditional:true,
-   note:"Only if needed, to cover a low intake."},
+   note:"Only if needed."},
   {id:"calcium", name:"Calcium", slot:"dinner", conditional:true,
-   note:"Only if an intake review shows a need. Never take it together with iron."},
+   note:"Only if needed. Never with iron."},
   {id:"iron", name:"Iron", slot:"dinner", conditional:true,
-   note:"Only if an intake review shows a need. Never take it together with calcium; keep tea away from it, and pair it with vitamin C foods such as peppers."},
+   note:"Only if needed. Never with calcium; keep tea away."},
   {id:"moringa", name:"Moringa powder (Kuli Kuli)", slot:"anytime", conditional:false, powder:true, catchName:"your moringa powder", goesWith:"It is one of your daily extras.", note:""},
   {id:"greens", name:"Greens powder", slot:"anytime", conditional:false, powder:true, catchName:"your greens powder", goesWith:"It is one of your daily extras.", note:""},
   {id:"sulforaphane", name:"Sulforaphane", slot:"anytime", conditional:false, catchName:"your sulforaphane", goesWith:"It is one of your daily extras.", note:""},
@@ -1364,7 +1417,7 @@ function renderSupps(){
   const askHost = document.getElementById("suppAsk");
   const ask = askSupplements();
   if (!ask.length){
-    askHost.innerHTML = "<div class='note-box' style='background:var(--green-soft);border-color:var(--green-mid);'>Nothing to ask about right now: everything for this part of the day is already logged as taken.</div>";
+    askHost.innerHTML = "<div class='note-box' style='background:var(--green-soft);border-color:var(--green-mid);'>All caught up for now.</div>";
   } else {
     let html = "<h3>Have you taken these yet?</h3>";
     ask.forEach(function(s){
@@ -1396,12 +1449,12 @@ function renderSupps(){
   SUPP_GROUP_ORDER.forEach(function(g){
     html += "<div class='group-label'>" + esc(g.label) + "</div>";
     if (g.slot === "morning"){
-      html += "<p class='hint' style='margin:0 0 6px;'>No supplements at tea time. Water and tea only.</p>";
+      html += "<p class='hint' style='margin:0 0 6px;'>Water and tea only.</p>";
       return;
     }
     const items = allSupps().filter(function(s){ return s.slot === g.slot; });
     if (!items.length){
-      html += "<p class='hint' style='margin:0 0 6px;'>Nothing on your list for this slot.</p>";
+      html += "<p class='hint' style='margin:0 0 6px;'>Nothing here.</p>";
       return;
     }
     items.forEach(function(s){
@@ -1463,7 +1516,7 @@ document.getElementById("suppAddBtn").addEventListener("click", function(){
     conditional:false,
     catchName:"your " + name.toLowerCase(),
     goesWith: slot === "anytime" ? "It is one of your daily extras." : "It goes with your " + (slot === "first" ? "first meal." : slot === "lunch" ? "lunch." : "dinner."),
-    note:"Added by you."
+    note:""
   });
   lsSave(LS_ITEMS_KEY, suppState);
   nameInput.value = "";
@@ -1473,6 +1526,16 @@ document.getElementById("suppResetBtn").addEventListener("click", function(){
   suppState = {removed:[], custom:[]};
   lsSave(LS_ITEMS_KEY, suppState);
   renderSupps();
+});
+
+/* ---------------- Tabs ---------------- */
+function showView(id){
+  document.querySelectorAll(".view").forEach(function(v){ v.classList.toggle("active", v.id === id); });
+  document.querySelectorAll(".tabbtn").forEach(function(b){ b.classList.toggle("on", b.getAttribute("data-view") === id); });
+}
+document.getElementById("tabBar").addEventListener("click", function(e){
+  const btn = e.target.closest(".tabbtn");
+  if (btn) showView(btn.getAttribute("data-view"));
 });
 
 /* ---------------- Init ---------------- */
