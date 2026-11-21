@@ -6,18 +6,18 @@
 <title>My Methylation Kitchen</title>
 <style>
   :root{
-    --green:#2f6b3c;
-    --green-dark:#245430;
-    --green-soft:#e7f2e4;
-    --green-mid:#bcd9b8;
-    --bg:#f4f9f2;
+    --green:#256b31;
+    --green-dark:#1b4d23;
+    --green-soft:#eaf4e0;
+    --green-mid:#c2dcb4;
+    --bg:#faf5ea;
     --card:#ffffff;
     --ink:#22301f;
     --muted:#5c6d58;
-    --border:#d8e7d3;
+    --border:#e0e7d2;
     --warn-bg:#fdf6e3;
     --warn-border:#ecd9a0;
-    --radius:16px;
+    --radius:20px;
   }
   *{box-sizing:border-box;}
   body{
@@ -305,6 +305,364 @@
     cursor:pointer;
     min-height:48px;
   }
+  /* Visual upgrade: warm cream, deeper green, layered shadows, soft motion */
+  body{background:linear-gradient(180deg,#fdfaf2 0%,var(--bg) 260px,var(--bg) 100%);}
+  header.hero{
+    background:linear-gradient(150deg,#ffffff 0%,#eef6e2 55%,#cfe5bd 135%);
+    border-radius:24px;
+    box-shadow:0 2px 4px rgba(27,77,35,.06),0 16px 36px rgba(27,77,35,.12);
+  }
+  section.card{
+    border-radius:20px;
+    box-shadow:0 1px 2px rgba(27,77,35,.05),0 12px 30px rgba(27,77,35,.08);
+  }
+  .organic-note{margin:10px 0 0;color:var(--muted);font-size:.9rem;}
+  .organic-note::before{
+    content:"";
+    display:inline-block;
+    width:8px;height:8px;
+    border-radius:50%;
+    background:var(--green);
+    margin-right:8px;
+  }
+  .tabbar{background:rgba(250,245,234,.94);}
+  .tabbtn{
+    border-radius:999px;
+    border-color:#d9e6c6;
+    box-shadow:0 1px 3px rgba(27,77,35,.06);
+    transition:background .2s,border-color .2s,color .2s,box-shadow .2s,transform .1s;
+  }
+  .tabbtn::before{
+    content:"";
+    display:inline-block;
+    width:7px;height:7px;
+    border-radius:50%;
+    background:var(--green-mid);
+    margin-right:7px;
+    vertical-align:2px;
+    transition:background .2s;
+  }
+  .tabbtn.on{
+    background:linear-gradient(160deg,#2e7d3a,#1b4d23);
+    border-color:#1b4d23;
+    box-shadow:0 6px 16px rgba(27,77,35,.25);
+  }
+  .tabbtn.on::before{background:#fff;}
+  .tabbtn:active{transform:scale(.97);}
+  .chip{
+    border-color:#d5e4c6;
+    box-shadow:0 1px 2px rgba(27,77,35,.05);
+    transition:background .15s,border-color .15s,color .15s,box-shadow .15s,transform .1s;
+  }
+  .chip.on{box-shadow:0 4px 12px rgba(37,107,49,.30);}
+  .chip:active{transform:scale(.96);}
+  .btn{transition:transform .1s,box-shadow .2s,background .2s,filter .2s;}
+  .btn:active{transform:scale(.98);}
+  .btn-primary{
+    background:linear-gradient(160deg,#2e7d3a,#1b4d23);
+    box-shadow:0 6px 16px rgba(27,77,35,.22);
+  }
+  .btn-primary:hover{background:linear-gradient(160deg,#2e7d3a,#1b4d23);filter:brightness(1.08);}
+  .btn-secondary{background:linear-gradient(180deg,#ffffff,#eef6e2);}
+  .slotbtn,.cravebtn{border-radius:14px;border-color:#d5e4c6;transition:background .15s,border-color .15s,color .15s,box-shadow .15s,transform .1s;}
+  .slotbtn.on,.cravebtn.on{box-shadow:0 4px 12px rgba(37,107,49,.28);}
+  .slotbtn:active,.cravebtn:active{transform:scale(.98);}
+  .hero-strip{display:flex;gap:8px;margin-bottom:14px;}
+  .hero-strip img{
+    flex:1 1 0;
+    width:0;
+    height:86px;
+    object-fit:cover;
+    border-radius:14px;
+    box-shadow:0 3px 10px rgba(27,77,35,.10);
+  }
+  .recipe-card{
+    background:#fff;
+    border-radius:20px;
+    box-shadow:0 2px 4px rgba(27,77,35,.05),0 14px 34px rgba(27,77,35,.10);
+  }
+  .recipe-img{height:220px;border-radius:14px;}
+  .recipe-card h3{font-size:1.5rem;line-height:1.25;}
+  .recipe-card h4{color:var(--muted);letter-spacing:.09em;}
+  .tag{background:#f2f8ec;border-color:#dcebc9;}
+  .nv-label{
+    display:inline-block;
+    background:#f7e8c3;
+    border:1px solid #e3cd8f;
+    color:#7a5b12;
+    border-radius:999px;
+    padding:4px 12px;
+    font-size:.82rem;
+    font-weight:700;
+    margin:0 0 8px 8px;
+  }
+  /* Benefits panel */
+  .benefits-panel{
+    background:linear-gradient(150deg,#eef7e6 0%,#e2f0d2 60%,#d6eabd 100%);
+    border:1px solid #cfe3ba;
+    border-radius:16px;
+    padding:14px 16px;
+    margin-top:14px;
+    box-shadow:0 3px 12px rgba(27,77,35,.08);
+  }
+  .benefits-label{
+    font-size:.78rem;
+    text-transform:uppercase;
+    letter-spacing:.09em;
+    color:var(--green-dark);
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .benefits-panel p{margin:0 0 10px;}
+  .pillrow{display:flex;flex-wrap:wrap;gap:6px;}
+  .bpill{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    background:rgba(255,255,255,.78);
+    border:1px solid #cfe3ba;
+    border-radius:999px;
+    padding:5px 11px;
+    font-size:.82rem;
+    font-weight:600;
+    color:var(--green-dark);
+  }
+  .bpill .dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;}
+  /* How this works infographic */
+  .flow{display:flex;gap:10px;align-items:stretch;margin-bottom:6px;}
+  .flow-panel{
+    flex:1 1 0;
+    background:linear-gradient(160deg,#ffffff,#f2f8ec);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:14px;
+    box-shadow:0 2px 10px rgba(27,77,35,.06);
+  }
+  .flow-title{
+    font-size:.78rem;
+    text-transform:uppercase;
+    letter-spacing:.09em;
+    color:var(--muted);
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .flow-list{list-style:none;margin:0;padding:0;}
+  .flow-list li{padding:7px 0;border-bottom:1px dashed #e3ecd4;font-size:.95rem;}
+  .flow-list li:last-child{border-bottom:none;}
+  .flow-list strong{display:block;color:var(--green-dark);font-size:.95rem;}
+  .flow-list span{color:var(--muted);font-size:.86rem;}
+  .flow-arrow{display:flex;align-items:center;justify-content:center;color:var(--green);flex:0 0 34px;}
+  .flow-arrow svg{width:30px;height:30px;}
+  .flow-highlight{
+    background:linear-gradient(160deg,#2e7d3a,#1b4d23);
+    border-radius:10px;
+    padding:7px 10px !important;
+    box-shadow:0 4px 12px rgba(27,77,35,.25);
+  }
+  .flow-highlight strong{color:#fff;}
+  .flow-highlight span{color:#dcefd2;}
+  @media (max-width:560px){
+    .flow{flex-direction:column;}
+    .flow-arrow{transform:rotate(90deg);padding:2px 0;}
+  }
+  /* Calendar */
+  .cal-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;}
+  .cal-title{font-weight:700;color:var(--green-dark);font-size:1.1rem;text-align:center;}
+  .cal-week,.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
+  .cal-week span{
+    text-align:center;
+    font-size:.78rem;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--muted);
+    padding:4px 0;
+  }
+  .cal-day{
+    border:1.5px solid #e3ecd4;
+    background:#fff;
+    border-radius:12px;
+    min-height:46px;
+    padding:6px 4px;
+    font-size:.95rem;
+    cursor:pointer;
+    color:var(--ink);
+    transition:border-color .15s,box-shadow .15s,background .15s;
+  }
+  .cal-day:hover{border-color:var(--green-mid);}
+  .cal-day.today{
+    background:var(--green);
+    border-color:var(--green);
+    color:#fff;
+    font-weight:700;
+    box-shadow:0 4px 12px rgba(37,107,49,.30);
+  }
+  .cal-day.sel{border-color:var(--green);box-shadow:0 0 0 2px var(--green-mid);}
+  .cal-day.empty{border:none;background:transparent;cursor:default;box-shadow:none;}
+  .day-panel{margin-top:16px;border-top:1px solid var(--border);padding-top:6px;}
+  .day-h{
+    margin:14px 0 6px;
+    font-size:.82rem;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--green-dark);
+  }
+  .day-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:9px 10px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    margin-bottom:6px;
+    background:#fff;
+  }
+  .day-row .slot-name{
+    font-size:.78rem;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--muted);
+    display:block;
+  }
+  .plain-list{margin:0;padding-left:20px;}
+  .plain-list li{margin-bottom:5px;}
+  /* Shopping step 2 items */
+  .shop-item{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:9px 10px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    margin-bottom:6px;
+    cursor:pointer;
+    font-size:.97rem;
+    background:#fff;
+  }
+  .shop-item input[type="checkbox"]{width:20px;height:20px;margin-top:1px;accent-color:var(--green);flex:0 0 auto;}
+  .shop-item.done .shop-name{text-decoration:line-through;color:var(--muted);}
+  .shop-for{color:var(--muted);font-size:.85rem;display:block;}
+  /* Supplements, condensed rows */
+  .supp-row{display:flex;align-items:flex-start;gap:8px;border:1px solid var(--border);border-radius:12px;padding:8px 10px;margin-bottom:5px;background:#fff;}
+  .supp-main{display:flex;gap:9px;align-items:flex-start;cursor:pointer;flex:1;}
+  .supp-check{width:20px;height:20px;margin-top:1px;accent-color:var(--green);flex:0 0 auto;}
+  .supp-text{display:flex;flex-direction:column;gap:1px;}
+  .supp-name{font-weight:600;}
+  .supp-why{color:var(--muted);font-size:.88rem;line-height:1.35;}
+  .supp-last{color:var(--muted);font-size:.8rem;}
+  .supp-remove{flex:0 0 auto;background:none;border:1px solid var(--border);border-radius:8px;padding:4px 9px;min-height:32px;font-size:.8rem;color:var(--muted);cursor:pointer;}
+  #viewSupps .group-label{margin:12px 0 5px;}
+  /* Tab bar scrolls sideways on narrow screens */
+  .tabbar{overflow-x:auto;scrollbar-width:none;}
+  .tabbar::-webkit-scrollbar{display:none;}
+  .tabbtn{flex:0 0 auto;}
+  /* Tenets */
+  .dna-hero{position:relative;border-radius:20px;overflow:hidden;height:180px;margin-bottom:18px;box-shadow:0 10px 28px rgba(27,77,35,.18);background:#1b4d23;}
+  .dna-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+  .term-pill{position:absolute;background:rgba(20,40,22,.55);color:#faf5ea;border:1px solid rgba(250,245,234,.35);border-radius:999px;padding:4px 11px;font-size:.8rem;font-weight:600;letter-spacing:.01em;white-space:nowrap;backdrop-filter:blur(2px);}
+  button.term-pill{cursor:pointer;font:inherit;}
+  button.term-pill.jump{border-color:rgba(250,245,234,.75);box-shadow:0 2px 10px rgba(0,0,0,.25);}
+  button.term-pill.jump:active{transform:scale(.94);}
+  .tf1{animation:termFloat 6s ease-in-out infinite;}
+  .tf2{animation:termFloat 7.5s ease-in-out infinite;animation-delay:.8s;}
+  .tf3{animation:termFloat 9s ease-in-out infinite;animation-delay:1.6s;}
+  @keyframes termFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+  @media (max-width:560px){
+    .dna-hero{height:140px;}
+    .term-sm{display:none;}
+    .term-pill{font-size:.72rem;padding:3px 9px;}
+  }
+  .cellmap{position:relative;max-width:360px;margin:4px auto 18px;}
+  .cell-visual{width:200px;margin:0 auto;}
+  .cell-svg{width:200px;height:200px;display:block;}
+  .cell-body{fill:#eef5ea;stroke:var(--green);stroke-width:2;transition:fill .6s ease;}
+  .cell-glow{fill:#dcebd8;opacity:0;transition:opacity .6s ease;}
+  .cellmap.mode-plan .cell-glow{opacity:1;}
+  .cellmap.mode-stress .cell-body{fill:#eae3d3;}
+  .nuc-smooth{fill:#bcd6b4;transition:opacity .6s ease;}
+  .nuc-jagged{fill:#c9b299;opacity:0;transition:opacity .6s ease;}
+  .cellmap.mode-stress .nuc-jagged{opacity:1;}
+  .cellmap.mode-stress .nuc-smooth{opacity:.2;}
+  .waste-g circle{fill:#8d6e63;opacity:0;transition:opacity .6s ease;}
+  .cellmap.mode-stress .waste-g circle{opacity:.85;}
+  .orbit-g{transform-box:fill-box;transform-origin:center;animation:spinSlow 26s linear infinite;}
+  .orbit-dot{fill:#66bb6a;opacity:.3;transition:opacity .6s ease;}
+  .cellmap.mode-plan .orbit-dot{opacity:1;}
+  .cell-nodes{position:absolute;inset:0;pointer-events:none;}
+  .cell-node{position:absolute;transform:translate(-50%,-50%);pointer-events:auto;display:inline-flex;align-items:center;gap:5px;background:#fff;border:1.5px solid var(--green-mid);color:var(--green-dark);border-radius:999px;padding:5px 10px;font-size:.78rem;font-weight:600;cursor:pointer;box-shadow:0 2px 8px rgba(27,77,35,.12);transition:transform .15s ease,background .15s ease;}
+  .cell-node:active{transform:translate(-50%,-50%) scale(.95);}
+  .cn-num{background:var(--green);color:#fff;border-radius:50%;width:17px;height:17px;display:inline-flex;align-items:center;justify-content:center;font-size:.68rem;flex:0 0 auto;}
+  .cell-switch{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
+  .cell-mode-btn{background:#fff;border:1.5px solid var(--border);color:var(--muted);border-radius:999px;padding:7px 13px;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s ease;}
+  .cell-mode-btn.on{background:var(--green);border-color:var(--green);color:#fff;}
+  .cell-caption{text-align:center;color:var(--muted);font-size:.9rem;margin:8px 0 0;}
+  @media (max-width:560px){
+    .cellmap{display:flex;flex-direction:column;}
+    .cell-nodes{position:static;display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:8px;pointer-events:auto;}
+    .cell-node{position:static;transform:none;}
+    .cell-node:active{transform:scale(.95);}
+  }
+  .tenet-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:0 1px 2px rgba(27,77,35,.05),0 10px 28px rgba(27,77,35,.08);margin-bottom:12px;overflow:hidden;}
+  .tenet-card.flash{animation:flashRing 1.6s ease;}
+  @keyframes flashRing{0%,55%{box-shadow:0 0 0 3px var(--green-mid),0 12px 32px rgba(27,77,35,.28);}100%{box-shadow:0 1px 2px rgba(27,77,35,.05),0 10px 28px rgba(27,77,35,.08);}}
+  .tenet-head{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:none;border:0;padding:13px 14px;cursor:pointer;font:inherit;color:inherit;}
+  .tenet-art{flex:0 0 104px;}
+  .tenet-svg{width:104px;height:54px;display:block;}
+  .tenet-titles{flex:1;min-width:0;}
+  .tenet-title{font-weight:700;display:block;}
+  .tenet-sum{color:var(--muted);font-size:.9rem;display:block;margin-top:2px;line-height:1.4;}
+  .tenet-more{flex:0 0 auto;color:var(--green);font-weight:600;font-size:.82rem;}
+  .tenet-body{max-height:0;opacity:0;overflow:hidden;transition:max-height .45s ease,opacity .35s ease;padding:0 14px;}
+  .tenet-card.open .tenet-body{max-height:460px;opacity:1;padding-bottom:14px;}
+  .tenet-ev,.tenet-plan{margin:0 0 8px;font-size:.93rem;line-height:1.45;}
+  .plan-chips{display:flex;flex-wrap:wrap;gap:7px;}
+  .plan-chip{background:var(--green-soft);border:1.5px solid var(--green-mid);color:var(--green-dark);border-radius:999px;padding:7px 12px;font-size:.83rem;font-weight:600;cursor:pointer;transition:transform .12s ease;}
+  .plan-chip:active{transform:scale(.95);}
+  .hx{stroke-dasharray:7 5;animation:dashMove 5s linear infinite;}
+  .hx2{animation-duration:7s;}
+  @keyframes dashMove{to{stroke-dashoffset:-96;}}
+  .rung{stroke:#b03a5b;stroke-width:2;opacity:.5;}
+  .mito-halo{fill:#dcebd8;}
+  .mito-body{fill:#eef5ea;stroke:var(--green);stroke-width:2;transform-box:fill-box;transform-origin:center;animation:mitoPulse 3.6s ease-in-out infinite;}
+  .mito-fold{stroke:#66bb6a;stroke-width:2.5;}
+  @keyframes mitoPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+  .plink{stroke:#b9cfb2;stroke-width:2;}
+  .pdot{fill:#cfe0c8;animation:pstep 2.7s ease-in-out infinite;}
+  .pdot.d2{animation-delay:.9s;}
+  .pdot.d3{animation-delay:1.8s;}
+  @keyframes pstep{0%,55%,100%{fill:#cfe0c8;}15%,40%{fill:var(--green);}}
+  .recycle{transform-box:fill-box;transform-origin:center;animation:spinSlow 16s linear infinite;}
+  .rarc{fill:none;stroke:var(--green);stroke-width:2.5;}
+  .rhead{fill:var(--green);}
+  @keyframes spinSlow{to{transform:rotate(360deg);}}
+  .shield-body{fill:#eef5ea;stroke:var(--green);stroke-width:2;}
+  .shield-ring{fill:none;stroke:#66bb6a;stroke-width:2;transform-box:fill-box;transform-origin:center;animation:ringPulse 3s ease-out infinite;}
+  @keyframes ringPulse{0%{transform:scale(.55);opacity:.9;}100%{transform:scale(2);opacity:0;}}
+  .cellf{fill:#eef5ea;stroke:var(--green);stroke-width:2;animation:floaty 5s ease-in-out infinite;}
+  .cellf.c2{animation-duration:6.5s;animation-delay:.6s;}
+  .cellf.c3{animation-duration:7.5s;animation-delay:1.1s;}
+  @keyframes floaty{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+  .wdot{fill:#8d6e63;animation:driftDown 4.5s linear infinite;}
+  .wdot.w2{animation-delay:1.5s;}
+  .wdot.w3{animation-delay:3s;}
+  .tray{stroke:#8d6e63;stroke-width:2.5;stroke-linecap:round;}
+  @keyframes driftDown{0%{transform:translateY(0);opacity:0;}15%{opacity:.9;}85%{opacity:.7;}100%{transform:translateY(36px);opacity:0;}}
+  .hall-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  @media (max-width:380px){ .hall-grid{grid-template-columns:1fr;} }
+  .hall-card{display:flex;flex-direction:column;gap:3px;align-items:flex-start;text-align:left;background:#fff;border:1px solid var(--border);border-radius:14px;padding:10px 12px;cursor:pointer;font:inherit;color:inherit;box-shadow:0 1px 2px rgba(27,77,35,.05),0 6px 16px rgba(27,77,35,.06);transition:transform .12s ease,border-color .2s ease;}
+  .hall-card:active{transform:scale(.97);}
+  .hall-card.mapped{border-color:var(--green);box-shadow:0 0 0 2px var(--green-mid);}
+  .hall-svg{width:40px;height:24px;}
+  .hm{stroke:var(--green);stroke-width:2;fill:none;}
+  .hm-f{fill:#dcebd8;stroke:var(--green);stroke-width:1.5;}
+  .hm-dot{fill:var(--green);}
+  .hall-name{font-weight:700;font-size:.92rem;}
+  .hall-line{color:var(--muted);font-size:.85rem;line-height:1.35;}
+  .hall-tag{margin-top:4px;background:var(--green-soft);color:var(--green-dark);border-radius:999px;padding:2px 9px;font-size:.74rem;font-weight:700;}
+  .hall-card.mapped .hall-tag::after{content:" (mapped)";}
+  @media (prefers-reduced-motion: reduce){
+    #viewTenets *, .cellmap *{animation-play-state:paused !important;}
+  }
 </style>
 </head>
 <body>
@@ -313,17 +671,26 @@
   <header class="hero">
     <h1>My Methylation Kitchen</h1>
     <p><strong>Vegan meals from the Fitzgerald methylation plan, built from your four-week menu.</strong></p>
+    <p class="organic-note">Ingredients are organic when possible.</p>
+    <p style="margin:12px 0 0;"><a class="btn btn-secondary btn-inline" href="menu.pdf" target="_blank" rel="noopener" style="text-decoration:none;">The 4-week menu (PDF)</a></p>
   </header>
 
   <nav class="tabbar" id="tabBar">
     <button type="button" class="tabbtn on" data-view="viewMake">Make</button>
-    <button type="button" class="tabbtn" data-view="viewBuy">Buy</button>
+    <button type="button" class="tabbtn" data-view="viewCalendar">Calendar</button>
+    <button type="button" class="tabbtn" data-view="viewBuy">My Shopping List</button>
     <button type="button" class="tabbtn" data-view="viewDay">Goals</button>
     <button type="button" class="tabbtn" data-view="viewSupps">Supplements</button>
+    <button type="button" class="tabbtn" data-view="viewTenets">Tenets</button>
   </nav>
 
   <div class="view active" id="viewMake">
   <section class="card" id="tool1">
+    <div class="hero-strip" aria-hidden="true">
+      <img src="img-berry-oats.jpg" alt="" onerror="this.style.display='none'">
+      <img src="img-super-veggie.jpg" alt="" onerror="this.style.display='none'">
+      <img src="img-smoothie.jpg" alt="" onerror="this.style.display='none'">
+    </div>
     <h2>What should I make?</h2>
 
     <h3>What do you have?</h3>
@@ -350,28 +717,102 @@
       <button type="button" class="cravebtn on" data-crave="any">No preference</button>
     </div>
 
-    <div style="margin-top:14px;">
+    <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
       <button type="button" class="chip on" id="ideasToggle" aria-pressed="true">Include new ideas</button>
+      <button type="button" class="chip" id="nvToggle" aria-pressed="false">Allow non-vegan options</button>
     </div>
 
     <button class="btn btn-primary" id="findBtn" type="button">Find my meal</button>
+    <button class="btn btn-secondary" id="anotherFormBtn" type="button" style="width:100%;margin-top:10px;">Another recipe</button>
     <div class="result" id="result"></div>
   </section>
   </div>
 
+  <div class="view" id="viewCalendar">
+  <p style="margin:0 0 12px;"><a class="btn btn-secondary btn-inline" href="menu.pdf" target="_blank" rel="noopener" style="text-decoration:none;">The 4-week menu (PDF)</a></p>
+  <section class="card" id="calSection">
+    <h2>Calendar</h2>
+    <div class="cal-head">
+      <button type="button" class="btn btn-secondary btn-inline" id="calPrev">Prev</button>
+      <div class="cal-title" id="calTitle"></div>
+      <button type="button" class="btn btn-secondary btn-inline" id="calNext">Next</button>
+    </div>
+    <div class="cal-week"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+    <div class="cal-grid" id="calGrid"></div>
+    <div id="dayPanel"></div>
+  </section>
+  <section class="card" id="calGoals">
+    <h2>Daily goals</h2>
+    <h3>Cup targets</h3>
+    <ul class="plain-list">
+      <li>Leafy greens: 2 cups</li>
+      <li>Cruciferous vegetables: 2 cups</li>
+      <li>Colorful vegetables: 3 cups</li>
+      <li>Beets: 1 to 2 medium</li>
+      <li>Seeds: 1/4 cup pumpkin seeds plus 1/4 cup sunflower seeds</li>
+      <li>Berries plus 2 servings of whole fruit</li>
+    </ul>
+    <h3>Why supplement</h3>
+    <ul class="plain-list">
+      <li><strong>B12:</strong> a vegan diet has no reliable B12 source.</li>
+      <li><strong>Vitamin D3:</strong> only if levels are low.</li>
+      <li><strong>Algae EPA and DHA:</strong> the omega-3s without fish.</li>
+      <li><strong>Magnesium at dinner:</strong> only if needed.</li>
+    </ul>
+    <h3>Why train</h3>
+    <p style="margin:0;">Resistance training keeps muscle and supports metabolic health.</p>
+    <h3>Why meditate</h3>
+    <p style="margin:0;">Meditation brings stress down and helps you sleep better.</p>
+  </section>
+  </div>
+
   <div class="view" id="viewBuy">
-  <section class="card" id="tool2">
-    <h2>What do I need to buy?</h2>
-    <p class="hint">Uses what you tapped in Make.</p>
+  <p class="organic-note" style="margin:0 2px 12px;">Ingredients are organic when possible.</p>
+  <section class="card" id="shopStep1">
+    <h2>Step 1: What do you have at home?</h2>
+    <div id="shopChipGroups"></div>
+    <div class="addrow">
+      <input type="text" id="shopCustomIngredient" placeholder="Add an ingredient" aria-label="Add another ingredient">
+      <button class="btn btn-secondary btn-inline" id="shopAddBtn" type="button">Add</button>
+    </div>
+    <button class="btn btn-primary" id="shopShowBtn" type="button">Show what to buy</button>
+  </section>
+  <section class="card" id="shopStep2">
+    <h2>Step 2: What to buy</h2>
+    <h3>Planning specific meals?</h3>
     <div id="mealPicker"></div>
-    <button class="btn btn-primary" id="shopBtn" type="button">Build my shopping list</button>
-    <div class="result" id="shopResult"></div>
+    <div class="result" id="shopList"></div>
   </section>
   </div>
 
   <div class="view" id="viewDay">
   <section class="card" id="checklistSection">
     <h2>Goals for the day</h2>
+
+    <h3>How this works</h3>
+    <div class="flow">
+      <div class="flow-panel">
+        <div class="flow-title">Inputs</div>
+        <ul class="flow-list">
+          <li><strong>Methyl donors</strong><span>Leafy greens, legumes, beets</span></li>
+          <li><strong>Omega-3</strong><span>Algae omega supplement</span></li>
+          <li><strong>Microbiome, SCFAs</strong><span>Fiber, legumes, vegetables</span></li>
+          <li><strong>Vitamin D</strong><span>Supplement, when needed</span></li>
+          <li><strong>Lifestyle</strong><span>Resistance training, sleep, meditation</span></li>
+        </ul>
+      </div>
+      <div class="flow-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M3 12h15M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="flow-panel">
+        <div class="flow-title">Outcomes</div>
+        <ul class="flow-list">
+          <li><strong>DNA methylation</strong></li>
+          <li><strong>Gene expression changes</strong></li>
+          <li><strong>Metabolic phenotypes</strong></li>
+          <li class="flow-highlight"><strong>Epigenetic age deceleration</strong><span>The direction this plan aims for</span></li>
+          <li><strong>Disease risk</strong></li>
+        </ul>
+      </div>
+    </div>
 
     <h3>Vegetables</h3>
     <div id="goalBars"></div>
@@ -415,6 +856,165 @@
       <button class="btn btn-secondary btn-inline" id="suppAddBtn" type="button">Add</button>
     </div>
     <button class="btn btn-secondary" id="suppResetBtn" type="button" style="margin-top:12px;">Restore the standard list</button>
+  </section>
+  </div>
+
+  <div class="view" id="viewTenets">
+  <section class="card">
+    <h2>The Seven Tenets of Aging</h2>
+    <p class="hint" style="margin-top:0;">Why cells age, in seven categories, and what your plan does about each.</p>
+
+    <div class="dna-hero">
+      <img src="img-dna-hero.jpg" alt="" onerror="this.style.display='none'">
+      <button type="button" class="term-pill jump tf1" data-tenet-target="tenet1" style="left:5%;top:14%;">Methylation</button>
+      <span class="term-pill tf2" style="left:29%;top:60%;">Folate</span>
+      <span class="term-pill tf3" style="left:53%;top:12%;">Sulforaphane</span>
+      <span class="term-pill tf1" style="left:77%;top:52%;">Nrf2</span>
+      <button type="button" class="term-pill jump tf2" data-tenet-target="tenet4" style="left:10%;top:70%;">Autophagy</button>
+      <span class="term-pill term-sm tf3" style="left:38%;top:24%;">Microbiome</span>
+      <span class="term-pill tf1" style="left:66%;top:76%;">Omega-3</span>
+      <span class="term-pill term-sm tf2" style="left:84%;top:16%;">Proteostasis</span>
+      <span class="term-pill term-sm tf3" style="left:20%;top:38%;">Telomeres</span>
+      <span class="term-pill term-sm tf1" style="left:58%;top:42%;">Epigenetic age</span>
+      <button type="button" class="term-pill jump tf3" data-tenet-target="tenet6" style="left:86%;top:80%;">Senescence</button>
+      <button type="button" class="term-pill jump tf2" data-tenet-target="tenet2" style="left:43%;top:83%;">Mitochondria</button>
+    </div>
+
+    <div class="cellmap mode-plan" id="cellMap">
+      <div class="cell-nodes">
+        <button type="button" class="cell-node" data-tenet-target="tenet1" style="left:50%;top:1%;"><span class="cn-num">1</span>DNA</button>
+        <button type="button" class="cell-node" data-tenet-target="tenet2" style="left:90%;top:20%;"><span class="cn-num">2</span>Energy</button>
+        <button type="button" class="cell-node" data-tenet-target="tenet3" style="left:94%;top:64%;"><span class="cn-num">3</span>Pathways</button>
+        <button type="button" class="cell-node" data-tenet-target="tenet4" style="left:66%;top:95%;"><span class="cn-num">4</span>Quality</button>
+        <button type="button" class="cell-node" data-tenet-target="tenet5" style="left:32%;top:95%;"><span class="cn-num">5</span>Immune</button>
+        <button type="button" class="cell-node" data-tenet-target="tenet6" style="left:6%;top:64%;"><span class="cn-num">6</span>Cells</button>
+        <button type="button" class="cell-node" data-tenet-target="tenet7" style="left:10%;top:20%;"><span class="cn-num">7</span>Waste</button>
+      </div>
+      <div class="cell-visual">
+        <svg class="cell-svg" viewBox="0 0 200 200" aria-hidden="true">
+          <circle class="cell-glow" cx="100" cy="100" r="88"/>
+          <circle class="cell-body" cx="100" cy="100" r="78"/>
+          <path class="nuc-jagged" d="M100 62 L114 74 L130 82 L122 98 L132 112 L114 122 L106 138 L92 126 L74 128 L76 108 L64 94 L78 82 L84 66 Z"/>
+          <circle class="nuc-smooth" cx="100" cy="100" r="34"/>
+          <g class="orbit-g"><circle class="orbit-dot" cx="100" cy="14" r="4"/><circle class="orbit-dot" cx="186" cy="100" r="4"/><circle class="orbit-dot" cx="100" cy="186" r="4"/><circle class="orbit-dot" cx="14" cy="100" r="4"/></g>
+          <g class="waste-g"><circle cx="70" cy="142" r="4"/><circle cx="128" cy="148" r="3"/><circle cx="148" cy="76" r="3.5"/><circle cx="56" cy="70" r="3"/></g>
+        </svg>
+      </div>
+      <div class="cell-switch" role="group" aria-label="Cell state">
+        <button type="button" class="cell-mode-btn" id="modeStressBtn" data-mode="stress">Cell under stress</button>
+        <button type="button" class="cell-mode-btn on" id="modePlanBtn" data-mode="plan">Cell with your plan</button>
+      </div>
+      <p class="cell-caption" id="cellCaption">With your plan: methyl donors in, waste cleared, energy steady.</p>
+    </div>
+
+    <article class="tenet-card" id="tenet1">
+      <button type="button" class="tenet-head" data-tenet-toggle="tenet1" aria-expanded="false">
+        <span class="tenet-art"><svg class="tenet-svg" viewBox="0 0 120 60" aria-hidden="true"><path class="hx" d="M8 30 C28 6 44 54 64 30 C84 6 100 54 112 30" fill="none" stroke="#256b31" stroke-width="2.5"/><path class="hx hx2" d="M8 30 C28 54 44 6 64 30 C84 54 100 6 112 30" fill="none" stroke="#7fae7a" stroke-width="2.5"/><line class="rung" x1="26" y1="19" x2="26" y2="41"/><line class="rung" x1="52" y1="17" x2="52" y2="43"/><line class="rung" x1="78" y1="19" x2="78" y2="41"/><line class="rung" x1="100" y1="22" x2="100" y2="38"/></svg></span>
+        <span class="tenet-titles"><span class="tenet-title">Tenet 1: Information Systems (DNA)</span><span class="tenet-sum">The DNA code and its packaging marks carry the cell's instructions. Damage and drifting marks garble those instructions over time.</span></span>
+        <span class="tenet-more">See the evidence</span>
+      </button>
+      <div class="tenet-body">
+        <p class="tenet-ev"><strong>Evidence:</strong> Horvath 2013, Genome Biology: DNA methylation patterns predict age. Fitzgerald et al. 2021, Aging: a diet and lifestyle program was linked to younger methylation age.</p>
+        <p class="tenet-plan"><strong>In your plan:</strong> Methyl donors: folate from greens, legumes, beets.</p>
+        <div class="plan-chips"><button type="button" class="plan-chip" data-jump="viewMake">Methyl donor foods</button><button type="button" class="plan-chip" data-jump="viewSupps">B12 and choline</button></div>
+      </div>
+    </article>
+
+    <article class="tenet-card" id="tenet2">
+      <button type="button" class="tenet-head" data-tenet-toggle="tenet2" aria-expanded="false">
+        <span class="tenet-art"><svg class="tenet-svg" viewBox="0 0 120 60" aria-hidden="true"><ellipse class="mito-halo" cx="60" cy="30" rx="46" ry="23"/><path class="mito-body" d="M18 30 C18 16 38 10 60 10 C82 10 102 16 102 30 C102 44 82 50 60 50 C38 50 18 44 18 30 Z"/><path class="mito-fold" d="M32 24 C42 34 50 20 60 30 C70 40 78 24 88 30" fill="none"/></svg></span>
+        <span class="tenet-titles"><span class="tenet-title">Tenet 2: Cellular Energy</span><span class="tenet-sum">Mitochondria turn food and oxygen into the cell's energy currency. When they falter, everything downstream runs short on power.</span></span>
+        <span class="tenet-more">See the evidence</span>
+      </button>
+      <div class="tenet-body">
+        <p class="tenet-ev"><strong>Evidence:</strong> Lopez-Otin et al. 2023, Cell: mitochondrial dysfunction is one of the hallmarks of aging.</p>
+        <p class="tenet-plan"><strong>In your plan:</strong> Training and sleep support mitochondria; algae omega-3 covers the EPA and DHA fats.</p>
+        <div class="plan-chips"><button type="button" class="plan-chip" data-jump="viewDay">Training and sleep</button><button type="button" class="plan-chip" data-jump="viewSupps">Algae omega-3</button></div>
+      </div>
+    </article>
+
+    <article class="tenet-card" id="tenet3">
+      <button type="button" class="tenet-head" data-tenet-toggle="tenet3" aria-expanded="false">
+        <span class="tenet-art"><svg class="tenet-svg" viewBox="0 0 120 60" aria-hidden="true"><line class="plink" x1="34" y1="30" x2="51" y2="30"/><line class="plink" x1="69" y1="30" x2="86" y2="30"/><circle class="pdot" cx="25" cy="30" r="9"/><circle class="pdot d2" cx="60" cy="30" r="9"/><circle class="pdot d3" cx="95" cy="30" r="9"/></svg></span>
+        <span class="tenet-titles"><span class="tenet-title">Tenet 3: Cellular Pathways</span><span class="tenet-sum">Signaling pathways like AMPK, mTOR and the sirtuins decide when the cell grows, repairs or rests. Aging skews those decisions.</span></span>
+        <span class="tenet-more">See the evidence</span>
+      </button>
+      <div class="tenet-body">
+        <p class="tenet-ev"><strong>Evidence:</strong> Harrison et al. 2009, Nature: rapamycin, an mTOR inhibitor, extended lifespan in mice.</p>
+        <p class="tenet-plan"><strong>In your plan:</strong> The 11 AM to 7 PM eating window touches AMPK and mTOR signaling.</p>
+        <div class="plan-chips"><button type="button" class="plan-chip" data-jump="viewDay">Eating window, 11 to 7</button></div>
+      </div>
+    </article>
+
+    <article class="tenet-card" id="tenet4">
+      <button type="button" class="tenet-head" data-tenet-toggle="tenet4" aria-expanded="false">
+        <span class="tenet-art"><svg class="tenet-svg" viewBox="0 0 120 60" aria-hidden="true"><g class="recycle"><path class="rarc" d="M60 10 A21 21 0 0 1 81 31"/><path class="rarc" d="M60 50 A21 21 0 0 1 39 29"/><path class="rhead" d="M81 23 L83 33 L73 31 Z"/><path class="rhead" d="M39 37 L37 27 L47 29 Z"/></g></svg></span>
+        <span class="tenet-titles"><span class="tenet-title">Tenet 4: Quality Control</span><span class="tenet-sum">Cells fold, check and recycle their proteins, and clear worn parts through autophagy. When cleanup lags, damaged parts pile up.</span></span>
+        <span class="tenet-more">See the evidence</span>
+      </button>
+      <div class="tenet-body">
+        <p class="tenet-ev"><strong>Evidence:</strong> Lopez-Otin et al. 2023, Cell: loss of proteostasis and disabled autophagy are hallmarks of aging.</p>
+        <p class="tenet-plan"><strong>In your plan:</strong> The daily overnight fast gives autophagy its window.</p>
+        <div class="plan-chips"><button type="button" class="plan-chip" data-jump="viewDay">Overnight fast</button></div>
+      </div>
+    </article>
+
+    <article class="tenet-card" id="tenet5">
+      <button type="button" class="tenet-head" data-tenet-toggle="tenet5" aria-expanded="false">
+        <span class="tenet-art"><svg class="tenet-svg" viewBox="0 0 120 60" aria-hidden="true"><circle class="shield-ring" cx="60" cy="30" r="13"/><path class="shield-body" d="M60 10 L84 18 V30 C84 42 74 50 60 54 C46 50 36 42 36 30 V18 Z"/></svg></span>
+        <span class="tenet-titles"><span class="tenet-title">Tenet 5: Immune System</span><span class="tenet-sum">The immune system defends the body and clears debris. With age it weakens in some ways and stays overactive in others, feeding chronic inflammation.</span></span>
+        <span class="tenet-more">See the evidence</span>
+      </button>
+      <div class="tenet-body">
+        <p class="tenet-ev"><strong>Evidence:</strong> Franceschi et al. 2000, Annals of the New York Academy of Sciences: inflammaging, chronic low-grade inflammation that rises with age.</p>
+        <p class="tenet-plan"><strong>In your plan:</strong> Sulforaphane signals Nrf2; omega-3s support inflammation balance.</p>
+        <div class="plan-chips"><button type="button" class="plan-chip" data-jump="viewSupps">Sulforaphane</button><button type="button" class="plan-chip" data-jump="viewSupps">Omega-3s</button></div>
+      </div>
+    </article>
+
+    <article class="tenet-card" id="tenet6">
+      <button type="button" class="tenet-head" data-tenet-toggle="tenet6" aria-expanded="false">
+        <span class="tenet-art"><svg class="tenet-svg" viewBox="0 0 120 60" aria-hidden="true"><circle class="cellf c1" cx="35" cy="32" r="13"/><circle class="cellf c2" cx="68" cy="24" r="9"/><circle class="cellf c3" cx="90" cy="38" r="16"/></svg></span>
+        <span class="tenet-titles"><span class="tenet-title">Tenet 6: Individual Cells</span><span class="tenet-sum">Each cell type has its own needs and jobs. Senescent cells stop dividing but linger, and stem cell pools shrink, so repair falls behind.</span></span>
+        <span class="tenet-more">See the evidence</span>
+      </button>
+      <div class="tenet-body">
+        <p class="tenet-ev"><strong>Evidence:</strong> Lopez-Otin et al. 2023, Cell: cellular senescence and stem cell exhaustion are hallmarks of aging.</p>
+        <p class="tenet-plan"><strong>In your plan:</strong> A protein source at every meal feeds different cell needs.</p>
+        <div class="plan-chips"><button type="button" class="plan-chip" data-jump="viewMake">Protein at every meal</button></div>
+      </div>
+    </article>
+
+    <article class="tenet-card" id="tenet7">
+      <button type="button" class="tenet-head" data-tenet-toggle="tenet7" aria-expanded="false">
+        <span class="tenet-art"><svg class="tenet-svg" viewBox="0 0 120 60" aria-hidden="true"><circle class="wdot" cx="35" cy="8" r="4"/><circle class="wdot w2" cx="60" cy="5" r="3"/><circle class="wdot w3" cx="85" cy="10" r="4"/><line class="tray" x1="24" y1="50" x2="96" y2="50"/></svg></span>
+        <span class="tenet-titles"><span class="tenet-title">Tenet 7: Waste Management</span><span class="tenet-sum">Cells and the body must clear metabolic waste, including advanced glycation end products. When waste builds up, it gums up tissues and vessels.</span></span>
+        <span class="tenet-more">See the evidence</span>
+      </button>
+      <div class="tenet-body">
+        <p class="tenet-ev"><strong>Evidence:</strong> Uribarri et al. 2010, Journal of the American Dietetic Association: dietary advanced glycation end products and their health effects.</p>
+        <p class="tenet-plan"><strong>In your plan:</strong> Plant meals cooked gently make fewer AGEs than charred animal fats.</p>
+        <div class="plan-chips"><button type="button" class="plan-chip" data-jump="viewMake">Gentle cooking ideas</button></div>
+      </div>
+    </article>
+
+    <h3 style="margin-top:22px;">The 12 Hallmarks of Aging</h3>
+    <p class="hint" style="margin-top:0;">A second map of the same territory, from Lopez-Otin et al., Cell, 2023.</p>
+    <div class="hall-grid">
+      <button type="button" class="hall-card" data-tenet-target="tenet1"><svg class="hall-svg" viewBox="0 0 40 24" aria-hidden="true"><path class="hm" d="M6 4 C16 20 24 4 34 20"/><path class="hm" d="M6 20 C16 4 24 20 34 4"/></svg><span class="hall-name">Genomic instability</span><span class="hall-line">Damage piles up in the DNA.</span><span class="hall-tag">Tenet 1</span></button>
+      <button type="button" class="hall-card" data-tenet-target="tenet1"><svg class="hall-svg" viewBox="0 0 40 24" aria-hidden="true"><path class="hm" d="M6 4 C16 20 24 4 34 20"/><path class="hm" d="M6 20 C16 4 24 20 34 4"/></svg><span class="hall-name">Telomere attrition</span><span class="hall-line">The chromosome end caps wear down.</span><span class="hall-tag">Tenet 1</span></button>
+      <button type="button" class="hall-card" data-tenet-target="tenet1"><svg class="hall-svg" viewBox="0 0 40 24" aria-hidden="true"><path class="hm" d="M6 4 C16 20 24 4 34 20"/><path class="hm" d="M6 20 C16 4 24 20 34 4"/></svg><span class="hall-name">Epigenetic alterations</span><span class="hall-line">The packaging marks on DNA drift.</span><span class="hall-tag">Tenet 1</span></button>
+      <button type="button" class="hall-card" data-tenet-target="tenet4"><svg class="hall-svg" viewBox="0 0 40 24" aria-hidden="true"><path class="hm" d="M8 14 A12 8 0 0 1 32 14"/><path class="hm" d="M32 10 A12 8 0 0 1 8 10"/></svg><span class="hall-name">Loss of proteostasis</span><span class="hall-line">Damaged proteins are not cleared or folded right.</span><span class="hall-tag">Tenet 4</span></button>
+      <button type="button" class="hall-card" data-tenet-target="tenet4"><svg class="hall-svg" viewBox="0 0 40 24" aria-hidden="true"><path class="hm" d="M8 14 A12 8 0 0 1 32 14"/><path class="hm" d="M32 10 A12 8 0 0 1 8 10"/></svg><span class="hall-name">Disabled macroautophagy</span><span class="hall-line">The cell's recycling system slows.</span><span class="hall-tag">Tenet 4</span></button>
+      <button type="button" class="hall-card" data-tenet-target="tenet3"><svg class="hall-svg" viewBox="0 0 40 24" aria-hidden="true"><circle class="hm-dot" cx="9" cy="12" r="3"/><circle class="hm-dot" cx="20" cy="12" r="3"/><circle class="hm-dot" cx="31" cy="12" r="3"/></svg><span class="hall-name">Deregulated nutrient sensing</span><span class="hall-line">The AMPK, mTOR and sirtuin switches misread fuel.</span><span class="hall-tag">Tenet 3</span></button>
+      <button type="button" class="hall-card" data-tenet-target="tenet2"><svg class="hall-svg" viewBox="0 0 40 24" aria-hidden="true"><ellipse class="hm-f" cx="20" cy="12" rx="14" ry="7"/></svg><span class="hall-name">Mitochondrial dysfunction</span><span class="hall-line">The energy plants falter.</span><span class="hall-tag">Tenet 2</span></button>
+      <button type="button" class="hall-card" data-tenet-target="tenet6"><svg class="hall-svg" viewBox="0 0 40 24" aria-hidden="true"><circle class="hm-f" cx="14" cy="12" r="6"/><circle class="hm-f" cx="29" cy="10" r="4"/></svg><span class="hall-name">Cellular senescence</span><span class="hall-line">Worn cells stop dividing but linger and inflame.</span><span class="hall-tag">Tenet 6</span></button>
+      <button type="button" class="hall-card" data-tenet-target="tenet6"><svg class="hall-svg" viewBox="0 0 40 24" aria-hidden="true"><circle class="hm-f" cx="14" cy="12" r="6"/><circle class="hm-f" cx="29" cy="10" r="4"/></svg><span class="hall-name">Stem cell exhaustion</span><span class="hall-line">The repair crew runs low.</span><span class="hall-tag">Tenet 6</span></button>
+      <button type="button" class="hall-card" data-tenet-target="tenet5"><svg class="hall-svg" viewBox="0 0 40 24" aria-hidden="true"><path class="hm-f" d="M20 3 L32 7 V12 C32 17 27 20 20 22 C13 20 8 17 8 12 V7 Z"/></svg><span class="hall-name">Altered intercellular communication</span><span class="hall-line">Signals between cells get garbled.</span><span class="hall-tag">Tenet 5</span></button>
+      <button type="button" class="hall-card" data-tenet-target="tenet5"><svg class="hall-svg" viewBox="0 0 40 24" aria-hidden="true"><path class="hm-f" d="M20 3 L32 7 V12 C32 17 27 20 20 22 C13 20 8 17 8 12 V7 Z"/></svg><span class="hall-name">Chronic inflammation</span><span class="hall-line">The immune system stays switched on.</span><span class="hall-tag">Tenet 5</span></button>
+      <button type="button" class="hall-card" data-tenet-target="tenet5"><svg class="hall-svg" viewBox="0 0 40 24" aria-hidden="true"><path class="hm-f" d="M20 3 L32 7 V12 C32 17 27 20 20 22 C13 20 8 17 8 12 V7 Z"/></svg><span class="hall-name">Dysbiosis</span><span class="hall-line">The gut microbe mix shifts the wrong way.</span><span class="hall-tag">Tenet 5</span></button>
+    </div>
+    <p class="hint" style="margin-top:16px;">Framework: The Kaufmann Protocol, Dr. Sandra Kaufmann.</p>
   </section>
   </div>
 
@@ -471,12 +1071,17 @@ const INGREDIENTS = [
   {key:"couscous", name:"Couscous", group:"protein", aliases:["couscous"]},
   {key:"oats", name:"Rolled oats", group:"protein"},
   {key:"soymilk", name:"Soy milk", group:"protein"},
-  {key:"soyyogurt", name:"Soy yogurt", group:"protein"},
+  {key:"coconutyogurt", name:"Coconut yogurt", group:"protein", aliases:["soy " + "yogurt","coconut yogurt"]},
   {key:"soyprotein", name:"Soy protein powder", group:"protein"},
   {key:"choc_protein", name:"Chocolate protein powder", group:"protein", aliases:["chocolate protein","protein powder"]},
   {key:"vanilla_protein", name:"Vanilla protein powder", group:"protein", aliases:["vanilla protein"]},
   {key:"strawberry_protein", name:"Strawberry protein powder", group:"protein", aliases:["strawberry protein"]},
   {key:"toast", name:"Whole-grain bread", group:"protein"},
+  {key:"eggs", name:"Eggs", group:"protein", nv:true},
+  {key:"greekyogurt", name:"Greek yogurt", group:"protein", nv:true},
+  {key:"salmon", name:"Salmon", group:"protein", nv:true},
+  {key:"tuna", name:"Canned tuna", group:"protein", nv:true, aliases:["tuna"]},
+  {key:"chicken", name:"Chicken breast", group:"protein", nv:true, aliases:["chicken"]},
 
   {key:"pumpkinseeds", name:"Pumpkin seeds", group:"pantry"},
   {key:"sunflowerseeds", name:"Sunflower seeds", group:"pantry"},
@@ -555,10 +1160,10 @@ const RECIPES = [
    benefits:"Oats give beta-glucan fiber for gut bacteria, berries add anthocyanins, and flax provides ALA, a plant omega-3.",
    crossesOff:["fruit","protein"]},
 
-  {id:"B2", img:"img-yogurt-bowl.jpg", name:"Soy Yogurt Berry Bowl", slots:["first"], time:"3 min",
+  {id:"B2", img:"img-yogurt-bowl.jpg", name:"Coconut Yogurt Berry Bowl", slots:["first"], time:"3 min",
    tags:["sweet","fresh"],
    ingredients:[
-     {key:"soyyogurt", amount:"1 cup unsweetened soy yogurt"},
+     {key:"coconutyogurt", amount:"1 cup unsweetened coconut yogurt"},
      {key:"berries", amount:"3/4 cup berries"},
      {key:"chia", amount:"1 Tbsp chia seeds"},
      {key:"walnuts", amount:"2 Tbsp chopped walnuts (or 1 Tbsp flaxseed)"},
@@ -568,7 +1173,7 @@ const RECIPES = [
    steps:["Spoon the yogurt into a bowl.",
           "Add berries, chia and oats.",
           "Top with walnuts and seeds."],
-   benefits:"Soy yogurt and chia give protein and slow-digesting gel fiber, and berries add anthocyanins and vitamin C.",
+   benefits:"Coconut yogurt and chia give protein and slow-digesting gel fiber, and berries add anthocyanins and vitamin C.",
    crossesOff:["fruit","protein"]},
 
   {id:"B3", img:"img-berry-oats.jpg", name:"Overnight Oats", slots:["first"], time:"5 min the night before",
@@ -1313,7 +1918,7 @@ const RECIPES = [
    ingredients:[
      {key:"vanilla_protein", amount:"1 scoop (about 25 g) vanilla protein powder"},
      {key:"berries", amount:"1 cup mixed berries"},
-     {key:"soyyogurt", amount:"1/2 cup unsweetened soy yogurt"},
+     {key:"coconutyogurt", amount:"1/2 cup unsweetened coconut yogurt"},
      {key:"soymilk", amount:"3/4 cup fortified unsweetened soy milk"}
    ],
    steps:["Add everything to a blender with a handful of ice.",
@@ -1327,7 +1932,7 @@ const RECIPES = [
    ingredients:[
      {key:"strawberry_protein", amount:"1 scoop (about 25 g) strawberry protein powder"},
      {key:"berries", amount:"1 cup strawberries, hulled"},
-     {key:"soyyogurt", amount:"3/4 cup unsweetened soy yogurt"},
+     {key:"coconutyogurt", amount:"3/4 cup unsweetened coconut yogurt"},
      {key:"soymilk", amount:"1/2 cup fortified unsweetened soy milk"}
    ],
    steps:["Add everything to a blender with a handful of ice.",
@@ -1379,8 +1984,86 @@ const RECIPES = [
    benefits:"Strawberry and banana add vitamin C and potassium, and the powder rounds it out with complete protein.",
    crossesOff:["fruit","protein"]}
 ];
+/* Non-vegan options. These join the pool only when the Make view toggle is on. */
+const NV_RECIPES = [
+  {id:"NV1", img:"img-scramble.jpg", name:"Egg and Greens Scramble", slots:["first"], time:"10 min",
+   tags:["savory","hearty"], nonvegan:true,
+   ingredients:[
+     {key:"eggs", amount:"2 eggs"},
+     {key:"spinach", amount:"1 cup spinach"},
+     {key:"tomatoes", amount:"1/2 cup tomatoes"},
+     {key:"garlic", amount:"1 clove garlic, minced"},
+     {key:"turmeric", amount:"1/4 tsp turmeric plus a pinch of black pepper"},
+     {key:"oliveoil", amount:"1 tsp olive oil"}
+   ],
+   steps:["Whisk the eggs in a bowl with a pinch of salt.",
+          "Saute the garlic and tomatoes in the oil for 2 minutes; add the spinach until wilted.",
+          "Pour in the eggs and stir gently over low heat until just set.",
+          "Serve right away."],
+   benefits:"Eggs add complete protein, and the greens add folate for one-carbon metabolism.",
+   crossesOff:["leafy","colorful","protein","herbs"]},
+
+  {id:"NV2", img:"img-super-veggie.jpg", name:"Salmon and Super Veggie Plate", slots:["dinner"], time:"25 min",
+   tags:["savory","hearty"], nonvegan:true,
+   ingredients:[
+     {key:"salmon", amount:"150 g salmon fillet"},
+     {key:"broccoli", amount:"2 cups broccoli florets"},
+     {key:"cauliflower", amount:"1 cup cauliflower florets"},
+     {key:"lentils", amount:"3/4 cup cooked black lentils"},
+     {key:"garlic", amount:"2 cloves garlic"},
+     {key:"lemon", amount:"Juice of 1/2 lemon"},
+     {key:"oliveoil", amount:"1 Tbsp olive oil"}
+   ],
+   steps:["Roast the broccoli and cauliflower with half the oil and the garlic at 425 F for 18 minutes.",
+          "Pan-sear the salmon in the remaining oil, about 4 minutes per side.",
+          "Warm the lentils and season with lemon.",
+          "Plate the lentils and vegetables, top with the salmon."],
+   benefits:"Salmon adds EPA and DHA omega-3 fats, and the cruciferous vegetables provide glucosinolates.",
+   crossesOff:["cruciferous","protein"]},
+
+  {id:"NV3", img:"img-yogurt-bowl.jpg", name:"Greek Yogurt Berry Bowl", slots:["first","snack"], time:"3 min",
+   tags:["sweet","fresh"], nonvegan:true,
+   ingredients:[
+     {key:"greekyogurt", amount:"1 cup Greek yogurt"},
+     {key:"berries", amount:"3/4 cup berries"},
+     {key:"chia", amount:"1 Tbsp chia seeds"},
+     {key:"walnuts", amount:"2 Tbsp chopped walnuts"},
+     {key:"pumpkinseeds", amount:"1 Tbsp pumpkin seeds"}
+   ],
+   steps:["Spoon the yogurt into a bowl.",
+          "Add the berries and chia.",
+          "Top with walnuts and pumpkin seeds."],
+   benefits:"Greek yogurt adds complete protein, and the berries add anthocyanins.",
+   crossesOff:["fruit","protein"]},
+
+  {id:"NV4", img:"img-salad-bowl.jpg", name:"Tuna, Cucumber and Olive Salad", slots:["lunch"], time:"10 min",
+   tags:["savory","fresh"], nonvegan:true,
+   ingredients:[
+     {key:"tuna", amount:"1 small can tuna, drained"},
+     {key:"persian_cucumber", amount:"2 Persian cucumbers, chopped"},
+     {key:"olives", amount:"1/4 cup olives"},
+     {key:"onion", amount:"1/4 onion, thinly sliced"},
+     {key:"tomatoes", amount:"1 cup cherry tomatoes, halved"},
+     {key:"kale", amount:"2 cups chopped kale"},
+     {key:"lemon", amount:"Juice of 1/2 lemon"},
+     {key:"oliveoil", amount:"1 Tbsp olive oil"}
+   ],
+   steps:["Chop the cucumber, tomatoes, onion and kale into a big bowl.",
+          "Flake the tuna over the top with the olives.",
+          "Dress with lemon and olive oil, toss and serve."],
+   benefits:"Tuna adds complete protein, and the colorful vegetables add carotenoids and vitamin C.",
+   crossesOff:["colorful","leafy","protein"]}
+];
+const NV_KEYS = {eggs:1, greekyogurt:1, salmon:1, tuna:1, chicken:1};
+function recipeIsNV(r){
+  return !!r.nonvegan || r.ingredients.some(function(i){ return NV_KEYS[i.key]; });
+}
+function poolRecipes(){
+  return state.nonvegan ? RECIPES.concat(NV_RECIPES) : RECIPES;
+}
+
 const RECIPE_BY_ID = {};
-RECIPES.forEach(function(r){ RECIPE_BY_ID[r.id] = r; });
+RECIPES.concat(NV_RECIPES).forEach(function(r){ RECIPE_BY_ID[r.id] = r; });
 
 /* ---------------- App state ---------------- */
 const state = {
@@ -1392,6 +2075,7 @@ const state = {
   slotUsed: null,
   currentRecipe: null,
   ideas: true,
+  nonvegan: false,
   composeSeed: 0
 };
 const CUSTOM_NAMES = {};
@@ -1407,18 +2091,23 @@ function ingName(key){
   return key;
 }
 
-/* ---------------- Tool 1, Step A: ingredient chips ---------------- */
-function renderChips(){
-  const host = document.getElementById("chipGroups");
+/* ---------------- Ingredient chips, shared by Make and Shopping Step 1 ---------------- */
+function visibleIngredients(){
+  return INGREDIENTS.filter(function(i){ return state.nonvegan || !i.nv; });
+}
+function renderChipSet(host){
+  if (!host) return;
   host.innerHTML = "";
   ["produce","protein","pantry"].forEach(function(g){
+    const items = visibleIngredients().filter(function(i){ return i.group === g; });
+    if (!items.length) return;
     const label = document.createElement("div");
     label.className = "group-label";
     label.textContent = GROUP_LABELS[g];
     host.appendChild(label);
     const row = document.createElement("div");
     row.className = "chips";
-    INGREDIENTS.filter(function(i){ return i.group === g; }).forEach(function(ing){
+    items.forEach(function(ing){
       const b = document.createElement("button");
       b.type = "button";
       b.className = "chip" + (state.have.has(ing.key) ? " on" : "");
@@ -1426,7 +2115,7 @@ function renderChips(){
       b.setAttribute("data-key", ing.key);
       b.addEventListener("click", function(){
         if (state.have.has(ing.key)) state.have.delete(ing.key); else state.have.add(ing.key);
-        b.classList.toggle("on");
+        syncChipViews();
       });
       row.appendChild(b);
     });
@@ -1447,18 +2136,25 @@ function renderChips(){
       b.textContent = CUSTOM_NAMES[k];
       b.addEventListener("click", function(){
         if (state.have.has(k)) state.have.delete(k); else state.have.add(k);
-        b.classList.toggle("on");
+        syncChipViews();
       });
       row.appendChild(b);
     });
     host.appendChild(row);
   }
 }
+function renderChips(){ renderChipSet(document.getElementById("chipGroups")); }
+function renderShopChips(){ renderChipSet(document.getElementById("shopChipGroups")); }
+function syncChipViews(){
+  renderChips();
+  renderShopChips();
+  renderShopList();
+}
 
 function matchCatalog(text){
   const t = text.toLowerCase().trim();
   if (!t) return null;
-  for (const ing of INGREDIENTS){
+  for (const ing of visibleIngredients()){
     const names = [ing.name.toLowerCase(), ing.key].concat(ing.aliases || []);
     for (const n of names){
       if (n === t || n.indexOf(t) !== -1 || t.indexOf(n) !== -1) return ing.key;
@@ -1467,9 +2163,8 @@ function matchCatalog(text){
   return null;
 }
 
-document.getElementById("addCustomBtn").addEventListener("click", function(){
-  const input = document.getElementById("customIngredient");
-  const text = input.value.trim();
+function addCustomIngredient(text){
+  text = String(text || "").trim();
   if (!text) return;
   const found = matchCatalog(text);
   if (found){
@@ -1479,11 +2174,23 @@ document.getElementById("addCustomBtn").addEventListener("click", function(){
     CUSTOM_NAMES[key] = text;
     state.have.add(key);
   }
+  syncChipViews();
+}
+document.getElementById("addCustomBtn").addEventListener("click", function(){
+  const input = document.getElementById("customIngredient");
+  addCustomIngredient(input.value);
   input.value = "";
-  renderChips();
 });
 document.getElementById("customIngredient").addEventListener("keydown", function(e){
   if (e.key === "Enter"){ e.preventDefault(); document.getElementById("addCustomBtn").click(); }
+});
+document.getElementById("shopAddBtn").addEventListener("click", function(){
+  const input = document.getElementById("shopCustomIngredient");
+  addCustomIngredient(input.value);
+  input.value = "";
+});
+document.getElementById("shopCustomIngredient").addEventListener("keydown", function(e){
+  if (e.key === "Enter"){ e.preventDefault(); document.getElementById("shopAddBtn").click(); }
 });
 
 /* ---------------- Tool 1, Steps B and C ---------------- */
@@ -1517,7 +2224,7 @@ function shuffleArr(a){
 }
 
 function findMeals(){
-  const pool = RECIPES.filter(function(r){ return !state.slot || r.slots.indexOf(state.slot) !== -1; });
+  const pool = poolRecipes().filter(function(r){ return !state.slot || r.slots.indexOf(state.slot) !== -1; });
   const scored = pool.map(function(r){
     const total = r.ingredients.length;
     const haveCount = r.ingredients.filter(function(i){ return state.have.has(i.key); }).length;
@@ -1560,6 +2267,41 @@ document.getElementById("ideasToggle").addEventListener("click", function(){
   this.setAttribute("aria-pressed", state.ideas ? "true" : "false");
 });
 
+/* Advance one card. Shared by the card buttons and the form-level button. */
+function advanceDeck(){
+  if (!state.deck.length) return;
+  state.pos++;
+  if (state.pos >= state.deck.length){
+    /* Bank results are used up: compose a fresh idea and keep rotating. */
+    state.deck.push(composeEntry());
+  }
+  renderCard();
+}
+document.getElementById("anotherFormBtn").addEventListener("click", function(){
+  if (!state.deck.length) findMeals();
+  advanceDeck();
+  const res = document.getElementById("result");
+  if (res && res.scrollIntoView) res.scrollIntoView({behavior:"smooth", block:"start"});
+});
+
+document.getElementById("nvToggle").addEventListener("click", function(){
+  state.nonvegan = !state.nonvegan;
+  this.classList.toggle("on", state.nonvegan);
+  this.setAttribute("aria-pressed", state.nonvegan ? "true" : "false");
+  if (!state.nonvegan){
+    Object.keys(NV_KEYS).forEach(function(k){ state.have.delete(k); });
+    if (state.deck.length){
+      state.deck = state.deck.filter(function(e){ return !recipeIsNV(e.r); });
+      if (state.pos >= state.deck.length) state.pos = Math.max(0, state.deck.length - 1);
+      renderCard();
+    }
+  }
+  renderChips();
+  renderShopChips();
+  renderMealPicker();
+  renderShopList();
+});
+
 /* ---------------- Creative composer: new recipes from tapped ingredients ---------------- */
 /* Ingredient categories for the plate rule. */
 const ING_CAT = {
@@ -1572,31 +2314,57 @@ const ING_CAT = {
   rosemary:"herbs", turmeric:"herbs", garlic:"herbs", ginger:"herbs", cumin:"herbs", cinnamon:"herbs", dill:"herbs", mint:"herbs",
   tahini:"dressing", lemon:"dressing", vinegar:"dressing", oliveoil:"dressing", olives:"dressing",
   berries:"fruit", apple:"fruit", pear:"fruit", orange:"fruit", kiwi:"fruit", banana:"fruit",
-  soymilk:"base", soyyogurt:"base", broth:"base", tea:"base"
+  soymilk:"base", coconutyogurt:"base", broth:"base", tea:"base", eggs:"protein", greekyogurt:"protein", salmon:"protein", tuna:"protein", chicken:"protein"
 };
 const CAT_CROSSES = {
   leafy:["leafy"], cruciferous:["cruciferous"], colorful:["colorful"],
   protein:["protein"], herbs:["herbs"], fruit:["fruit"],
   grain:[], seeds:[], dressing:[], base:[]
 };
-const CAT_BENEFIT = {
-  leafy:"the greens add folate for one-carbon metabolism, the pathway methylation runs on",
-  cruciferous:"the cruciferous vegetables provide glucosinolates that form sulforaphane, a signal for the Nrf2 pathway",
-  colorful:"the colorful vegetables add carotenoids and vitamin C",
-  protein:"the protein gives amino acids, including methionine, that feed methylation and repair",
-  grain:"the whole grain adds fiber and B vitamins for steady energy",
-  seeds:"the seeds add magnesium, zinc and plant fats",
-  herbs:"the rosemary, turmeric and garlic add polyphenols and cover your daily herb target",
-  fruit:"the fruit adds vitamin C and anthocyanins",
-  dressing:"the dressing adds healthy fats, and its lemon helps the iron in the greens absorb",
-  base:"the soy base adds protein and, when fortified, calcium and vitamin D"
-};
+const BENEFIT_CATS = [
+  {id:"leafy", keys:["spinach","kale"], clause:"the greens add folate for one-carbon metabolism, the pathway methylation runs on", pill:"Folate: one-carbon metabolism", dot:"#2e7d32"},
+  {id:"cruciferous", keys:["broccoli","cauliflower","brussels","cabbage","bokchoy"], clause:"the cruciferous vegetables provide glucosinolates that form sulforaphane, a signal for the Nrf2 pathway", pill:"Sulforaphane: Nrf2 signal", dot:"#66bb6a"},
+  {id:"beets", keys:["beets"], clause:"the beets add betalains and dietary nitrate", pill:"Betalains + nitrate", dot:"#b03a5b"},
+  {id:"colorful", keys:["carrots","bellpepper","tomatoes","mushrooms","sweetpotato","asparagus","persian_cucumber","onion"], clause:"the colorful vegetables add carotenoids and vitamin C", pill:"Carotenoids + vitamin C", dot:"#ef8f3c"},
+  {id:"legumes", keys:["lentils","chickpeas","blackbeans","whitebeans","edamame"], clause:"the legumes add plant protein and fiber for the gut microbes", pill:"Protein + fiber", dot:"#8d6e63"},
+  {id:"seeds", keys:["pumpkinseeds","sunflowerseeds","flax","chia","hemp","walnuts","tahini"], clause:"the seeds add minerals and alpha-linolenic acid", pill:"Minerals + ALA", dot:"#c9a227"},
+  {id:"berries", keys:["berries"], clause:"the berries add anthocyanins", pill:"Anthocyanins", dot:"#6a4a9e"},
+  {id:"grains", keys:["quinoa","brownrice","pasta","buckwheat","oats","toast","couscous","rice_cakes"], clause:"the whole grains add fiber and B vitamins", pill:"Fiber + B vitamins", dot:"#a1887f"},
+  {id:"powder", keys:["choc_protein","vanilla_protein","strawberry_protein","soyprotein"], clause:"the protein powder covers the meal's protein target", pill:"Protein: meal target", dot:"#546e7a"},
+  {id:"nvprotein", keys:["eggs","salmon","tuna","chicken","greekyogurt"], clause:"the animal protein covers the meal's protein target", pill:"Complete protein", dot:"#78909c"},
+  {id:"omega3", keys:["salmon"], clause:"the salmon adds EPA and DHA omega-3 fats", pill:"EPA + DHA omega-3", dot:"#4a90b8"},
+  {id:"herbs", keys:["rosemary","turmeric","garlic"], min:2, clause:"the herb kit adds turmeric with black pepper, rosemary and garlic", pill:"Herb kit: turmeric, rosemary, garlic", dot:"#4e7a3a"}
+];
+function benefitCatsForKeys(keys){
+  const set = new Set(keys);
+  return BENEFIT_CATS.filter(function(c){
+    const hits = c.keys.filter(function(k){ return set.has(k); }).length;
+    return hits >= (c.min || 1);
+  });
+}
+function benefitsText(keys){
+  const cats = benefitCatsForKeys(keys).slice(0, 4);
+  if (!cats.length) return "A balanced plate from the plan: vegetables, a protein and a whole grain.";
+  const s = cats.map(function(c){ return c.clause; }).join(", and ");
+  return s.charAt(0).toUpperCase() + s.slice(1) + ".";
+}
+function benefitsPanelHTML(r){
+  const keys = (r.ingredients || []).map(function(i){ return i.key; });
+  const cats = benefitCatsForKeys(keys);
+  let pills = "";
+  cats.forEach(function(c){
+    pills += "<span class='bpill'><span class='dot' style='background:" + c.dot + ";'></span>" + esc(c.pill) + "</span>";
+  });
+  return "<div class='benefits-panel'><div class='benefits-label'>Benefits</div>" +
+    "<p class='benefits-text'>" + esc(benefitsText(keys)) + "</p>" +
+    (pills ? "<div class='pillrow'>" + pills + "</div>" : "") + "</div>";
+}
 const COMP_AMOUNT = {
   tofu:"150 g", tempeh:"150 g", soyprotein:"1 scoop (about 25 g)",
-  oats:"1/2 cup", soymilk:"1 cup", soyyogurt:"1 cup", broth:"1 1/2 cups", tea:"1 cup brewed",
+  oats:"1/2 cup", soymilk:"1 cup", coconutyogurt:"1 cup", broth:"1 1/2 cups", tea:"1 cup brewed",
   berries:"1 cup", persian_cucumber:"2", onion:"1/2", olives:"1/4 cup",
   choc_protein:"1 scoop (about 25 g)", vanilla_protein:"1 scoop (about 25 g)", strawberry_protein:"1 scoop (about 25 g)",
-  banana:"1 cup sliced", mint:"4 to 5 leaves", rice_cakes:"2"
+  banana:"1 cup sliced", mint:"4 to 5 leaves", rice_cakes:"2", eggs:"2", salmon:"150 g", tuna:"1 small can", chicken:"150 g", greekyogurt:"1 cup"
 };
 const CAT_AMOUNT = {
   leafy:"2 cups", cruciferous:"2 cups", colorful:"1 1/2 cups", protein:"1 cup cooked",
@@ -1608,7 +2376,7 @@ const SHORT_OVERRIDES = {
   whitebeans:"White Bean", pumpkinseeds:"Pumpkin Seeds", sunflowerseeds:"Sunflower Seeds",
   pasta:"Pasta", persian_cucumber:"Persian Cucumber", onion:"Onion", olives:"Olive",
   banana:"Banana", mint:"Mint", choc_protein:"Chocolate", vanilla_protein:"Vanilla",
-  strawberry_protein:"Strawberry", couscous:"Couscous", rice_cakes:"Rice Cake"
+  strawberry_protein:"Strawberry", couscous:"Couscous", rice_cakes:"Rice Cake", eggs:"Egg", greekyogurt:"Greek Yogurt", salmon:"Salmon", tuna:"Tuna", chicken:"Chicken"
 };
 const FORM_IMG = {
   Bowl:"img-super-veggie.jpg", Skillet:"img-stir-fry.jpg", Salad:"img-salad-bowl.jpg",
@@ -1634,16 +2402,6 @@ function slotBankKeys(slot){
     r.ingredients.forEach(function(i){ counts[i.key] = (counts[i.key] || 0) + 1; });
   });
   return Object.keys(counts).sort(function(a,b){ return counts[b] - counts[a]; });
-}
-function benefitFor(catList){
-  const frags = [];
-  ["leafy","cruciferous","colorful","protein","grain","seeds","herbs","fruit","dressing","base"].forEach(function(c){
-    if (catList.indexOf(c) !== -1 && CAT_BENEFIT[c]) frags.push(CAT_BENEFIT[c]);
-  });
-  const top = frags.slice(0, 3);
-  if (!top.length) return "A balanced plate from the plan: vegetables, a protein and a whole grain.";
-  const s = top.join(", and ");
-  return s.charAt(0).toUpperCase() + s.slice(1) + ".";
 }
 function crossesFor(keys){
   const out = new Set();
@@ -1755,7 +2513,7 @@ function composePlate(seed, slot){
     tags: state.crave !== "any" ? [state.crave] : ["savory"],
     ingredients: keys.map(function(k){ return {key:k, amount:amountFor(k)}; }),
     steps:composedSteps(form),
-    benefits:benefitFor(catsUsed), crossesOff:crossesFor(keys),
+    benefits:benefitsText(keys), crossesOff:crossesFor(keys),
     buyLine: missingNeed.length ? ("To make it: buy " + missingNeed.map(ingName).join(", ") + ".") : null
   };
 }
@@ -1764,8 +2522,8 @@ function composeSweet(seed){
   const have = state.have;
   const fruits = tappedInCat("fruit");
   const seeds = tappedInCat("seeds");
-  const useYogurt = have.has("soyyogurt") && (!have.has("oats") || seed % 2 === 0);
-  const baseKeys = useYogurt ? ["soyyogurt"] : ["oats","soymilk"];
+  const useYogurt = have.has("coconutyogurt") && (!have.has("oats") || seed % 2 === 0);
+  const baseKeys = useYogurt ? ["coconutyogurt"] : ["oats","soymilk"];
   const need = [];
   baseKeys.forEach(function(k){ if (!have.has(k)) need.push(k); });
   const fruitKey = fruits.length ? fruits[seed % fruits.length] : "berries";
@@ -1792,7 +2550,7 @@ function composeSweet(seed){
     slots:["first"], time:"5 min", tags:["sweet","fresh"],
     ingredients: keys.map(function(k){ return {key:k, amount:amountFor(k)}; }),
     steps:steps,
-    benefits:benefitFor(useYogurt ? ["base","fruit","seeds"] : ["grain","fruit","seeds"]),
+    benefits:benefitsText(keys),
     crossesOff:["fruit","protein"],
     buyLine: need.length ? ("To make it: buy " + need.map(ingName).join(", ") + ".") : null
   };
@@ -1802,7 +2560,7 @@ const POWDER_KEYS = ["choc_protein","vanilla_protein","strawberry_protein","soyp
 function smoothieReady(){
   const hasPowder = POWDER_KEYS.some(function(k){ return state.have.has(k); });
   if (!hasPowder) return false;
-  return tappedInCat("fruit").length > 0 || state.have.has("soyyogurt") || state.have.has("soymilk");
+  return tappedInCat("fruit").length > 0 || state.have.has("coconutyogurt") || state.have.has("soymilk");
 }
 function composeSmoothie(seed, slot){
   const tappedPowders = POWDER_KEYS.filter(function(k){ return state.have.has(k); });
@@ -1814,10 +2572,10 @@ function composeSmoothie(seed, slot){
   if (!state.have.has(fruitKey)) need.push(fruitKey);
   let baseKey;
   if (state.have.has("soymilk")) baseKey = "soymilk";
-  else if (state.have.has("soyyogurt")) baseKey = "soyyogurt";
+  else if (state.have.has("coconutyogurt")) baseKey = "coconutyogurt";
   else { baseKey = "soymilk"; need.push("soymilk"); }
   const keys = [powderKey, fruitKey, baseKey];
-  if (state.have.has("soyyogurt") && baseKey !== "soyyogurt" && seed % 3 === 0) keys.push("soyyogurt");
+  if (state.have.has("coconutyogurt") && baseKey !== "coconutyogurt" && seed % 3 === 0) keys.push("coconutyogurt");
   if (state.have.has("mint")) keys.push("mint");
   const seedTops = tappedInCat("seeds");
   if (seedTops.length && seed % 3 === 1) keys.push(seedTops[seed % seedTops.length]);
@@ -1836,7 +2594,7 @@ function composeSmoothie(seed, slot){
     steps:["Add everything to a blender with a handful of ice.",
            "Blend on high for about 1 minute, until smooth.",
            "Pour and drink right away."],
-    benefits:benefitFor(catsUsed), crossesOff:crossesFor(keys),
+    benefits:benefitsText(keys), crossesOff:crossesFor(keys),
     buyLine: missingNeed.length ? ("To make it: buy " + missingNeed.map(ingName).join(", ") + ".") : null
   };
 }
@@ -1846,7 +2604,7 @@ function composeRiceCake(seed){
   const need = [];
   let spreadKey = null;
   if (state.have.has("tahini")) spreadKey = "tahini";
-  else if (state.have.has("soyyogurt")) spreadKey = "soyyogurt";
+  else if (state.have.has("coconutyogurt")) spreadKey = "coconutyogurt";
   if (spreadKey) keys.push(spreadKey);
   else { keys.push("tahini"); need.push("tahini"); }
   const veg = tappedInCat("colorful");
@@ -1871,7 +2629,7 @@ function composeRiceCake(seed){
     steps:["Spread the " + ingName(spreadKey || "tahini").toLowerCase() + " over the rice cakes.",
            "Add the toppings.",
            "Eat right away, while the cakes are crisp."],
-    benefits:benefitFor(catsUsed), crossesOff:crossesFor(keys),
+    benefits:benefitsText(keys), crossesOff:crossesFor(keys),
     buyLine: missingNeed.length ? ("To make it: buy " + missingNeed.map(ingName).join(", ") + ".") : null
   };
 }
@@ -1905,7 +2663,7 @@ function composeSnack(seed){
     steps:["Peel or slice the fruit.",
            "Serve with the seeds on the side, or sprinkle them over.",
            "This counts toward your daily seed total."],
-    benefits:benefitFor(["fruit","seeds"]),
+    benefits:benefitsText(keys),
     crossesOff:crossesFor(keys),
     buyLine: need.length ? ("To make it: buy " + need.map(ingName).join(" and ") + ".") : null
   };
@@ -1962,6 +2720,7 @@ function renderCard(){
   if (r.img) html += "<img class='recipe-img' src='" + esc(r.img) + "' alt='' onerror=\"this.style.display='none'\">";
   html += "<h3>" + esc(r.name) + "</h3>";
   if (r.composed) html += "<span class='idea-label'>New idea, built from your ingredients</span>";
+  if (recipeIsNV(r)) html += "<span class='nv-label'>Non-vegan option</span>";
   html += "<div class='card-actions' style='margin:0 0 10px;'><button type='button' class='btn btn-secondary btn-inline' id='anotherTopBtn'>Try another recipe</button></div>";
   html += "<p class='recipe-meta'><span class='pos-label'>" + (state.pos + 1) + " of " + state.deck.length + "</span> &middot; " + esc(SLOT_LABELS[slotForNote]) + " &middot; " + esc(r.time) + " &middot; you have " + entry.haveCount + " of " + entry.total + " ingredients</p>";
   html += "<h4>Ingredients</h4><ul>";
@@ -1972,7 +2731,7 @@ function renderCard(){
   html += "<h4>Make it</h4><ol>";
   r.steps.forEach(function(s){ html += "<li>" + esc(s) + "</li>"; });
   html += "</ol>";
-  html += "<h4>Benefits</h4><p style='margin:0;'>" + esc(r.benefits) + "</p>";
+  html += benefitsPanelHTML(r);
   html += "<h4>Crosses off</h4><div class='tagrow'>";
   r.crossesOff.forEach(function(k){ html += "<span class='tag'>" + esc(CHECK_BY_KEY[k].label) + "</span>"; });
   html += "</div>";
@@ -1985,16 +2744,8 @@ function renderCard(){
   html += "</div>";
   host.innerHTML = html;
 
-  function advance(){
-    state.pos++;
-    if (state.pos >= state.deck.length){
-      /* Bank results are used up: compose a fresh idea and keep rotating. */
-      state.deck.push(composeEntry());
-    }
-    renderCard();
-  }
-  document.getElementById("anotherBtn").addEventListener("click", advance);
-  document.getElementById("anotherTopBtn").addEventListener("click", advance);
+  document.getElementById("anotherBtn").addEventListener("click", advanceDeck);
+  document.getElementById("anotherTopBtn").addEventListener("click", advanceDeck);
   document.getElementById("addTodayBtn").addEventListener("click", function(){
     r.crossesOff.forEach(function(k){
       const box = document.getElementById("chk_" + k);
@@ -2010,17 +2761,16 @@ function renderCard(){
 
 /* ---------------- Tool 2: shopping list ---------------- */
 const PICKER_GROUPS = [
-  {label:"First meals, 11 AM", test:function(r){ return r.slots.length === 1 && r.slots[0] === "first"; }},
+  {label:"First meals and snacks", test:function(r){ return r.slots.indexOf("first") !== -1 || r.slots.indexOf("snack") !== -1; }},
   {label:"Lunches, 2 PM", test:function(r){ return r.slots.length === 1 && r.slots[0] === "lunch"; }},
-  {label:"Lunch or dinner", test:function(r){ return r.slots.length > 1; }},
-  {label:"Dinners, 6 PM", test:function(r){ return r.slots.length === 1 && r.slots[0] === "dinner"; }},
-  {label:"Snacks, 4 PM", test:function(r){ return r.slots.length === 1 && r.slots[0] === "snack"; }}
+  {label:"Lunch or dinner", test:function(r){ return r.slots.length > 1 && r.slots.indexOf("first") === -1 && r.slots.indexOf("snack") === -1; }},
+  {label:"Dinners, 6 PM", test:function(r){ return r.slots.length === 1 && r.slots[0] === "dinner"; }}
 ];
 function renderMealPicker(){
   const host = document.getElementById("mealPicker");
   host.innerHTML = "";
   PICKER_GROUPS.forEach(function(g){
-    const items = RECIPES.filter(g.test);
+    const items = poolRecipes().filter(g.test);
     if (!items.length) return;
     const label = document.createElement("div");
     label.className = "group-label";
@@ -2041,29 +2791,102 @@ function renderMealPicker(){
     host.appendChild(list);
   });
 }
-document.getElementById("shopBtn").addEventListener("click", function(){
-  const host = document.getElementById("shopResult");
-  const picked = Array.prototype.slice.call(document.querySelectorAll(".meal-pick:checked")).map(function(cb){ return RECIPE_BY_ID[cb.value]; });
-  if (!picked.length){
-    host.innerHTML = "<p class='empty-msg'>Tick a meal first.</p>";
-    return;
-  }
-  const needed = new Set();
-  picked.forEach(function(r){ r.ingredients.forEach(function(i){ needed.add(i.key); }); });
-  const missing = Array.prototype.slice.call(needed).filter(function(k){ return !state.have.has(k); });
-  if (!missing.length){
-    host.innerHTML = "<p class='empty-msg'>You have everything. Nothing to buy.</p>";
-    return;
-  }
-  let html = "<h3 style='margin-top:4px;'>Shopping list</h3><p class='hint'>For: " + picked.map(function(r){ return esc(r.name); }).join(", ") + ".</p>";
-  ["produce","protein","pantry"].forEach(function(g){
-    const inGroup = missing.filter(function(k){ return ING_BY_KEY[k] && ING_BY_KEY[k].group === g; });
-    if (!inGroup.length) return;
-    html += "<div class='shop-group'><h4>" + GROUP_LABELS[g] + "</h4><ul>";
-    inGroup.forEach(function(k){ html += "<li>" + esc(ING_BY_KEY[k].name) + "</li>"; });
-    html += "</ul></div>";
+const WEEKLY_BUYS = [
+  {group:"produce", items:[
+    {label:"Dark leafy greens", keys:["spinach","kale"]},
+    {label:"Cruciferous vegetables", keys:["broccoli","cauliflower","brussels","cabbage","bokchoy"]},
+    {label:"Colorful vegetables", keys:["carrots","bellpepper","tomatoes","mushrooms","sweetpotato","asparagus"]},
+    {label:"Beets", keys:["beets"]},
+    {label:"Berries", keys:["berries"]},
+    {label:"Fruit", keys:["apple","pear","orange","kiwi","banana"]},
+    {label:"Garlic", keys:["garlic"]},
+    {label:"Fresh herbs", keys:["rosemary","mint","dill"]},
+    {label:"Lemons", keys:["lemon"]},
+    {label:"Persian cucumbers", keys:["persian_cucumber"]},
+    {label:"Onions", keys:["onion"]}
+  ]},
+  {group:"protein", items:[
+    {label:"Tofu", keys:["tofu"]},
+    {label:"Tempeh", keys:["tempeh"]},
+    {label:"Lentils", keys:["lentils"]},
+    {label:"Chickpeas", keys:["chickpeas"]},
+    {label:"Black beans", keys:["blackbeans"]},
+    {label:"Edamame", keys:["edamame"]},
+    {label:"Quinoa", keys:["quinoa"]},
+    {label:"Rolled oats", keys:["oats"]},
+    {label:"Whole-grain pasta", keys:["pasta"]},
+    {label:"Couscous", keys:["couscous"]},
+    {label:"Rice cakes", keys:["rice_cakes"]},
+    {label:"Coconut yogurt", keys:["coconutyogurt"]},
+    {label:"Soy milk", keys:["soymilk"]},
+    {label:"Protein powders", keys:["soyprotein","choc_protein","vanilla_protein","strawberry_protein"]}
+  ]},
+  {group:"pantry", items:[
+    {label:"Pumpkin seeds", keys:["pumpkinseeds"]},
+    {label:"Sunflower seeds", keys:["sunflowerseeds"]},
+    {label:"Walnuts", keys:["walnuts"]},
+    {label:"Tahini", keys:["tahini"]},
+    {label:"Olive oil", keys:["oliveoil"]},
+    {label:"Olives", keys:["olives"]},
+    {label:"Green or oolong tea", keys:["tea"]},
+    {label:"Turmeric", keys:["turmeric"]},
+    {label:"Rosemary", keys:["rosemary"]},
+    {label:"Pantry spices", keys:["cumin","cinnamon"]}
+  ]}
+];
+const shopTicked = new Set();
+function renderShopList(){
+  const host = document.getElementById("shopList");
+  if (!host) return;
+  const covered = new Set();
+  WEEKLY_BUYS.forEach(function(g){ g.items.forEach(function(it){ it.keys.forEach(function(k){ covered.add(k); }); }); });
+  const picked = Array.prototype.slice.call(document.querySelectorAll(".meal-pick:checked")).map(function(cb){ return RECIPE_BY_ID[cb.value]; }).filter(Boolean);
+  const additions = {produce:[], protein:[], pantry:[]};
+  picked.forEach(function(r){
+    r.ingredients.forEach(function(i){
+      const k = i.key;
+      if (state.have.has(k) || covered.has(k)) return;
+      const ing = ING_BY_KEY[k];
+      if (!ing || !additions[ing.group]) return;
+      if (!additions[ing.group].some(function(a){ return a.key === k; })) additions[ing.group].push({key:k, name:ing.name, recipe:r.name});
+    });
+  });
+  let html = "";
+  WEEKLY_BUYS.forEach(function(g){
+    const missing = g.items.filter(function(it){ return !it.keys.some(function(k){ return state.have.has(k); }); });
+    const adds = additions[g.group] || [];
+    html += "<div class='shop-group'><h4>" + GROUP_LABELS[g.group] + "</h4>";
+    if (!missing.length && !adds.length){
+      html += "<p class='have-all'>You have everything here.</p>";
+    } else {
+      missing.forEach(function(it){
+        const tid = "wk:" + it.label;
+        html += "<label class='shop-item" + (shopTicked.has(tid) ? " done" : "") + "'><input type='checkbox' data-shop-tick='" + esc(tid) + "'" + (shopTicked.has(tid) ? " checked" : "") + "> <span>" + esc(it.label) + "</span></label>";
+      });
+      adds.forEach(function(a){
+        const tid = "ing:" + a.key;
+        html += "<label class='shop-item" + (shopTicked.has(tid) ? " done" : "") + "'><input type='checkbox' data-shop-tick='" + esc(tid) + "'" + (shopTicked.has(tid) ? " checked" : "") + "> <span>" + esc(a.name) + "</span> <span class='shop-for'>for: " + esc(a.recipe) + "</span></label>";
+      });
+    }
+    html += "</div>";
   });
   host.innerHTML = html;
+}
+document.getElementById("shopShowBtn").addEventListener("click", function(){
+  renderShopList();
+  const el = document.getElementById("shopStep2");
+  if (el && el.scrollIntoView) el.scrollIntoView({behavior:"smooth", block:"start"});
+});
+document.getElementById("mealPicker").addEventListener("change", function(e){
+  if (e.target && e.target.classList && e.target.classList.contains("meal-pick")) renderShopList();
+});
+document.getElementById("shopList").addEventListener("change", function(e){
+  const t = e.target;
+  if (!t || !t.getAttribute) return;
+  const tick = t.getAttribute("data-shop-tick");
+  if (!tick) return;
+  if (t.checked) shopTicked.add(tick); else shopTicked.delete(tick);
+  renderShopList();
 });
 
 /* ---------------- Day state for Goals, saved per local date ---------------- */
@@ -2181,23 +3004,23 @@ document.getElementById("suppSummary").addEventListener("click", function(){
 const POWDER_TIP = "Take it as a shot: mix into a small glass of orange juice, plug your nose and drink it down.";
 const DEFAULT_SUPPS = [
   {id:"b12", name:"Vitamin B12", slot:"first", conditional:false, catchName:"your B12", goesWith:"It goes with your first meal.",
-   note:"Per your regimen."},
+   why:"A vegan diet has no reliable B12 source; B12 feeds one-carbon metabolism.", note:""},
   {id:"d3", name:"Vitamin D3", slot:"first", conditional:true,
-   note:"If needed. Fat-soluble, take with this meal."},
+   why:"Only if levels are low. Fat-soluble, so it goes with a meal.", note:""},
   {id:"epdha", name:"Algae EPA/DHA omega", slot:"first", conditional:true,
-   note:"Optional, with food."},
+   why:"EPA and DHA omega-3s without fish; they support inflammation balance.", note:""},
   {id:"creatine", name:"Creatine", slot:"lunch", conditional:true,
-   note:"3 to 5 g, optional."},
+   why:"Supports muscle energy during training. 3 to 5 g, optional.", note:""},
   {id:"magnesium", name:"Magnesium", slot:"dinner", conditional:true,
-   note:"Only if needed."},
+   why:"A cofactor for energy and muscle reactions. Only if needed.", note:""},
   {id:"calcium", name:"Calcium", slot:"dinner", conditional:true,
-   note:"Only if needed. Never with iron."},
+   why:"Supports bones. Only if needed, and never with iron.", note:""},
   {id:"iron", name:"Iron", slot:"dinner", conditional:true,
-   note:"Only if needed. Never with calcium; keep tea away."},
-  {id:"moringa", name:"Moringa powder (Kuli Kuli)", slot:"anytime", conditional:false, powder:true, catchName:"your moringa powder", goesWith:"It is one of your daily extras.", note:""},
-  {id:"greens", name:"Greens powder", slot:"anytime", conditional:false, powder:true, catchName:"your greens powder", goesWith:"It is one of your daily extras.", note:""},
-  {id:"sulforaphane", name:"Sulforaphane", slot:"anytime", conditional:false, catchName:"your sulforaphane", goesWith:"It is one of your daily extras.", note:""},
-  {id:"pc", name:"Phosphatidyl choline", slot:"anytime", conditional:false, catchName:"your phosphatidyl choline", goesWith:"It is one of your daily extras.", note:""}
+   why:"Carries oxygen in the blood. Only if needed; never with calcium, and keep tea away.", note:""},
+  {id:"moringa", name:"Moringa powder (Kuli Kuli)", slot:"anytime", conditional:false, powder:true, catchName:"your moringa powder", goesWith:"It is one of your daily extras.", why:"A nutrient-dense leaf powder with minerals and plant compounds.", note:""},
+  {id:"greens", name:"Greens powder", slot:"anytime", conditional:false, powder:true, catchName:"your greens powder", goesWith:"It is one of your daily extras.", why:"A backup for the daily greens and vegetable targets.", note:""},
+  {id:"sulforaphane", name:"Sulforaphane", slot:"anytime", conditional:false, catchName:"your sulforaphane", goesWith:"It is one of your daily extras.", why:"Signals Nrf2, raising the body's own antioxidant enzymes; also an epigenetic modifier.", note:""},
+  {id:"pc", name:"Phosphatidyl choline", slot:"anytime", conditional:false, catchName:"your phosphatidyl choline", goesWith:"It is one of your daily extras.", why:"A building block of cell membranes and a source of choline, a methyl donor.", note:""}
 ];
 const SUPP_GROUP_ORDER = [
   {slot:"morning", label:"Morning, tea time"},
@@ -2324,14 +3147,15 @@ function renderSupps(){
     }
     items.forEach(function(s){
       const noteText = s.powder ? POWDER_TIP : (s.note || "");
-      html += "<div style='border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:6px;'>" +
-        "<label style='display:flex;gap:10px;align-items:flex-start;cursor:pointer;'>" +
-          "<input type='checkbox' data-supp='" + esc(s.id) + "' " + (takenToday(s.id) ? "checked" : "") + " style='width:20px;height:20px;margin-top:1px;accent-color:var(--green);flex:0 0 auto;'>" +
-          "<span><span style='font-weight:600;'>" + esc(s.name) + "</span>" +
-          (noteText ? "<br><span style='color:var(--muted);font-size:.9rem;'>" + esc(noteText) + "</span>" : "") +
-          "<br><span style='color:var(--muted);font-size:.85rem;'>" + esc(lastTakenText(s.id)) + "</span></span>" +
+      html += "<div class='supp-row'>" +
+        "<label class='supp-main'>" +
+          "<input type='checkbox' class='supp-check' data-supp='" + esc(s.id) + "' " + (takenToday(s.id) ? "checked" : "") + ">" +
+          "<span class='supp-text'><span class='supp-name'>" + esc(s.name) + "</span>" +
+          (s.why ? "<span class='supp-why'>" + esc(s.why) + "</span>" : "") +
+          (noteText ? "<span class='supp-why'>" + esc(noteText) + "</span>" : "") +
+          "<span class='supp-last'>" + esc(lastTakenText(s.id)) + "</span></span>" +
         "</label>" +
-        "<div style='margin-top:6px;text-align:right;'><button type='button' class='btn btn-secondary' style='padding:5px 10px;min-height:34px;font-size:.85rem;' data-remove='" + esc(s.id) + "'>Remove</button></div>" +
+        "<button type='button' class='supp-remove' data-remove='" + esc(s.id) + "'>Remove</button>" +
         "</div>";
     });
   });
@@ -2394,6 +3218,207 @@ document.getElementById("suppResetBtn").addEventListener("click", function(){
   renderSupps();
 });
 
+/* ---------------- Calendar ---------------- */
+const WEEK_PLAN = {
+  1: [
+    {first:"B1", lunch:"L1", snack:"Apple + pumpkin seeds", dinner:"D1"},
+    {first:"B2", lunch:"L2", snack:"Kiwi + sunflower seeds", dinner:"D2"},
+    {first:"B3", lunch:"L1", snack:"Pear + berries", dinner:"D4"},
+    {first:"B4", lunch:"L3", snack:"Orange + pumpkin seeds", dinner:"D3"},
+    {first:"B2", lunch:"L1", snack:"Apple + walnuts", dinner:"D5"},
+    {first:"B1", lunch:"L4", snack:"Kiwi + berries", dinner:"D1"},
+    {first:"B4", lunch:"L5", snack:"Pear + pumpkin seeds", dinner:"D2"}
+  ],
+  2: [
+    {first:"B3", lunch:"L1", snack:"Apple + pumpkin seeds", dinner:"D1"},
+    {first:"B2", lunch:"L6", snack:"Orange + sunflower seeds", dinner:"D3"},
+    {first:"B4", lunch:"L7", snack:"Kiwi + berries", dinner:"D6"},
+    {first:"B1", lunch:"L1", snack:"Pear + walnuts", dinner:"D7"},
+    {first:"B2", lunch:"L6", snack:"Apple + pumpkin seeds", dinner:"D8"},
+    {first:"B1", lunch:"L5", snack:"Orange + sunflower seeds", dinner:"D2"},
+    {first:"B4", lunch:"L3", snack:"Kiwi + berries", dinner:"D9"}
+  ],
+  3: [
+    {first:"B5", lunch:"L1", snack:"Orange + pumpkin seeds", dinner:"LB"},
+    {first:"B1", lunch:"L1", snack:"Apple + sunflower seeds", dinner:"D1"},
+    {first:"B5", lunch:"L5", snack:"Kiwi + berries", dinner:"D2"},
+    {first:"B4", lunch:"L1", snack:"Pear + pumpkin seeds", dinner:"LB"},
+    {first:"B1", lunch:"L1", snack:"Orange + walnuts", dinner:"D4"},
+    {first:"B5", lunch:"L4", snack:"Apple + sunflower seeds", dinner:"D1"},
+    {first:"B2", lunch:"L1", snack:"Kiwi + walnuts", dinner:"D5"}
+  ],
+  4: [
+    {first:"B1", lunch:"L1", snack:"Apple + pumpkin seeds", dinner:"D1"},
+    {first:"B5", lunch:"L3", snack:"Orange + sunflower seeds", dinner:"D2"},
+    {first:"B4", lunch:"L1", snack:"Kiwi + berries", dinner:"LB"},
+    {first:"B2", lunch:"L6", snack:"Pear + walnuts", dinner:"D8"},
+    {first:"B1", lunch:"L1", snack:"Apple + pumpkin seeds", dinner:"D6"},
+    {first:"B5", lunch:"LB", snack:"Orange + sunflower seeds", dinner:"D2"},
+    {first:"B4", lunch:"L5", snack:"Kiwi + berries", dinner:"D1"}
+  ]
+};
+const CAL_ANCHOR_MONDAY = new Date(2026, 10, 16);
+const LS_CAL_KEY = "mkCalSwapsV1";
+let calSwaps = lsLoad(LS_CAL_KEY, {});
+let calCursor = {y:new Date().getFullYear(), m:new Date().getMonth()};
+let calSelected = null;
+function dstr(d){
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+}
+function parseDstr(ds){
+  const p = ds.split("-");
+  return new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+}
+function mondayOf(d){
+  const x = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  x.setDate(x.getDate() - ((x.getDay() + 6) % 7));
+  return x;
+}
+function weekNumFor(date){
+  const diff = Math.round((mondayOf(date) - mondayOf(CAL_ANCHOR_MONDAY)) / (7 * 24 * 60 * 60 * 1000));
+  return ((3 + diff) % 4 + 4) % 4 + 1;
+}
+function calPlanFor(ds){
+  const d = parseDstr(ds);
+  return WEEK_PLAN[weekNumFor(d)][(d.getDay() + 6) % 7];
+}
+function calSlotValue(ds, slot){
+  const sw = calSwaps[ds];
+  if (sw && sw[slot]) return sw[slot];
+  return calPlanFor(ds)[slot];
+}
+function calSlotName(ds, slot){
+  const v = calSlotValue(ds, slot);
+  if (slot === "snack" && !RECIPE_BY_ID[v]) return v;
+  const r = RECIPE_BY_ID[v];
+  return r ? r.name : v;
+}
+function renderCalendar(){
+  const title = document.getElementById("calTitle");
+  const grid = document.getElementById("calGrid");
+  if (!title || !grid) return;
+  const first = new Date(calCursor.y, calCursor.m, 1);
+  title.textContent = first.toLocaleDateString(undefined, {month:"long", year:"numeric"});
+  const lead = (first.getDay() + 6) % 7;
+  const days = new Date(calCursor.y, calCursor.m + 1, 0).getDate();
+  const todayDs = dstr(new Date());
+  let html = "";
+  ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].forEach(function(d){ html += "<div class='cal-dow'>" + d + "</div>"; });
+  for (let i = 0; i < lead; i++) html += "<div class='cal-blank'></div>";
+  for (let d = 1; d <= days; d++){
+    const date = new Date(calCursor.y, calCursor.m, d);
+    const ds = dstr(date);
+    html += "<button type='button' class='cal-day" + (ds === todayDs ? " today" : "") + (ds === calSelected ? " sel" : "") + "' data-date='" + ds + "'><span class='cal-dnum'>" + d + "</span><span class='cal-wk'>W" + weekNumFor(date) + "</span></button>";
+  }
+  grid.innerHTML = html;
+}
+function openDayPanel(ds){
+  calSelected = ds;
+  const panel = document.getElementById("dayPanel");
+  if (!panel) return;
+  const d = parseDstr(ds);
+  const dow = (d.getDay() + 6) % 7;
+  const slots = [
+    {slot:"first", label:"First meal, 11 AM"},
+    {slot:"lunch", label:"Lunch, 2 PM"},
+    {slot:"snack", label:"Snack, 4 PM"},
+    {slot:"dinner", label:"Dinner, 6 PM"}
+  ];
+  let html = "<h3 style='margin-top:2px;'>" + esc(d.toLocaleDateString(undefined, {weekday:"long", month:"long", day:"numeric"})) + "</h3>";
+  html += "<p class='hint' style='margin-top:0;'>Week " + weekNumFor(d) + " of the rotation.</p>";
+  html += "<h4>What to make</h4>";
+  slots.forEach(function(s){
+    html += "<div class='day-row'><span class='day-slot'>" + s.label + "</span><span class='day-name'>" + esc(calSlotName(ds, s.slot)) + "</span><button type='button' class='btn btn-secondary day-swap' data-swap='" + s.slot + "'>Swap</button></div>";
+  });
+  const trainDay = [0, 2, 4, 5].indexOf(dow) !== -1;
+  html += "<h4>Move</h4>";
+  html += "<div class='day-row'><span class='day-name'>" + (trainDay ? "Resistance training (DLB Daily)" : "Walk and stretch") + "</span></div>";
+  html += "<p class='hint' style='margin:2px 0 8px;'>" + (trainDay ? "Keeps muscle and supports metabolic health." : "Light movement supports recovery and circulation.") + "</p>";
+  html += "<div class='day-row'><span class='day-name'>Meditation, " + (dow === 6 ? "20" : "10") + " minutes</span></div>";
+  html += "<p class='hint' style='margin:2px 0 0;'>Brings stress down and helps sleep.</p>";
+  panel.innerHTML = html;
+  renderCalendar();
+}
+function swapCalRecipe(ds, slot){
+  const pool = RECIPES.filter(function(r){ return r.slots.indexOf(slot) !== -1; });
+  if (!pool.length) return;
+  const cur = calSlotValue(ds, slot);
+  let idx = -1;
+  pool.forEach(function(r, i){ if (r.id === cur) idx = i; });
+  const next = pool[(idx + 1) % pool.length];
+  if (!calSwaps[ds]) calSwaps[ds] = {};
+  calSwaps[ds][slot] = next.id;
+  lsSave(LS_CAL_KEY, calSwaps);
+  openDayPanel(ds);
+}
+document.getElementById("calGrid").addEventListener("click", function(e){
+  const b = e.target && e.target.closest ? e.target.closest(".cal-day") : null;
+  if (b) openDayPanel(b.getAttribute("data-date"));
+});
+document.getElementById("dayPanel").addEventListener("click", function(e){
+  const b = e.target && e.target.closest ? e.target.closest("[data-swap]") : null;
+  if (b && calSelected) swapCalRecipe(calSelected, b.getAttribute("data-swap"));
+});
+document.getElementById("calPrev").addEventListener("click", function(){
+  calCursor.m--;
+  if (calCursor.m < 0){ calCursor.m = 11; calCursor.y--; }
+  renderCalendar();
+});
+document.getElementById("calNext").addEventListener("click", function(){
+  calCursor.m++;
+  if (calCursor.m > 11){ calCursor.m = 0; calCursor.y++; }
+  renderCalendar();
+});
+
+/* ---------------- Tenets interactions ---------------- */
+function jumpToTenet(id){
+  const card = document.getElementById(id);
+  if (!card) return;
+  card.classList.add("open");
+  card.classList.add("flash");
+  if (card.scrollIntoView) card.scrollIntoView({behavior:"smooth", block:"center"});
+  setTimeout(function(){ card.classList.remove("flash"); }, 1700);
+}
+function setCellMode(mode){
+  const cm = document.getElementById("cellMap");
+  if (!cm) return;
+  cm.classList.toggle("mode-plan", mode === "plan");
+  cm.classList.toggle("mode-stress", mode === "stress");
+  const cap = document.getElementById("cellCaption");
+  if (cap) cap.textContent = mode === "plan"
+    ? "With your plan: methyl donors in, waste cleared, energy steady."
+    : "Under stress: waste builds up, the nucleus frays, energy runs low.";
+  const sb = document.getElementById("modeStressBtn");
+  const pb = document.getElementById("modePlanBtn");
+  if (sb) sb.classList.toggle("on", mode === "stress");
+  if (pb) pb.classList.toggle("on", mode === "plan");
+}
+document.getElementById("viewTenets").addEventListener("click", function(e){
+  const t = e.target;
+  if (!t || !t.closest) return;
+  const jump = t.closest("[data-jump]");
+  if (jump){ showView(jump.getAttribute("data-jump")); return; }
+  const mode = t.closest("[data-mode]");
+  if (mode){ setCellMode(mode.getAttribute("data-mode")); return; }
+  const tgt = t.closest("[data-tenet-target]");
+  if (tgt){
+    jumpToTenet(tgt.getAttribute("data-tenet-target"));
+    if (tgt.classList && tgt.classList.contains("hall-card")){
+      tgt.classList.add("mapped");
+      setTimeout(function(){ tgt.classList.remove("mapped"); }, 1600);
+    }
+    return;
+  }
+  const tog = t.closest("[data-tenet-toggle]");
+  if (tog){
+    const card = document.getElementById(tog.getAttribute("data-tenet-toggle"));
+    if (card){
+      const open = card.classList.toggle("open");
+      tog.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+  }
+});
+
 /* ---------------- Tabs ---------------- */
 function showView(id){
   document.querySelectorAll(".view").forEach(function(v){ v.classList.toggle("active", v.id === id); });
@@ -2412,6 +3437,10 @@ renderGoalBars();
 renderWater();
 renderHabits();
 renderSupps();
+renderShopChips();
+renderShopList();
+renderCalendar();
+openDayPanel(dstr(new Date()));
 </script>
 </body>
 </html>
