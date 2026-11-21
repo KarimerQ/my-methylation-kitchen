@@ -239,6 +239,72 @@
     padding-top:14px;
   }
   footer p{margin:0 0 8px;}
+  /* Polish: soft motion, goal bars, water dots */
+  header.hero{
+    background:linear-gradient(150deg,#ffffff 0%,var(--green-soft) 55%,var(--green-mid) 135%);
+    box-shadow:0 4px 18px rgba(47,107,60,.10);
+  }
+  .tabbtn{transition:background .18s,border-color .18s,color .18s;}
+  .view.active{display:block;animation:viewIn .28s ease;}
+  @keyframes viewIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+  .recipe-card{
+    box-shadow:0 4px 18px rgba(47,107,60,.10);
+    animation:cardIn .3s ease;
+  }
+  @keyframes cardIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+  .recipe-img{transition:transform .25s ease;}
+  .recipe-img:hover{transform:scale(1.02);}
+  .recipe-img:active{transform:scale(1.03);}
+  .pos-label{font-weight:700;color:var(--green-dark);}
+  .idea-label{
+    display:inline-block;
+    background:var(--green);
+    color:#fff;
+    border-radius:999px;
+    padding:4px 12px;
+    font-size:.82rem;
+    font-weight:600;
+    margin:0 0 8px;
+  }
+  .goalbar{margin-bottom:14px;}
+  .goalbar-head{display:flex;justify-content:space-between;font-size:.95rem;margin-bottom:5px;}
+  .goalbar-track{
+    background:var(--green-soft);
+    border:1px solid var(--border);
+    border-radius:999px;
+    height:16px;
+    overflow:hidden;
+  }
+  .goalbar-fill{
+    background:var(--green);
+    height:100%;
+    border-radius:999px;
+    transition:width .5s ease;
+  }
+  .waterrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+  .wdot{
+    width:34px;height:34px;
+    border-radius:50%;
+    border:2px solid var(--green-mid);
+    background:#fff;
+    cursor:pointer;
+    padding:0;
+    transition:background .2s,border-color .2s;
+  }
+  .wdot.on{background:var(--green);border-color:var(--green);}
+  .goal-link{
+    display:block;
+    width:100%;
+    text-align:left;
+    background:var(--green-soft);
+    border:1px solid var(--green-mid);
+    border-radius:12px;
+    padding:12px 14px;
+    font-size:.97rem;
+    color:var(--green-dark);
+    cursor:pointer;
+    min-height:48px;
+  }
 </style>
 </head>
 <body>
@@ -252,7 +318,7 @@
   <nav class="tabbar" id="tabBar">
     <button type="button" class="tabbtn on" data-view="viewMake">Make</button>
     <button type="button" class="tabbtn" data-view="viewBuy">Buy</button>
-    <button type="button" class="tabbtn" data-view="viewDay">My Day</button>
+    <button type="button" class="tabbtn" data-view="viewDay">Goals</button>
     <button type="button" class="tabbtn" data-view="viewSupps">Supplements</button>
   </nav>
 
@@ -284,6 +350,10 @@
       <button type="button" class="cravebtn on" data-crave="any">No preference</button>
     </div>
 
+    <div style="margin-top:14px;">
+      <button type="button" class="chip" id="ideasToggle" aria-pressed="false">Include new ideas</button>
+    </div>
+
     <button class="btn btn-primary" id="findBtn" type="button">Find my meal</button>
     <div class="result" id="result"></div>
   </section>
@@ -301,7 +371,26 @@
 
   <div class="view" id="viewDay">
   <section class="card" id="checklistSection">
-    <h2>Today's checklist</h2>
+    <h2>Goals for the day</h2>
+
+    <h3>Vegetables</h3>
+    <div id="goalBars"></div>
+
+    <h3>Water</h3>
+    <div class="waterrow" id="waterRow"></div>
+    <p class="progress" id="waterText"></p>
+
+    <h3>Supplements today</h3>
+    <button type="button" class="goal-link" id="suppSummary">Supplements: 0 of 0 logged. Tap to open.</button>
+
+    <h3>Habits</h3>
+    <div class="checklist" id="habitList">
+      <label id="lab_habit_train"><input type="checkbox" id="habit_train"> Resistance training</label>
+      <label id="lab_habit_med"><input type="checkbox" id="habit_med"> Meditation</label>
+    </div>
+    <p class="hint" style="margin-top:8px;">Eating window: 11 AM to 7 PM</p>
+
+    <h3>Daily checklist</h3>
     <div class="checklist" id="checklist"></div>
     <p class="progress" id="checkProgress"></p>
   </section>
@@ -1018,10 +1107,12 @@ const state = {
   have: new Set(),
   slot: null,
   crave: "any",
-  ranked: [],
-  idx: 0,
+  deck: [],
+  pos: 0,
   slotUsed: null,
-  currentRecipe: null
+  currentRecipe: null,
+  ideas: false,
+  composeSeed: 0
 };
 const CUSTOM_NAMES = {};
 
@@ -1136,7 +1227,15 @@ document.getElementById("craveRow").addEventListener("click", function(e){
   document.querySelectorAll(".cravebtn").forEach(function(b){ b.classList.toggle("on", b === btn); });
 });
 
-/* ---------------- Tool 1: matching and the recipe card ---------------- */
+/* ---------------- Tool 1: matching, rotation and the recipe card ---------------- */
+function shuffleArr(a){
+  for (let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    const t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
 function findMeals(){
   const pool = RECIPES.filter(function(r){ return !state.slot || r.slots.indexOf(state.slot) !== -1; });
   const scored = pool.map(function(r){
@@ -1144,15 +1243,324 @@ function findMeals(){
     const haveCount = r.ingredients.filter(function(i){ return state.have.has(i.key); }).length;
     let score = haveCount;
     if (state.crave !== "any" && r.tags.indexOf(state.crave) !== -1) score += 2;
-    return {r:r, haveCount:haveCount, total:total, score:score, cov:(total ? haveCount/total : 0)};
+    return {kind:"bank", r:r, haveCount:haveCount, total:total, score:score, cov:(total ? haveCount/total : 0)};
   });
   scored.sort(function(a,b){ return (b.score - a.score) || (b.cov - a.cov); });
-  state.ranked = scored;
-  state.idx = 0;
+  /* Shuffle inside each equal-score group, so pressing Find again deals a different order. */
+  const grouped = [];
+  let gi = 0;
+  while (gi < scored.length){
+    let gj = gi;
+    while (gj < scored.length && scored[gj].score === scored[gi].score) gj++;
+    grouped.push.apply(grouped, shuffleArr(scored.slice(gi, gj)));
+    gi = gj;
+  }
   state.slotUsed = state.slot;
+  state.composeSeed += 1 + Math.floor(Math.random() * 3);
+  if (state.ideas){
+    const ideas = [];
+    const n = Math.min(grouped.length, 8);
+    for (let k = 0; k < n; k++) ideas.push(composeEntry());
+    const deck = [];
+    let bi = 0, ii = 0;
+    while (bi < grouped.length || ii < ideas.length){
+      if (bi < grouped.length) deck.push(grouped[bi++]);
+      if (ii < ideas.length) deck.push(ideas[ii++]);
+    }
+    state.deck = deck;
+  } else {
+    state.deck = grouped;
+  }
+  state.pos = 0;
   renderCard();
 }
 document.getElementById("findBtn").addEventListener("click", findMeals);
+document.getElementById("ideasToggle").addEventListener("click", function(){
+  state.ideas = !state.ideas;
+  this.classList.toggle("on", state.ideas);
+  this.setAttribute("aria-pressed", state.ideas ? "true" : "false");
+});
+
+/* ---------------- Creative composer: new recipes from tapped ingredients ---------------- */
+/* Ingredient categories for the plate rule. */
+const ING_CAT = {
+  spinach:"leafy", kale:"leafy",
+  broccoli:"cruciferous", cauliflower:"cruciferous", brussels:"cruciferous", cabbage:"cruciferous", bokchoy:"cruciferous",
+  beets:"colorful", carrots:"colorful", bellpepper:"colorful", tomatoes:"colorful", mushrooms:"colorful", sweetpotato:"colorful", asparagus:"colorful",
+  lentils:"protein", chickpeas:"protein", blackbeans:"protein", whitebeans:"protein", tofu:"protein", tempeh:"protein", edamame:"protein", soyprotein:"protein",
+  quinoa:"grain", brownrice:"grain", pasta:"grain", buckwheat:"grain", oats:"grain", toast:"grain",
+  pumpkinseeds:"seeds", sunflowerseeds:"seeds", flax:"seeds", chia:"seeds", hemp:"seeds", walnuts:"seeds",
+  rosemary:"herbs", turmeric:"herbs", garlic:"herbs", ginger:"herbs", cumin:"herbs", cinnamon:"herbs", dill:"herbs",
+  tahini:"dressing", lemon:"dressing", vinegar:"dressing", oliveoil:"dressing",
+  berries:"fruit", apple:"fruit", pear:"fruit", orange:"fruit", kiwi:"fruit",
+  soymilk:"base", soyyogurt:"base", broth:"base", tea:"base"
+};
+const CAT_CROSSES = {
+  leafy:["leafy"], cruciferous:["cruciferous"], colorful:["colorful"],
+  protein:["protein"], herbs:["herbs"], fruit:["fruit"],
+  grain:[], seeds:[], dressing:[], base:[]
+};
+const CAT_BENEFIT = {
+  leafy:"the greens add folate for one-carbon metabolism, the pathway methylation runs on",
+  cruciferous:"the cruciferous vegetables provide glucosinolates that form sulforaphane, a signal for the Nrf2 pathway",
+  colorful:"the colorful vegetables add carotenoids and vitamin C",
+  protein:"the protein gives amino acids, including methionine, that feed methylation and repair",
+  grain:"the whole grain adds fiber and B vitamins for steady energy",
+  seeds:"the seeds add magnesium, zinc and plant fats",
+  herbs:"the rosemary, turmeric and garlic add polyphenols and cover your daily herb target",
+  fruit:"the fruit adds vitamin C and anthocyanins",
+  dressing:"the tahini and lemon add calcium, healthy fats and vitamin C",
+  base:"the soy base adds protein and, when fortified, calcium and vitamin D"
+};
+const COMP_AMOUNT = {
+  tofu:"150 g", tempeh:"150 g", soyprotein:"1 scoop (about 25 g)",
+  oats:"1/2 cup", soymilk:"1 cup", soyyogurt:"1 cup", broth:"1 1/2 cups", tea:"1 cup brewed",
+  berries:"1 cup"
+};
+const CAT_AMOUNT = {
+  leafy:"2 cups", cruciferous:"2 cups", colorful:"1 1/2 cups", protein:"1 cup cooked",
+  grain:"1 cup cooked", seeds:"1 1/2 Tbsp", herbs:"1/2 tsp", dressing:"2 Tbsp", fruit:"1 cup", base:"1 cup"
+};
+const SHORT_OVERRIDES = {
+  apple:"Apple", pear:"Pear", orange:"Orange", kale:"Kale", bokchoy:"Bok Choy",
+  bellpepper:"Bell Pepper", sweetpotato:"Sweet Potato", blackbeans:"Black Bean",
+  whitebeans:"White Bean", pumpkinseeds:"Pumpkin Seeds", sunflowerseeds:"Sunflower Seeds",
+  pasta:"Pasta"
+};
+const FORM_IMG = {
+  Bowl:"img-super-veggie.jpg", Skillet:"img-stir-fry.jpg", Salad:"img-salad-bowl.jpg",
+  Soup:"img-stew.jpg", Plate:"img-tofu-plate.jpg", Pasta:"img-stir-fry.jpg"
+};
+
+function shortName(key){
+  if (SHORT_OVERRIDES[key]) return SHORT_OVERRIDES[key];
+  return ingName(key).split(" or ")[0];
+}
+function amountFor(key){
+  const cat = ING_CAT[key] || "colorful";
+  const base = COMP_AMOUNT[key] || CAT_AMOUNT[cat] || "1 cup";
+  return base + " " + ingName(key).toLowerCase();
+}
+function tappedInCat(cat){
+  return Array.from(state.have).filter(function(k){ return ING_CAT[k] === cat; });
+}
+function slotBankKeys(slot){
+  const counts = {};
+  RECIPES.forEach(function(r){
+    if (slot && r.slots.indexOf(slot) === -1) return;
+    r.ingredients.forEach(function(i){ counts[i.key] = (counts[i.key] || 0) + 1; });
+  });
+  return Object.keys(counts).sort(function(a,b){ return counts[b] - counts[a]; });
+}
+function benefitFor(catList){
+  const frags = [];
+  ["leafy","cruciferous","colorful","protein","grain","seeds","herbs","fruit","dressing","base"].forEach(function(c){
+    if (catList.indexOf(c) !== -1 && CAT_BENEFIT[c]) frags.push(CAT_BENEFIT[c]);
+  });
+  const top = frags.slice(0, 3);
+  if (!top.length) return "A balanced plate from the plan: vegetables, a protein and a whole grain.";
+  const s = top.join(", and ");
+  return s.charAt(0).toUpperCase() + s.slice(1) + ".";
+}
+function crossesFor(keys){
+  const out = new Set();
+  keys.forEach(function(k){
+    const c = ING_CAT[k];
+    (CAT_CROSSES[c] || []).forEach(function(x){ out.add(x); });
+    if (k === "pumpkinseeds") out.add("pumpkinSeeds");
+    if (k === "sunflowerseeds") out.add("sunflowerSeeds");
+    if (k === "beets") out.add("beets");
+    if (k === "tea") out.add("tea");
+  });
+  return Array.from(out).filter(function(k){ return CHECK_BY_KEY[k]; });
+}
+function formFor(seed, picks){
+  const forms = (picks.grain === "pasta")
+    ? ["Pasta","Bowl","Skillet","Salad","Plate","Soup"]
+    : ["Bowl","Skillet","Salad","Plate","Soup"];
+  return forms[seed % forms.length];
+}
+function composedName(picks, form, seed){
+  const base = ["colorful","protein","cruciferous","leafy","grain","seeds"];
+  const rot = (seed || 0) % base.length;
+  const order = base.slice(rot).concat(base.slice(0, rot));
+  const chosen = [];
+  order.forEach(function(c){
+    if (form === "Pasta" && c === "grain") return;
+    if (picks[c] && chosen.length < 2) chosen.push(picks[c]);
+  });
+  if (form === "Pasta"){
+    let n = (chosen.length ? shortName(chosen[0]) + " " : "") + "Pasta";
+    if (picks.leafy && chosen.indexOf(picks.leafy) === -1) n += " with " + shortName(picks.leafy);
+    else if (chosen.length > 1) n += " with " + shortName(chosen[1]);
+    return n;
+  }
+  if (chosen.length >= 2) return shortName(chosen[0]) + " and " + shortName(chosen[1]) + " " + form;
+  if (chosen.length === 1) return shortName(chosen[0]) + " " + form;
+  return "Garden " + form;
+}
+function composedSteps(form){
+  switch(form){
+    case "Pasta": return [
+      "Boil the pasta until just tender; save a mug of the pasta water.",
+      "Saute the vegetables and the protein in a little olive oil for 5 to 7 minutes, with the garlic and herbs.",
+      "Toss the pasta through with a splash of pasta water and the dressing.",
+      "Rest 2 minutes, then serve with the seeds on top."];
+    case "Skillet": return [
+      "Heat a little olive oil in a wide pan.",
+      "Cook the protein and vegetables for 8 to 10 minutes, stirring now and then.",
+      "Add the greens and herbs for the last 2 minutes, until just wilted.",
+      "Serve over the grain if using, with the dressing and the seeds."];
+    case "Salad": return [
+      "Cook the grain and the protein first, if using, and let them cool a little.",
+      "Chop the vegetables and greens into bite-size pieces.",
+      "Whisk the dressing and toss everything together.",
+      "Top with the seeds and serve."];
+    case "Soup": return [
+      "Saute the garlic and the firm vegetables in a little olive oil for 4 minutes.",
+      "Add the broth, the protein and the grain; simmer 15 minutes.",
+      "Stir in the greens and herbs for the last 3 minutes.",
+      "Rest 5 minutes, then serve."];
+    case "Plate": return [
+      "Heat the oven to 425 F and put the grain on to cook.",
+      "Roast the protein and the firm vegetables with oil and herbs for 20 to 25 minutes.",
+      "Steam or wilt the greens while the tray finishes.",
+      "Plate the grain, vegetables and protein; add the dressing and the seeds."];
+    default: return [
+      "Cook the grain and set it as the base of the bowl.",
+      "Roast or steam the vegetables until tender, 10 to 20 minutes.",
+      "Add the protein and the greens; warm through for 2 minutes.",
+      "Drizzle with the dressing and finish with the seeds and herbs."];
+  }
+}
+
+function composePlate(seed, slot){
+  const picks = {};
+  const catOrder = ["leafy","cruciferous","colorful","protein","grain","seeds","herbs","dressing"];
+  catOrder.forEach(function(c){
+    const list = tappedInCat(c);
+    if (list.length) picks[c] = list[(seed + c.length) % list.length];
+  });
+  const need = [];
+  if (Object.keys(picks).length < 3){
+    const bank = slotBankKeys(slot);
+    ["leafy","cruciferous","colorful","protein","grain"].forEach(function(c){
+      if (picks[c]) return;
+      const cand = bank.filter(function(k){ return ING_CAT[k] === c; });
+      if (cand.length){
+        picks[c] = cand[(seed + 1) % cand.length];
+        if (!state.have.has(picks[c])) need.push(picks[c]);
+      }
+    });
+  }
+  const form = formFor(seed, picks);
+  const keys = [];
+  catOrder.forEach(function(c){ if (picks[c]) keys.push(picks[c]); });
+  if (form === "Soup" && keys.indexOf("broth") === -1){
+    keys.push("broth");
+    if (!state.have.has("broth") && need.indexOf("broth") === -1) need.push("broth");
+  }
+  const catsUsed = [];
+  keys.forEach(function(k){
+    const c = ING_CAT[k];
+    if (c && catsUsed.indexOf(c) === -1) catsUsed.push(c);
+  });
+  const missingNeed = need.filter(function(k){ return !state.have.has(k); });
+  return {
+    id:"idea" + seed + "p", composed:true, img:FORM_IMG[form] || "img-salad-bowl.jpg",
+    name:composedName(picks, form, seed), slots:[slot], time:"20 min",
+    tags: state.crave !== "any" ? [state.crave] : ["savory"],
+    ingredients: keys.map(function(k){ return {key:k, amount:amountFor(k)}; }),
+    steps:composedSteps(form),
+    benefits:benefitFor(catsUsed), crossesOff:crossesFor(keys),
+    buyLine: missingNeed.length ? ("To make it: buy " + missingNeed.map(ingName).join(", ") + ".") : null
+  };
+}
+
+function composeSweet(seed){
+  const have = state.have;
+  const fruits = tappedInCat("fruit");
+  const seeds = tappedInCat("seeds");
+  const useYogurt = have.has("soyyogurt") && (!have.has("oats") || seed % 2 === 0);
+  const baseKeys = useYogurt ? ["soyyogurt"] : ["oats","soymilk"];
+  const need = [];
+  baseKeys.forEach(function(k){ if (!have.has(k)) need.push(k); });
+  const fruitKey = fruits.length ? fruits[seed % fruits.length] : "berries";
+  if (!have.has(fruitKey) && need.indexOf(fruitKey) === -1) need.push(fruitKey);
+  const seedKey = seeds.length ? seeds[(seed + 1) % seeds.length] : null;
+  const keys = baseKeys.concat([fruitKey]);
+  if (seedKey) keys.push(seedKey);
+  if (have.has("cinnamon")) keys.push("cinnamon");
+  const overnight = !useYogurt && seed % 2 === 1;
+  const steps = useYogurt ?
+    ["Spoon the yogurt into a bowl.",
+     "Add the fruit on top.",
+     "Finish with the seeds and a pinch of cinnamon if you have it."] :
+    overnight ?
+    ["The night before: stir the oats, soy milk and cinnamon in a jar. Cover and chill at least 6 hours.",
+     "In the morning, stir and loosen with a splash of soy milk if needed.",
+     "Top with the fruit and the seeds. Eat cold, or warm for 1 minute."] :
+    ["Simmer the oats in the soy milk for 5 minutes, stirring, until creamy.",
+     "Take off the heat and stir in the cinnamon if using.",
+     "Top with the fruit and the seeds. Serve warm."];
+  return {
+    id:"idea" + seed + "s", composed:true, img: useYogurt ? "img-yogurt-bowl.jpg" : "img-berry-oats.jpg",
+    name: shortName(fruitKey) + (useYogurt ? " Yogurt Bowl" : (overnight ? " Overnight Oats" : " Oat Bowl")),
+    slots:["first"], time:"5 min", tags:["sweet","fresh"],
+    ingredients: keys.map(function(k){ return {key:k, amount:amountFor(k)}; }),
+    steps:steps,
+    benefits:benefitFor(useYogurt ? ["base","fruit","seeds"] : ["grain","fruit","seeds"]),
+    crossesOff:["fruit","protein"],
+    buyLine: need.length ? ("To make it: buy " + need.map(ingName).join(", ") + ".") : null
+  };
+}
+
+function composeSnack(seed){
+  const fruits = tappedInCat("fruit");
+  const seeds = tappedInCat("seeds");
+  let fruitKey = fruits.length ? fruits[seed % fruits.length] : null;
+  let seedKey = seeds.length ? seeds[(seed + 1) % seeds.length] : null;
+  if (!fruitKey || !seedKey){
+    const bank = slotBankKeys("snack");
+    if (!fruitKey){
+      const cand = bank.filter(function(k){ return ING_CAT[k] === "fruit"; });
+      fruitKey = cand.length ? cand[seed % cand.length] : "apple";
+    }
+    if (!seedKey){
+      const cand2 = bank.filter(function(k){ return ING_CAT[k] === "seeds"; });
+      seedKey = cand2.length ? cand2[seed % cand2.length] : "pumpkinseeds";
+    }
+  }
+  const keys = [fruitKey, seedKey];
+  const need = keys.filter(function(k){ return !state.have.has(k); });
+  return {
+    id:"idea" + seed + "n", composed:true, img:"img-snack.jpg",
+    name: (seed % 2 === 1)
+      ? shortName(seedKey) + " with " + shortName(fruitKey)
+      : shortName(fruitKey) + " and " + shortName(seedKey),
+    slots:["snack"], time:"2 min", tags:["sweet","fresh"],
+    ingredients: keys.map(function(k){ return {key:k, amount:amountFor(k)}; }),
+    steps:["Peel or slice the fruit.",
+           "Serve with the seeds on the side, or sprinkle them over.",
+           "This counts toward your daily seed total."],
+    benefits:benefitFor(["fruit","seeds"]),
+    crossesOff:crossesFor(keys),
+    buyLine: need.length ? ("To make it: buy " + need.map(ingName).join(" and ") + ".") : null
+  };
+}
+
+function composeRecipe(){
+  const slot = state.slotUsed || state.slot || "dinner";
+  const seed = state.composeSeed++;
+  if (slot === "snack") return composeSnack(seed);
+  if (state.crave === "sweet" && slot === "first") return composeSweet(seed);
+  return composePlate(seed, slot);
+}
+function composeEntry(){
+  const r = composeRecipe();
+  const haveCount = r.ingredients.filter(function(i){ return state.have.has(i.key); }).length;
+  return {kind:"idea", r:r, haveCount:haveCount, total:r.ingredients.length, cov:1};
+}
 
 function suppNoteForSlot(slot){
   const base = SUPP_NOTES[slot] || "";
@@ -1170,24 +1578,28 @@ function suppNoteForSlot(slot){
 
 function renderCard(){
   const host = document.getElementById("result");
-  if (!state.ranked.length){
+  if (!state.deck.length){
     host.innerHTML = "<p class='empty-msg'>Tap Find my meal.</p>";
     return;
   }
-  const entry = state.ranked[state.idx % state.ranked.length];
+  const entry = state.deck[state.pos % state.deck.length];
   const r = entry.r;
   state.currentRecipe = r;
   const slotForNote = (state.slotUsed && r.slots.indexOf(state.slotUsed) !== -1) ? state.slotUsed : r.slots[0];
   const missing = r.ingredients.filter(function(i){ return !state.have.has(i.key); });
   let html = "";
-  if (entry.cov < 0.5){
+  if (entry.kind === "bank" && entry.cov < 0.5){
     html += "<div class='note-box'><strong>Closest match.</strong> Still need: " +
       (missing.length ? missing.map(function(i){ return esc(ingName(i.key)); }).join(", ") : "nothing") + ".</div>";
+  }
+  if (r.buyLine){
+    html += "<div class='note-box'>" + esc(r.buyLine) + "</div>";
   }
   html += "<div class='recipe-card'>";
   if (r.img) html += "<img class='recipe-img' src='" + esc(r.img) + "' alt='' onerror=\"this.style.display='none'\">";
   html += "<h3>" + esc(r.name) + "</h3>";
-  html += "<p class='recipe-meta'>" + esc(SLOT_LABELS[slotForNote]) + " &middot; " + esc(r.time) + " &middot; you have " + entry.haveCount + " of " + entry.total + " ingredients</p>";
+  if (r.composed) html += "<span class='idea-label'>New idea, built from your ingredients</span>";
+  html += "<p class='recipe-meta'><span class='pos-label'>" + (state.pos + 1) + " of " + state.deck.length + "</span> &middot; " + esc(SLOT_LABELS[slotForNote]) + " &middot; " + esc(r.time) + " &middot; you have " + entry.haveCount + " of " + entry.total + " ingredients</p>";
   html += "<h4>Ingredients</h4><ul>";
   r.ingredients.forEach(function(i){
     html += "<li>" + esc(i.amount) + (state.have.has(i.key) ? "" : " <span style='color:var(--muted)'>(missing)</span>") + "</li>";
@@ -1201,7 +1613,7 @@ function renderCard(){
   r.crossesOff.forEach(function(k){ html += "<span class='tag'>" + esc(CHECK_BY_KEY[k].label) + "</span>"; });
   html += "</div>";
   html += "<h4>Supplements</h4><p style='margin:0;' id='cardSuppNote'>" + esc(suppNoteForSlot(slotForNote)) + "</p>";
-  html += "<div class='ok-box' id='addedMsg'>Added to My Day.</div>";
+  html += "<div class='ok-box' id='addedMsg'>Added to Goals.</div>";
   html += "<div class='card-actions'>" +
     "<button type='button' class='btn btn-primary btn-inline' id='addTodayBtn'>Add to today</button>" +
     "<button type='button' class='btn btn-secondary btn-inline' id='anotherBtn'>Another one</button>" +
@@ -1210,7 +1622,11 @@ function renderCard(){
   host.innerHTML = html;
 
   document.getElementById("anotherBtn").addEventListener("click", function(){
-    state.idx = (state.idx + 1) % state.ranked.length;
+    state.pos++;
+    if (state.pos >= state.deck.length){
+      /* Bank results are used up: compose a fresh idea and keep rotating. */
+      state.deck.push(composeEntry());
+    }
     renderCard();
   });
   document.getElementById("addTodayBtn").addEventListener("click", function(){
@@ -1284,6 +1700,16 @@ document.getElementById("shopBtn").addEventListener("click", function(){
   host.innerHTML = html;
 });
 
+/* ---------------- Day state for Goals, saved per local date ---------------- */
+const LS_DAY_KEY = "mkDayV1";
+function todayKey(){ return new Date().toDateString(); }
+let dayState = lsLoad(LS_DAY_KEY, null);
+if (!dayState || dayState.date !== todayKey() || !dayState.checks || !dayState.habits){
+  dayState = {date:todayKey(), checks:{}, water:0, habits:{train:false, med:false}};
+  lsSave(LS_DAY_KEY, dayState);
+}
+function saveDay(){ lsSave(LS_DAY_KEY, dayState); }
+
 /* ---------------- Today's checklist ---------------- */
 function renderChecklist(){
   const host = document.getElementById("checklist");
@@ -1294,9 +1720,14 @@ function renderChecklist(){
     const cb = document.createElement("input");
     cb.type = "checkbox";
     cb.id = "chk_" + c.key;
+    cb.checked = !!dayState.checks[c.key];
+    lab.classList.toggle("done", cb.checked);
     cb.addEventListener("change", function(){
       lab.classList.toggle("done", cb.checked);
+      dayState.checks[c.key] = cb.checked;
+      saveDay();
       updateProgress();
+      renderGoalBars();
     });
     lab.appendChild(cb);
     lab.appendChild(document.createTextNode(c.label));
@@ -1311,6 +1742,74 @@ function updateProgress(){
   }).length;
   document.getElementById("checkProgress").textContent = n + " of " + CHECKLIST.length + " done.";
 }
+
+/* ---------------- Goals: vegetable bars, water, habits ---------------- */
+const VEG_GOALS = [
+  {key:"leafy", label:"Leafy greens", cups:2},
+  {key:"cruciferous", label:"Cruciferous", cups:2},
+  {key:"colorful", label:"Colorful vegetables", cups:3}
+];
+function renderGoalBars(){
+  const host = document.getElementById("goalBars");
+  if (!host) return;
+  let html = "";
+  VEG_GOALS.forEach(function(g){
+    const done = dayState.checks[g.key] ? g.cups : 0;
+    const pct = Math.round(100 * done / g.cups);
+    html += "<div class='goalbar'><div class='goalbar-head'><span>" + esc(g.label) + "</span><span>" + done + " of " + g.cups + " cups</span></div>" +
+      "<div class='goalbar-track'><div class='goalbar-fill' style='width:" + pct + "%'></div></div></div>";
+  });
+  host.innerHTML = html;
+}
+function renderWater(){
+  const host = document.getElementById("waterRow");
+  if (!host) return;
+  const n = Math.max(0, Math.min(8, dayState.water || 0));
+  let html = "";
+  for (let i = 0; i < 8; i++){
+    html += "<button type='button' class='wdot" + (i < n ? " on" : "") + "' data-cup='" + (i + 1) + "' aria-label='Cup " + (i + 1) + "'></button>";
+  }
+  html += "<button type='button' class='btn btn-secondary btn-inline' id='addCupBtn'>+ cup</button>";
+  host.innerHTML = html;
+  document.getElementById("waterText").textContent = n + " of 8 cups today.";
+}
+document.getElementById("waterRow").addEventListener("click", function(e){
+  const dot = e.target.closest(".wdot");
+  if (dot){
+    const n = parseInt(dot.getAttribute("data-cup"), 10);
+    dayState.water = (dayState.water === n) ? n - 1 : n;
+  } else if (e.target.closest("#addCupBtn")){
+    dayState.water = Math.min(8, (dayState.water || 0) + 1);
+  } else {
+    return;
+  }
+  saveDay();
+  renderWater();
+});
+function renderHabits(){
+  ["train","med"].forEach(function(h){
+    const cb = document.getElementById("habit_" + h);
+    const lab = document.getElementById("lab_habit_" + h);
+    if (!cb || !lab) return;
+    cb.checked = !!dayState.habits[h];
+    lab.classList.toggle("done", cb.checked);
+    cb.addEventListener("change", function(){
+      dayState.habits[h] = cb.checked;
+      lab.classList.toggle("done", cb.checked);
+      saveDay();
+    });
+  });
+}
+function renderSuppSummary(){
+  const el = document.getElementById("suppSummary");
+  if (!el) return;
+  const items = allSupps();
+  const n = items.filter(function(s){ return takenToday(s.id); }).length;
+  el.textContent = "Supplements: " + n + " of " + items.length + " logged. Tap to open.";
+}
+document.getElementById("suppSummary").addEventListener("click", function(){
+  showView("viewSupps");
+});
 
 /* ---------------- Supplements, with memory ---------------- */
 const POWDER_TIP = "Take it as a shot: mix into a small glass of orange juice, plug your nose and drink it down.";
@@ -1478,6 +1977,7 @@ function renderSupps(){
     const slotForNote = (state.slotUsed && state.currentRecipe.slots.indexOf(state.slotUsed) !== -1) ? state.slotUsed : state.currentRecipe.slots[0];
     noteEl.textContent = suppNoteForSlot(slotForNote);
   }
+  renderSuppSummary();
 }
 
 document.getElementById("suppGroups").addEventListener("change", function(e){
@@ -1542,6 +2042,9 @@ document.getElementById("tabBar").addEventListener("click", function(e){
 renderChips();
 renderMealPicker();
 renderChecklist();
+renderGoalBars();
+renderWater();
+renderHabits();
 renderSupps();
 </script>
 </body>
